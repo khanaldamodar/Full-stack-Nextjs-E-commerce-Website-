@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "../globals.css";
-import Navbar from "@/components/global/Navbar";
+
 import "keen-slider/keen-slider.min.css";
-import Footer from "@/components/global/Footer";
-import { CartProvider } from "@/context/CartContext";
-
-
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,11 +40,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased bg-[#AEC958]`}
       >
-        <CartProvider>
-        <Navbar />
           {children}
-        </CartProvider>
-        <Footer />
+ 
       </body>
     </html>
   );
