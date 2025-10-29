@@ -65,7 +65,7 @@ export function RelatedProducts({ currentProductId, category }: RelatedProductsP
                 <span className="text-xs text-muted-foreground">({product.rating})</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-lg font-bold text-foreground">${product.price.toFixed(2)}</span>
+                <span className="text-lg font-bold text-foreground">Rs. {product.price.toFixed(2)}</span>
                 <Button size="sm" variant="default" className="bg-secondary">
                   View
                 </Button>

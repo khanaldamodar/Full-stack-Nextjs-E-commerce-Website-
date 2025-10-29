@@ -167,7 +167,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
 
               {/* Price */}
               <div className="mb-6 flex items-baseline gap-3">
-                <span className="text-4xl font-bold text-foreground">Rs{product.price.toFixed(2)}</span>
+                <span className="text-4xl font-bold text-foreground">Rs. {product.price.toFixed(2)}</span>
                 {product.originalPrice && (
                   <span className="text-lg text-muted-foreground line-through">
                     ${product.originalPrice.toFixed(2)}
@@ -207,7 +207,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                   </button>
                 </div>
                 <span className="text-sm text-muted-foreground">
-                  Total: <span className="font-bold text-foreground">${(product.price * quantity).toFixed(2)}</span>
+                  Total: <span className="font-bold text-foreground">Rs. {(product.price * quantity).toFixed(2)}</span>
                 </span>
               </div>
 
@@ -228,7 +228,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                 <p>
                   <strong>SKU:</strong> {product.sku}
                 </p>
-                <p className="mt-2">Free shipping on orders over $50</p>
+                <p className="mt-2">Free shipping on orders over Rs. 5000</p>
               </div>
             </div>
           </div>

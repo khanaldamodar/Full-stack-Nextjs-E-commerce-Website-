@@ -94,9 +94,9 @@ export default function Navbar() {
               </span>
             </Link>
 
-            <Link href="/account">
+            {/* <Link href="/account">
               <User className="h-5 w-5 text-white hover:text-primary" />
-            </Link>
+            </Link> */}
 
             {/* Hamburger Button */}
             <button

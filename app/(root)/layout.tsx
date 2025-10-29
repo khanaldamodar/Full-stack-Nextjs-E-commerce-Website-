@@ -27,7 +27,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Set Nepal",
+  title: "Set Nepal - One Stop All Solution",
   description: "Get All the Insturement you need!",
   icons: {
     icon: '/logo.jpeg'

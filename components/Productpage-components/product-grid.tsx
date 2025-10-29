@@ -82,12 +82,12 @@ export function ProductGrid({ products }: ProductGridProps) {
 
               {/* Price and Button */}
               <div className="flex items-center justify-between">
-                <span className="text-lg font-bold text-foreground">${product.price.toFixed(2)}</span>
+                <span className="text-lg font-bold text-foreground">Rs. {product.price.toFixed(2)}</span>
                 <Button
                   size="sm"
                   variant={addedItems.has(product.id) ? "default" : "default"}
                   onClick={(e) => handleAddToCart(e, product)}
-                  className={addedItems.has(product.id) ? "bg-green-600 hover:bg-green-700" : ""}
+                  className={addedItems.has(product.id) ? "bg-secondary hover:bg-green-700" : "bg-secondary"}
                 >
                   {addedItems.has(product.id) ? "✓ Added" : "Add to Cart"}
                 </Button>
