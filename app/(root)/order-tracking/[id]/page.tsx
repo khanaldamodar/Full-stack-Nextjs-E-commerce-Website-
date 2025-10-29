@@ -58,8 +58,8 @@ export default function OrderTrackingPage({ params }: { params: { id: number } }
   const currentStepIndex = STATUS_STEPS.findIndex((step) => step.status === order.status)
 
   return (
-    <main className="min-h-screen bg-background">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <main className="min-h-screen font-poppins">
+      <div className="mx-auto max-w-7xl px-4 py-30 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground">Track Your Order</h1>
@@ -129,11 +129,11 @@ export default function OrderTrackingPage({ params }: { params: { id: number } }
                       <p className="mt-2 text-sm">
                         <span className="text-muted-foreground">Qty: {item.quantity}</span>
                         <span className="mx-2 text-muted-foreground">×</span>
-                        <span className="font-medium text-foreground">${item.price.toFixed(2)}</span>
+                        <span className="font-medium text-foreground">Rs. {item.price.toFixed(2)}</span>
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="font-semibold text-foreground">${(item.price * item.quantity).toFixed(2)}</p>
+                      <p className="font-semibold text-foreground">Rs. {(item.price * item.quantity).toFixed(2)}</p>
                     </div>
                   </div>
                 ))}
@@ -164,11 +164,11 @@ export default function OrderTrackingPage({ params }: { params: { id: number } }
               <div className="mt-4 space-y-3 border-b border-border pb-4">
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Subtotal</span>
-                  <span className="font-medium text-foreground">${order.subtotal.toFixed(2)}</span>
+                  <span className="font-medium text-foreground">Rs. {order.subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Tax</span>
-                  <span className="font-medium text-foreground">${order.tax.toFixed(2)}</span>
+                  <span className="font-medium text-foreground">Rs. {order.tax.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Shipping</span>
@@ -178,18 +178,18 @@ export default function OrderTrackingPage({ params }: { params: { id: number } }
 
               <div className="mt-4 flex justify-between">
                 <span className="font-bold text-foreground">Total</span>
-                <span className="text-2xl font-bold text-primary">${order.total.toFixed(2)}</span>
+                <span className="text-2xl font-bold text-primary">Rs. {order.total.toFixed(2)}</span>
               </div>
 
               <div className="mt-6 space-y-3">
                 <Link href="/orders">
-                  <Button className="w-full bg-transparent" variant="outline">
+                  <Button className="w-full bg-secondary text-white hover:bg-primary" variant="outline">
                     View All Orders
                   </Button>
                 </Link>
 
                 <Link href="/products">
-                  <Button className="w-full" variant="ghost">
+                  <Button className="w-full bg-primary hover:bg-secondary" variant="ghost">
                     Continue Shopping
                   </Button>
                 </Link>
