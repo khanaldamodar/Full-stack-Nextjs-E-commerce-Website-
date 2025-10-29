@@ -3,7 +3,7 @@ import Heading from '../global/Heading'
 
 const FeatureProductsSection = () => {
   return (
-    <div className='flex flex-col items-center justify-center text-white font-poppins  py-5 md:py-20 gap-5 md:gap-20'>
+    <div className='flex flex-col items-center justify-center text-white font-poppins  py-5 md:pt-5 gap-5 md:gap-20'>
         {/* <Heading title='Feature Product'/> */}
 
         {/* There are 3 different sections in this component */}
