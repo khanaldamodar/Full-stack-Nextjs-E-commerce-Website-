@@ -4,8 +4,7 @@ import { FeaturedPackages } from "@/components/Homepage-components/featured-pack
 import FeatureProductsSection from "@/components/Homepage-components/FeatureProductsSection";
 import HappyClientsSlider from "@/components/Homepage-components/HappyClientsSlider";
 import Introduction from "@/components/Homepage-components/Introduction";
-import Packages from "@/components/Homepage-components/Packages";
-import Image from "next/image";
+
 
 export default function Home() {
   const products = [
@@ -113,7 +112,6 @@ export default function Home() {
     <>
       <Introduction />
       <FeatureProductsSection />
-      {/* <Packages /> */}
       <FeaturedPackages />
 
       <div className="md:px-52 flex flex-col items-center text-white font-poppins">
