@@ -17,7 +17,7 @@ model User {
   password       String
   phone          String?   @unique
   address        String?
-  role           Role      @default(USER)
+  role           Role      @default(ADMIN)
   isVerified     Boolean   @default(false)
   profileImage   String?
   createdAt      DateTime  @default(now())

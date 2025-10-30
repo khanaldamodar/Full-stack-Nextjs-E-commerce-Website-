@@ -2,9 +2,23 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 
+/**
+ * @swagger
+ * /api/user/profile:
+ *   get:
+ *     summary: YOur Info
+ *     tags:
+ *       - Users
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successful response
+ */
 export async function GET(req: NextRequest) {
   try {
     // This will throw an error if token is missing/invalid
+  
     const tokenData: any = requireAuth(req);
 
     // Fetch the full user data from DB
