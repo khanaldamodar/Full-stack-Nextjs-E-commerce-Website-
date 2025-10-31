@@ -1,71 +1,114 @@
+"use client";
 import Image from "next/image";
+import { useState } from "react";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+
+interface LoginDetailsType {
+  email: string;
+  password: string;
+}
 
 export default function Page() {
+  const router = useRouter();
+
+  const [logindetails, setLoginDetails] = useState<LoginDetailsType>({
+    email: "",
+    password: "",
+  });
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(logindetails),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.token) {
+        Cookies.set("token", data.token, { expires: 7 });
+        console.log("Token saved:", data.token);
+        router.push("/admin"); 
+      } else {
+        alert(`Login failed: ${data.message || "Invalid credentials"}`);
+        console.error("Login error:", data);
+      }
+    } catch (error) {
+      alert(" Something went wrong! Please try again later.");
+      console.error("Network error:", error);
+    }
+  };
+
   return (
-    <div className="flex h-screen w-full items-center justify-center mx-auto mt-24">
-      {/* Left Section */}
-      <div className="w-1/2 h-full bg-green-100">
-        <div className="pt-10">
+    <div className="flex h-screen w-full items-center justify-center bg-linear-to-b from-green-500 to-blue-500">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
+        <div className="flex flex-col items-center">
           <Image
             src="/logo.jpeg"
             alt="Shop Logo"
             width={80}
             height={80}
-            className="mx-auto rounded-full"
+            className="rounded-full h-auto w-auto mb-4"
           />
+          <h3 className="text-2xl font-bold text-zinc-800">
+            Admin <span className="text-blue-600">Log-In</span>
+          </h3>
         </div>
 
-        <h3 className="flex justify-center items-center pt-4 text-2xl font-bold text-zinc-800">
-          Admin <span className="ml-2 text-blue-600">Log-In</span>
-        </h3>
-
-        <div className="mx-auto flex w-2/4 flex-col justify-center items-start pt-5">
-          <div className="w-full">
+        <form onSubmit={handleLogin} className="flex flex-col gap-5 mt-8">
+          <div>
             <label
-              htmlFor="Email"
-              className="mb-2 block text-lg font-bold text-blue-500"
+              htmlFor="email"
+              className="block text-lg font-semibold text-blue-600 mb-2"
             >
-              Email:
+              Email
             </label>
             <input
-              type="text"
-              id="Email"
-              placeholder="Email"
-              className="w-full p-2 border border-green-500 rounded outline-none focus:ring-2 focus:ring-green-400"
+              value={logindetails.email}
+              onChange={(e) =>
+                setLoginDetails({ ...logindetails, email: e.target.value })
+              }
+              type="email"
+              id="email"
+              placeholder="Enter your email"
+              className="w-full p-3 border border-green-500 rounded-lg outline-none focus:ring-2 focus:ring-green-400 transition"
+              required
             />
           </div>
 
-          <div className="mt-5 w-full">
+          <div>
             <label
               htmlFor="password"
-              className="mb-2 block text-lg font-bold text-blue-500"
+              className="block text-lg font-semibold text-blue-600 mb-2"
             >
-              Password:
+              Password
             </label>
             <input
+              value={logindetails.password}
+              onChange={(e) =>
+                setLoginDetails({ ...logindetails, password: e.target.value })
+              }
               type="password"
               id="password"
-              placeholder="Password"
-              className="w-full p-2 border border-green-500 rounded outline-none focus:ring-2 focus:ring-green-400"
+              placeholder="Enter your password"
+              className="w-full p-3 border border-green-500 rounded-lg outline-none focus:ring-2 focus:ring-green-400 transition"
+              required
             />
           </div>
 
-          <button className="mt-6 w-full rounded bg-gradient-to-r from-green-500 to-blue-500 p-2 text-white font-semibold transition hover:opacity-90">
+          <button
+            type="submit"
+            className="mt-4 w-full bg-linear-to-r from-green-500 to-blue-500 text-white font-semibold py-3 rounded-lg shadow-md hover:opacity-90 transition-all"
+          >
             Log In
           </button>
-        </div>
-      </div>
-
-      {/* Right Section with Gradient */}
-      <div className="relative w-1/2 h-full bg-gradient-to-b from-green-500 to-blue-500 flex items-center justify-center">
-        {/* Semi-circle */}
-        <div className="absolute w-3/4 h-3/4 bg-white rounded-l-full flex flex-col items-center justify-center shadow-lg p-6">
-          <h2 className="text-3xl font-bold text-red-500 mb-4">Admin Panel</h2>
-          <p className="text-gray-600 text-center">
-            Welcome to the admin dashboard. You can manage users, view
-            statistics, and configure settings from here.
-          </p>
-        </div>
+        </form>
       </div>
     </div>
   );

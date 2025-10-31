@@ -151,7 +151,7 @@ export default function Page() {
         
         
         </div>
-        <div className="flex justify-center mx-auto items-center pb-2">
+        <div className="flex justify-center mx-auto items-center">
             <button 
           type="submit" 
           className="mt-4 bg-white hover:bg-zinc-100 text-black cursor-pointer font-bold py-3 rounded-2xl transition-all duration-200 w-2/6 "

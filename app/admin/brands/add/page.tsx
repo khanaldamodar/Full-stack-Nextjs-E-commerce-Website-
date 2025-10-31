@@ -1,5 +1,5 @@
 export default function Page() {
-  return (
+    return (
     <div className="flex items-center justify-center mx-auto ">
         <div className="flex-col flex items-center justify-center mt-3 gap-6 bg-zinc-800 w-2/5 rounded p-5">
       <h1 className="text-2xl text-white font-bold text-center mb-2 pt-4">Add Brand</h1>
