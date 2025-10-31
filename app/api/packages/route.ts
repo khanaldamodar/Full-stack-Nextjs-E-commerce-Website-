@@ -3,6 +3,202 @@ import prisma from "@/lib/prisma";
 import { requireAuth } from "@/lib/auth";
 
 // GET: Get all packages (public)
+/**
+ * @swagger
+ * /api/packages:
+ *   get:
+ *     summary: Get all packages
+ *     tags:
+ *       - Packages
+ *     responses:
+ *       200:
+ *         description: List of all packages with their products and creator
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     example: 1
+ *                   name:
+ *                     type: string
+ *                     example: "Starter Pack"
+ *                   description:
+ *                     type: string
+ *                     example: "A basic starter package"
+ *                   price:
+ *                     type: number
+ *                     example: 100
+ *                   discount:
+ *                     type: number
+ *                     example: 10
+ *                   stock:
+ *                     type: integer
+ *                     example: 50
+ *                   imageUrl:
+ *                     type: string
+ *                     example: "https://example.com/package.jpg"
+ *                   isFeatured:
+ *                     type: boolean
+ *                     example: true
+ *                   isActive:
+ *                     type: boolean
+ *                     example: true
+ *                   createdBy:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                       name:
+ *                         type: string
+ *                   products:
+ *                     type: array
+ *                     items:
+ *                       type: object
+ *                       properties:
+ *                         id:
+ *                           type: integer
+ *                         name:
+ *                           type: string
+ *
+ *   post:
+ *     summary: Create a new package
+ *     tags:
+ *       - Packages
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [name, price]
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "Pro Pack"
+ *               description:
+ *                 type: string
+ *                 example: "Advanced package with premium products"
+ *               price:
+ *                 type: number
+ *                 example: 200
+ *               discount:
+ *                 type: number
+ *                 example: 20
+ *               stock:
+ *                 type: integer
+ *                 example: 30
+ *               imageUrl:
+ *                 type: string
+ *                 example: "https://example.com/pro-pack.jpg"
+ *               isFeatured:
+ *                 type: boolean
+ *                 example: true
+ *               isActive:
+ *                 type: boolean
+ *                 example: true
+ *               productIds:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 example: [1,2,3]
+ *     responses:
+ *       201:
+ *         description: Package created successfully
+ *       400:
+ *         description: Name and price required or invalid product IDs
+ *       401:
+ *         description: Unauthorized
+ *
+ *   patch:
+ *     summary: Update an existing package
+ *     tags:
+ *       - Packages
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [id]
+ *             properties:
+ *               id:
+ *                 type: integer
+ *                 example: 1
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               discount:
+ *                 type: number
+ *               stock:
+ *                 type: integer
+ *               imageUrl:
+ *                 type: string
+ *               isFeatured:
+ *                 type: boolean
+ *               isActive:
+ *                 type: boolean
+ *               productIds:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 example: [1,2,3]
+ *     responses:
+ *       200:
+ *         description: Package updated successfully
+ *       400:
+ *         description: Package ID required or invalid product IDs
+ *       401:
+ *         description: Unauthorized
+ *
+ *   delete:
+ *     summary: Delete a package
+ *     tags:
+ *       - Packages
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         description: ID of the package to delete
+ *     responses:
+ *       200:
+ *         description: Package deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Package deleted"
+ *                 package:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                     name:
+ *                       type: string
+ *       400:
+ *         description: Package ID required
+ *       401:
+ *         description: Unauthorized
+ */
+
 export async function GET(req: NextRequest) {
   try {
     const packages = await prisma.package.findMany({

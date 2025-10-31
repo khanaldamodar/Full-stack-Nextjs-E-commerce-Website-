@@ -1,22 +1,27 @@
-import swaggerJsdoc from "swagger-jsdoc";
+import { createSwaggerSpec } from "next-swagger-doc";
 
-const options = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "Set Nepal Ecommerce API",
-      version: "1.0.0",
-      description: "API documentation for Set Nepal ecommerce website",
-    },
-    servers: [
-      {
-        url: "http://localhost:3000/api",
+export const getApiDocs = async () => {
+  const spec = createSwaggerSpec({
+    apiFolder: "app/api", // define api folder under app folder
+    definition: {
+      openapi: "3.0.0",
+      info: {
+        title: "SetNepal API Documentation",
+        version: "1.0",
       },
-    ],
-  },
-  apis: ["./app/api/**/*.ts"], // Path to your API route files
+      components: {
+        securitySchemes: {
+          BearerAuth: {
+            type: "http",
+            scheme: "bearer",
+            bearerFormat: "JWT",
+          },
+        },
+      },
+      security: [
+        { BearerAuth: [] },
+      ],
+    },
+  });
+  return spec;
 };
-
-const swaggerSpec = swaggerJsdoc(options);
-
-export default swaggerSpec;

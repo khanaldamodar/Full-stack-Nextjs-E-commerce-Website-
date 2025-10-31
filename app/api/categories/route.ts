@@ -3,6 +3,141 @@ import prisma from "@/lib/prisma";
 import { requireAuth } from "@/lib/auth";
 
 // GET: Get all categories (no auth)
+/**
+ * @swagger
+ * /api/categories:
+ *   get:
+ *     summary: Get all categories
+ *     tags:
+ *       - Categories
+ *     responses:
+ *       200:
+ *         description: List of categories with their products
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     example: 1
+ *                   name:
+ *                     type: string
+ *                     example: "Electronics"
+ *                   products:
+ *                     type: array
+ *                     items:
+ *                       type: object
+ *                       properties:
+ *                         id:
+ *                           type: integer
+ *                         name:
+ *                           type: string
+ *
+ *   post:
+ *     summary: Create a new category
+ *     tags:
+ *       - Categories
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [name]
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "Furniture"
+ *     responses:
+ *       201:
+ *         description: Category created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   example: 2
+ *                 name:
+ *                   type: string
+ *                   example: "Furniture"
+ *       400:
+ *         description: Name is required
+ *       401:
+ *         description: Unauthorized (token missing or invalid)
+ *
+ *   patch:
+ *     summary: Update a category
+ *     tags:
+ *       - Categories
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [id, name]
+ *             properties:
+ *               id:
+ *                 type: integer
+ *                 example: 1
+ *               name:
+ *                 type: string
+ *                 example: "Updated Category Name"
+ *     responses:
+ *       200:
+ *         description: Category updated successfully
+ *       400:
+ *         description: ID and name required
+ *       401:
+ *         description: Unauthorized
+ *
+ *   delete:
+ *     summary: Delete a category
+ *     tags:
+ *       - Categories
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         description: ID of the category to delete
+ *     responses:
+ *       200:
+ *         description: Category deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Category deleted"
+ *                 category:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                     name:
+ *                       type: string
+ *       400:
+ *         description: ID is required
+ *       401:
+ *         description: Unauthorized
+ */
+
 export async function GET(req: NextRequest) {
   try {
     const categories = await prisma.category.findMany({
