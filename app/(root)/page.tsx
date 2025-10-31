@@ -21,7 +21,7 @@ export default function ComingSoonPage() {
       target = new Date(saved);
     } else {
       target = new Date();
-      target.setDate(target.getDate() + 10); // 10 days countdown
+      target.setDate(target.getDate() + 8); // 10 days countdown
       sessionStorage.setItem("setNepalLaunchDate", target.toISOString());
     }
 
