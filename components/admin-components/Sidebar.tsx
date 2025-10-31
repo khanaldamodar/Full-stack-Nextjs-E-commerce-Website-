@@ -30,10 +30,8 @@ const menuItems: MenuItem[] = [
     { id: "orders", label: "Orders", icon: <TbTruckDelivery />, path: "/admin/orders" },
     { id: "package", label: "Packages", icon: <PiPackageFill />, path: "/admin/packages" },
     { id: "payments", label: "Payments", icon: <MdOutlinePayments />, path: "/admin/payments" },
-    { id: "products", label: "Products", icon: <MdOutlineProductionQuantityLimits />, path: "/admin/products" },
-    
-    
-    { id: "settings", label: "Settings", icon: <IoMdSettings /> },
+    { id: "products", label: "Products", icon: <MdOutlineProductionQuantityLimits />, path: "/admin/products" },  
+    { id: "settings", label: "Settings", icon: <IoMdSettings />, path: "/admin/settings" },
   ];
 
   const handleClick = (item:MenuItem) => {
