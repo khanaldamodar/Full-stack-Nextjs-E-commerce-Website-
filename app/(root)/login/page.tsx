@@ -18,22 +18,30 @@ export default function Page() {
   });
 
   const handleLogin = async () => {
-    const response = await fetch("http://localhost:3000/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(logindetails),
-    });
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(logindetails),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (data.token) {
-      Cookies.set("token", data.token, { expires: 7 });
-      alert("Login Successful!");
-      router.push("/admin");
-    } else {
-      alert("Invalid Email or Password!");
+      if (data.token) {
+        // ✅ Save token and email in cookies
+        Cookies.set("token", data.token, { expires: 7 });
+        Cookies.set("email", logindetails.email, { expires: 7 });
+
+        alert("Login Successful!");
+        router.push("/admin");
+      } else {
+        alert("Invalid Email or Password!");
+      }
+    } catch (error) {
+      console.error("Login Error:", error);
+      alert("Something went wrong. Please try again later.");
     }
   };
 
@@ -56,6 +64,7 @@ export default function Page() {
         </h3>
 
         <div className="mx-auto flex w-2/4 flex-col justify-center items-start pt-5">
+          {/* Email Field */}
           <div className="w-full">
             <label
               htmlFor="Email"
@@ -75,6 +84,7 @@ export default function Page() {
             />
           </div>
 
+          {/* Password Field */}
           <div className="mt-5 w-full">
             <label
               htmlFor="password"
@@ -94,6 +104,7 @@ export default function Page() {
             />
           </div>
 
+          {/* Login Button */}
           <button
             onClick={handleLogin}
             className="mt-6 w-full rounded bg-gradient-to-r from-green-500 to-blue-500 p-2 text-white font-semibold transition hover:opacity-90"
