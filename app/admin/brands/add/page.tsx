@@ -14,11 +14,11 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
 
   const handleAddBrand = async (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent page refresh
+    e.preventDefault(); 
     setLoading(true);
 
     try {
-      const token = Cookies.get("token"); // Get auth token if needed
+      const token = Cookies.get("token"); 
       const response = await fetch("http://localhost:3000/api/brands", {
         method: "POST",
         headers: {
@@ -32,9 +32,8 @@ export default function Page() {
 
       if (response.ok) {
         alert("Brand added successfully!");
-        setBrand({ name: "" }); // Clear input
-        // Optional: redirect to brand list page
-        // router.push("/admin/brands");
+        setBrand({ name: "" });
+        
       } else {
         alert(`Error: ${data.message || "Could not add brand"}`);
       }

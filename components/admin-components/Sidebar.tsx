@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie"; // ✅ for reading cookies
+import Cookies from "js-cookie"; // for reading cookies
 import {
   MdSpaceDashboard,
   MdOutlineProductionQuantityLimits,
@@ -17,11 +17,11 @@ import { TbTruckDelivery } from "react-icons/tb";
 
 export default function Sidebar() {
   const [activeView, setActiveView] = useState("dashboard");
-  const [email, setEmail] = useState<string>(""); // ✅ store user email
+  const [email, setEmail] = useState<string>(""); // store user email
   const router = useRouter();
 
   useEffect(() => {
-    // ✅ Get email from cookies on client load
+    // Get email from cookies on client load
     const savedEmail = Cookies.get("email");
     console.log("📧 Email from cookies:", savedEmail); // Debug check
     if (savedEmail) setEmail(savedEmail);

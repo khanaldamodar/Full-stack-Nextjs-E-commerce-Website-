@@ -1,18 +1,67 @@
+"use client";
+
+import { useState } from "react";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+
+interface CategoryType {
+  name: string;
+}
+
 export default function Page() {
+  const [category, setCategory] = useState<CategoryType>({ name: "" });
+  const [loading, setLoading] = useState(false);
+
+const router = useRouter();
+
+const handleAddCategory = async (e: React.FormEvent) => {
+    e.preventDefault(); 
+    setLoading(true);
+
+    try {
+      const token = Cookies.get("token"); 
+      const response = await fetch("http://localhost:3000/api/categories", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token ? `Bearer ${token}` : "",
+        },
+        body: JSON.stringify(category),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Category added successfully!");
+        setCategory({ name: "" });
+        
+      } else {
+        alert(`Error: ${data.message || "Could not add Category"}`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center mx-auto ">
         <div className="flex-col flex items-center justify-center mt-3 gap-6 bg-zinc-800 w-2/5 rounded p-5">
       <h1 className="text-2xl text-white font-bold text-center mb-2 pt-4">Add Category</h1>
-      <form className=" ">
+      <form onSubmit={handleAddCategory}>
         <div className="rounded-xl p-2 gap-4 shadow-lg flex justify-center items-center mx-auto ">
           
                 <div className="flex-col flex gap-4">
-                <label htmlFor="CategoryName" className="text-xl">Category Name</label>
+                <label htmlFor="name" className="text-xl">Category Name</label>
                 <input 
                 type="text" 
-                id="CategoryName" 
-                name="CategoryName" 
-                required 
+                id="name" 
+                name="name" 
+                required
+                value={category.name}
+                onChange={(e) => setCategory({ name: e.target.value })} 
                 className="p-3 bg-zinc-900 text-white placeholder-zinc-400 rounded-2xl outline-none focus:ring-2 focus:ring-zinc-900" 
                 placeholder="Category Name"
                 />
@@ -21,12 +70,13 @@ export default function Page() {
 
         </div>
         <div className="flex justify-center mx-auto items-center pb-2">
-            <button 
-          type="submit" 
-          className="mt-4 bg-white hover:bg-zinc-100 text-black cursor-pointer font-bold py-3 rounded-2xl transition-all duration-200 w-full"
-        >
-          Add
-        </button>
+         <button
+              type="submit"
+              disabled={loading}
+              className="mt-4 bg-white hover:bg-zinc-100 text-black cursor-pointer font-bold py-3 rounded-2xl transition-all duration-200 w-full"
+            >
+              {loading ? "Adding..." : "Add"}
+            </button>
         </div>
         
       </form>
