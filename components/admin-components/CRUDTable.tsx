@@ -14,17 +14,21 @@ export default function CRUDTable({ endpoint, columns }: CRUDTableProps) {
   const token = Cookies.get("token");
   const router = useRouter();
 
-  const fetchData = async () => {
-    try {
-      const res = await fetch(`http://localhost:3000/api/${endpoint}`, {
-        headers: { Authorization: token ? `Bearer ${token}` : "" },
-      });
-      const result = await res.json();
-      setData(result);
-    } catch (err) {
-      console.error("Error fetching data:", err);
-    }
-  };
+const fetchData = async () => {
+  try {
+    const res = await fetch(`http://localhost:3000/api/${endpoint}`, {
+      headers: { Authorization: token ? `Bearer ${token}` : "" },
+    });
+    const result = await res.json();
+
+    // pick the array from API response
+    const items = result.categories || result.data || result; 
+    setData(Array.isArray(items) ? items : []);
+  } catch (err) {
+    console.error("Error fetching data:", err);
+  }
+};
+
 
   
 

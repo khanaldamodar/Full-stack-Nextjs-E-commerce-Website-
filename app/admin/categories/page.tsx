@@ -16,7 +16,7 @@ const page = () => {
         </div>
 
         <div>
-      <CRUDTable endpoint="Categories" columns={["name"]} />
+          <CRUDTable endpoint="categories" columns={["name"]} />
         </div>
         
     </div>
