@@ -13,10 +13,10 @@ import Heading from "../global/Heading"
 const FEATURED_PACKAGES = [
   {
     id: 1,
-    name: "Home Office Starter",
+    name: "विज्ञान प्रयोगशाला प्याकेजहरु",
     description: "Perfect for beginners setting up a home office",
-    price: 299.99,
-    originalPrice: 399.99,
+    price: 299 ,
+    originalPrice: 399,
     category: "Office Setup",
     rating: 4.6,
     image: "/logo.jpeg",
@@ -24,21 +24,25 @@ const FEATURED_PACKAGES = [
   },
   {
     id: 2,
-    name: "Professional Setup",
+    name: "गणित तथा विषयगत प्रयोगशाला प्याकेजहरु",
     description: "Complete professional workstation package",
-    price: 599.99,
-    originalPrice: 799.99,
+    price: 599,
+    originalPrice: 799,
     category: "Professional",
     rating: 4.8,
     image: "/logo.jpeg",
     productCount: 7,
   },
+  
+
+
+
   {
     id: 5,
-    name: "Gaming Setup",
+    name: "आइ.टि तथा आइ.सि.टि प्रयोगशाला	प्याकेजहरु",
     description: "Everything you need for gaming",
-    price: 449.99,
-    originalPrice: 599.99,
+    price: 449,
+    originalPrice: 599,
     category: "Gaming",
     rating: 4.7,
     image: "/logo.jpeg",
@@ -46,10 +50,32 @@ const FEATURED_PACKAGES = [
   },
   {
     id: 6,
-    name: "Streaming Bundle",
+    name: "इ.सि.डि तथा बालमैत्री प्रयोगशाला	प्याकेजहरु",
     description: "Complete streaming setup for content creators",
-    price: 699.99,
-    originalPrice: 899.99,
+    price: 699,
+    originalPrice: 899,
+    category: "Professional",
+    rating: 4.9,
+    image: "/logo.jpeg",
+    productCount: 6,
+  },
+  {
+    id: 7,
+    name: "रोबोटिक्स	प्याकेजहरु",
+    description: "Complete streaming setup for content creators",
+    price: 699,
+    originalPrice: 899,
+    category: "Professional",
+    rating: 4.9,
+    image: "/logo.jpeg",
+    productCount: 6,
+  },
+  {
+    id: 8,
+    name: "ए.आइ. कोडिङ प्याकेजहरु",
+    description: "Complete streaming setup for content creators",
+    price: 699,
+    originalPrice: 899,
     category: "Professional",
     rating: 4.9,
     image: "/logo.jpeg",
@@ -86,13 +112,13 @@ export function FeaturedPackages() {
   }
 
   return (
-    <section className="py-16 font-poppins">
+    <section className="py-8 font-poppins">
       <div className="flex flex-col px-10 md:px-40">
         {/* Section Header */}
         <div className="mb-12 text-center text-white">
           {/* <h2 className="text-3xl font-bold text-foreground">Featured Packages</h2> */}
           <Heading title="Featured Packages"/>
-          <p className="mt-4 text-lg text-muted-foreground">Curated bundles designed to save you money and time</p>
+          <p className="mt-4 text-lg text-white">आफ्नोे रोजाईको प्याकेज छान्नुहोस</p>
         </div>
 
         {/* Packages Grid */}
@@ -121,30 +147,30 @@ export function FeaturedPackages() {
                   {/* Package Info */}
                   <div className="p-4 flex-1 flex flex-col">
                     <div className="mb-2">
-                      <h3 className="font-semibold text-foreground line-clamp-2">{pkg.name}</h3>
+                      <h3 className="font-semibold text-foreground text-sm line-clamp-2">{pkg.name}</h3>
                       <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{pkg.description}</p>
                     </div>
 
                     {/* Product Count */}
-                    <div className="mb-2 text-xs text-muted-foreground">
+                    {/* <div className="mb-2 text-xs text-muted-foreground">
                       <span className="font-medium">{pkg.productCount} items</span>
-                    </div>
+                    </div> */}
 
                     {/* Rating */}
-                    <div className="mb-3 flex items-center gap-1">
+                    {/* <div className="mb-3 flex items-center gap-1">
                       <div className="flex text-yellow-400">{"★".repeat(Math.floor(pkg.rating))}</div>
                       <span className="text-xs text-muted-foreground">({pkg.rating})</span>
-                    </div>
+                    </div> */}
 
                     {/* Price and Button */}
                     <div className="flex items-center justify-between mt-auto gap-2">
                       <div className="flex flex-col">
-                        <span className="text-base font-bold text-foreground">Rs. {pkg.price.toFixed(2)}</span>
-                        {pkg.originalPrice > pkg.price && (
+                        <span className="text-base font-bold text-foreground">Rs. {pkg.price} - 400</span>
+                        {/* {pkg.originalPrice > pkg.price && (
                           <span className="text-xs text-muted-foreground line-through">
                             Rs. {pkg.originalPrice.toFixed(2)}
                           </span>
-                        )}
+                        )} */}
                       </div>
                       <Button
                         size="sm"

@@ -23,41 +23,12 @@ export default function Navbar() {
   return (
     <header className="w-full font-poppins fixed top-0 left-0 z-50">
       {/* 🔹 Top Info Bar */}
-      <div className="text-black bg-white text-sm py-2 px-4">
-        <div className="max-w-7xl mx-auto flex  md:flex-row items-center justify-between gap-2 md:gap-0">
-          {/* Contact Info */}
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1">
-              <Phone className="w-4 h-4" />
-              <span>+977 9866437014</span>
-            </div>
-            <div className="hidden md:flex items-center gap-1">
-              <Mail className="w-4 h-4" />
-              <span>info@setnepal.com</span>
-            </div>
-          </div>
-
-          {/* Social Icons */}
-          <div className="flex items-center gap-4">
-            <a href="#" target="_blank" className="hover:text-blue-500 transition">
-              <FaFacebookF size={14} />
-            </a>
-            <a href="#" target="_blank" className="hover:text-red-700 transition">
-              <FaInstagram size={14} />
-            </a>
-            <a href="#" target="_blank" className="hover:text-blue-600 transition">
-              <FaTwitter size={14} />
-            </a>
-            <a href="#" target="_blank" className="hover:text-black-600 transition">
-              <FaTiktok size={14} />
-            </a>
-          </div>
-        </div>
-      </div>
+     
 
       {/* 🔹 Main Navbar */}
       <div className="bg-secondary shadow-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:py-4">
+          
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
             <Image
@@ -78,12 +49,27 @@ export default function Navbar() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-black hover:text-primary transition-colors"
+                className="text-white hover:text-primary transition-colors"
               >
                 {item.name}
               </Link>
             ))}
           </nav>
+
+          <div className="flex items-center gap-4 text-white">
+            <a href="#" target="_blank" className="hover:text-primary transition">
+              <FaFacebookF size={14} />
+            </a>
+            <a href="#" target="_blank" className="hover:text-primary transition">
+              <FaInstagram size={14} />
+            </a>
+            <a href="#" target="_blank" className="hover:text-primary transition">
+              <FaTwitter size={14} />
+            </a>
+            <a href="#" target="_blank" className="hover:text-primary transition">
+              <FaTiktok size={14} />
+            </a>
+          </div>
 
           {/* Icons & Mobile Menu Button */}
           <div className="flex items-center gap-4">

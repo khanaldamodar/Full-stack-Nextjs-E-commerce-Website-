@@ -50,8 +50,8 @@ const HappyClientsSlider: React.FC<HappyClientsSliderProps> = ({ certificates })
 
 
   return (
-    <div className="relative w-full py-16 px-6 md:px-12 flex flex-col items-center gap-12 ">
-      <Heading title="Our Happy Clients" />
+    <div className="relative w-full py-6 px-6 md:px-12 flex flex-col items-center gap-12 ">
+      <Heading title="Our Experiences" />
 
       {/* Arrows */}
       <button
@@ -70,9 +70,9 @@ const HappyClientsSlider: React.FC<HappyClientsSliderProps> = ({ certificates })
             <motion.div
               whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 250, damping: 15 }}
-              className="bg-white w-full h-full rounded-2xl shadow-md overflow-hidden flex flex-col items-center p-6 hover:shadow-xl transition-all duration-300 min-h-[400px]"
+              className="bg-white w-full h-full rounded-2xl shadow-md overflow-hidden flex flex-col items-center p-6 hover:shadow-xl transition-all duration-300 min-h-[200px]"
             >
-              <div className="relative w-full flex justify-center">
+              <div className="relative w-full flex  justify-center items-center h-48">
                 <Image
                   src={item.image}
                   alt={item.clientName}
@@ -84,10 +84,10 @@ const HappyClientsSlider: React.FC<HappyClientsSliderProps> = ({ certificates })
               <h3 className="mt-4 text-lg font-semibold text-gray-800">
                 {item.clientName}
               </h3>
-              <p className="text-sm text-gray-500 text-center mt-2">
+              {/* <p className="text-sm text-gray-500 text-center mt-2">
                 {item.description ||
                   "We are proud to collaborate with amazing clients around the world."}
-              </p>
+              </p> */}
             </motion.div>
           </div>
         ))}
@@ -115,5 +115,5 @@ const HappyClientsSlider: React.FC<HappyClientsSliderProps> = ({ certificates })
     </div>
   );
 };
-
+ 
 export default HappyClientsSlider;

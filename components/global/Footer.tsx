@@ -7,7 +7,7 @@ import Image from 'next/image'
 
 const Footer = () => {
   return (
-    <footer className="bg-secondary text-black py-14 px-8 mt-16 font-poppins">
+    <footer className="bg-secondary text-black pt-5 px-8 mt-16 font-poppins">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
         {/* Logo & About */}
         <div className="flex flex-col gap-3">
@@ -29,7 +29,7 @@ const Footer = () => {
           </p>
 
           {/* Socials */}
-          <div className="flex gap-4 mt-5">
+          {/* <div className="flex gap-4 mt-5">
             <Link
               href="#"
               className="p-2 bg-gray-800 rounded-full hover:bg-green-600 transition"
@@ -48,7 +48,7 @@ const Footer = () => {
             >
               <Twitter className="w-5 h-5 text-white" />
             </Link>
-          </div>
+          </div> */}
         </div>
 
         {/* Quick Links */}
@@ -127,11 +127,11 @@ const Footer = () => {
           <ul className="space-y-3 text-black">
             <li className="flex items-center gap-3">
               <Phone className="w-5 h-5 text-green-500" />
-              <span>+977 9866437014</span>
+              <span>01-5312298, 9851331773</span>
             </li>
             <li className="flex items-center gap-3">
               <Mail className="w-5 h-5 text-green-500" />
-              <span>deepakkhanal931@gmail.com</span>
+              <span> info.setnepal@gmail.com</span>
             </li>
             <li className="flex items-center gap-3">
               <MapPin className="w-5 h-5 text-green-500" />
@@ -142,7 +142,7 @@ const Footer = () => {
       </div>
 
       {/* Divider */}
-      <div className="border-t border-gray-700 mt-10 pt-6 text-center text-sm text-black-500">
+      <div className="border-t border-gray-700 mt-5   text-center text-sm text-black-500">
         <p>
           © {new Date().getFullYear()} <span className="text-green-500 font-medium">Set Nepal</span>. All rights reserved.
         </p>

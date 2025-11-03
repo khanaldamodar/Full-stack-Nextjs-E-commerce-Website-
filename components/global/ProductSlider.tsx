@@ -69,7 +69,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({ products }) => {
   }
 
   return (
-    <div className="relative w-full py-10 px-8 font-poppins">
+    <div className="relative w-full py-5 px-8  font-poppins">
       {/* Left Arrow */}
       <button
         onClick={() => instanceRef.current?.prev()}
@@ -116,8 +116,19 @@ const ProductSlider: React.FC<ProductSliderProps> = ({ products }) => {
                   )}
 
                   <div className="flex items-center justify-between mt-auto">
-                    <span className="text-xl font-semibold text-[#d86d38]">Rs. {product.price.toLocaleString()}</span>
+                    <div className="flex  items-center  justify-center gap-8">
+                      {/* Original Price (strikethrough) */}
+                      <span className="text-gray-400 line-through text-sm">
+                        Rs. {(product.price).toLocaleString()}
+                      </span>
+
+                      {/* Discounted Price */}
+                      <span className="text-lg font-semibold text-[#d86d38]">
+                        Rs. {(product.price * 0.9).toLocaleString()} {/* 10% off example */}
+                      </span>
+                    </div>
                   </div>
+
                 </div>
               </motion.div>
             </Link>
@@ -125,9 +136,8 @@ const ProductSlider: React.FC<ProductSliderProps> = ({ products }) => {
             <div className="px-4 pb-4">
               <button
                 onClick={(e) => handleAddToCart(e, product)}
-                className={`w-full py-2 rounded-md flex items-center justify-center gap-2 transition-all duration-300 ${
-                  addedToCart === product.id ? "bg-green-600 text-white" : "bg-secondary text-white hover:bg-primary"
-                }`}
+                className={`w-full py-2 rounded-md flex items-center justify-center gap-2 transition-all duration-300 ${addedToCart === product.id ? "bg-green-600 text-white" : "bg-secondary text-white hover:bg-primary"
+                  }`}
               >
                 <ShoppingCart size={18} />
                 {addedToCart === product.id ? "Added!" : "Add to Cart"}
@@ -151,20 +161,19 @@ const ProductSlider: React.FC<ProductSliderProps> = ({ products }) => {
           <button
             key={idx}
             onClick={() => instanceRef.current?.moveToIdx(idx)}
-            className={`w-3 h-3 rounded-full transition-all ${
-              currentSlide === idx ? "bg-green-600 scale-110" : "bg-gray-300 hover:bg-gray-400"
-            }`}
+            className={`w-3 h-3 rounded-full transition-all ${currentSlide === idx ? "bg-green-600 scale-110" : "bg-gray-300 hover:bg-gray-400"
+              }`}
           ></button>
         ))}
       </div>
 
       <div className="mt-12 text-center">
-          <Link href="/products">
-            <Button size="lg"  className="bg-secondary hover:text-primary hover:bg-blue-900">
-              View All Products
-            </Button>
-          </Link>
-        </div>
+        <Link href="/products">
+          <Button size="lg" className="bg-secondary hover:text-primary hover:bg-blue-900">
+            View All Products
+          </Button>
+        </Link>
+      </div>
     </div>
   )
 }
