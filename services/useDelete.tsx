@@ -1,5 +1,7 @@
-'use client';
-import { useState } from 'react';
+"use client";
+
+import { useState } from "react";
+import Cookies from "js-cookie";
 
 export interface UseDeleteResult {
   deleteItem: (id: string | number) => Promise<boolean>;
@@ -7,12 +9,6 @@ export interface UseDeleteResult {
   error: string | null;
 }
 
-/**
- * A reusable hook to delete an item from API and update local state
- * @param data - the current array of items
- * @param setData - setter for updating the data array
- * @param apiEndpoint - the base endpoint for deletion (e.g., '/api/brands')
- */
 export function useDelete<T extends { id: string | number }>(
   data: T[],
   setData: React.Dispatch<React.SetStateAction<T[]>>,
@@ -22,26 +18,32 @@ export function useDelete<T extends { id: string | number }>(
   const [error, setError] = useState<string | null>(null);
 
   const deleteItem = async (id: string | number): Promise<boolean> => {
-    const confirmDelete = confirm('Are you sure you want to delete this item?');
+    const confirmDelete = confirm("Are you sure you want to delete this item?");
     if (!confirmDelete) return false;
 
     setLoading(true);
     setError(null);
 
     try {
+      const token = Cookies.get("token");
       const res = await fetch(`${apiEndpoint}/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token ? `Bearer ${token}` : "",
+        },
       });
 
-      if (!res.ok) throw new Error('Failed to delete');
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || "Failed to delete item");
+      }
 
-      // Update local state
       setData(prev => prev.filter(item => item.id !== id));
-
       setLoading(false);
       return true;
     } catch (err: any) {
-      setError(err.message || 'Failed to delete item');
+      setError(err.message || "Failed to delete item");
       setLoading(false);
       return false;
     }

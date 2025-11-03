@@ -1,22 +1,26 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useDelete } from "@/services/useDelete";
 
 interface CRUDTableProps {
-  endpoint: string;
-  columns: string[];
-  data: any[];
+  endpoint: string;                 
+  columns: string[];               
+  data: any[];                     
+  setData: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
-export default function CRUDTable({ endpoint, columns, data }: CRUDTableProps) {
+export default function CRUDTable({ endpoint, columns, data, setData }: CRUDTableProps) {
   const router = useRouter();
+
+  
+  const { deleteItem, loading: deleting } = useDelete(data, setData, `/api/${endpoint}`);
 
   if (!data || data.length === 0) {
     return <div className="p-5 text-gray-400 text-center">No data available</div>;
   }
 
   return (
-    
     <div className="w-full p-5 overflow-x-auto">
       <table className="w-full min-w-full border-collapse border">
         <thead className="bg-green-100">
@@ -48,19 +52,29 @@ export default function CRUDTable({ endpoint, columns, data }: CRUDTableProps) {
               ))}
 
               <td className="border p-2 flex gap-2 justify-center">
+                {/* Edit */}
                 <button
                   className="bg-yellow-400 px-2 rounded"
-                  onClick={() =>
-                    router.push(`/admin/${endpoint}/edit/${item.id}`)
-                  }
+                  onClick={() => router.push(`/admin/${endpoint}/edit/${item.id}`)}
                 >
                   Edit
                 </button>
-                <button className="bg-blue-500 text-white px-2 rounded">
+
+                {/* View */}
+                <button
+                  className="bg-blue-500 text-white px-2 rounded"
+                  onClick={() => router.push(`/admin/${endpoint}/view/${item.id}`)}
+                >
                   View
                 </button>
-                <button className="bg-red-500 text-white px-2 rounded">
-                  Delete
+
+                {/* Delete */}
+                <button
+                  className="bg-red-500 text-white px-2 rounded"
+                  onClick={() => deleteItem(item.id)}
+                  disabled={deleting}
+                >
+                  {deleting ? "Deleting..." : "Delete"}
                 </button>
               </td>
             </tr>

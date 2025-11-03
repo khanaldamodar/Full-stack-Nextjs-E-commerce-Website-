@@ -1,22 +1,39 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import CRUDTable from "@/components/admin-components/CRUDTable";
-import { useFetch } from "@/services/useFetch";
+
+interface BrandType {
+  id: number;
+  name: string;
+}
 
 const BrandsPage = () => {
   const router = useRouter();
+  const [brands, setBrands] = useState<BrandType[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  interface BrandType {
-    id: number;
-    name: string;
-  }
-
-  const { data, error, loading } = useFetch<BrandType[]>("brands");
+  // Fetch data from API
+  useEffect(() => {
+    const fetchBrands = async () => {
+      try {
+        const res = await fetch("/api/brands");
+        if (!res.ok) throw new Error("Failed to fetch brands");
+        const data: BrandType[] = await res.json();
+        setBrands(data);
+      } catch (err: any) {
+        setError(err.message || "Something went wrong");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBrands();
+  }, []);
 
   if (loading) return <div className="p-6 text-lg">Loading brands...</div>;
-  if (error) return <div className="p-6 text-red-500">Error loading data!</div>;
+  if (error) return <div className="p-6 text-red-500">Error: {error}</div>;
 
   return (
     <div className="h-screen flex flex-col">
@@ -33,16 +50,13 @@ const BrandsPage = () => {
 
       {/* main content */}
       <div className="flex-1 p-4">
-        {data && data.length > 0 ? (
+        {brands.length > 0 ? (
           <CRUDTable
             endpoint="brands"
-            columns={["name"]}  
-            data={data.map((brand) => ({
-              id: brand.id,   
-              name: brand.name,
-            }))}
+            columns={["name"]}
+            data={brands}
+            setData={setBrands} 
           />
-
         ) : (
           <div className="text-center text-gray-400 mt-10">
             No brands found.
