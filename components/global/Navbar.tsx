@@ -57,7 +57,7 @@ export default function Navbar() {
           </nav>
 
           <div className="flex items-center gap-4 text-white">
-            <a href="#" target="_blank" className="hover:text-primary transition">
+            <a href="https://www.facebook.com/share/15Q8nV7hq9N/" target="_blank" className="hover:text-primary transition">
               <FaFacebookF size={14} />
             </a>
             <a href="#" target="_blank" className="hover:text-primary transition">
@@ -66,7 +66,7 @@ export default function Navbar() {
             <a href="#" target="_blank" className="hover:text-primary transition">
               <FaTwitter size={14} />
             </a>
-            <a href="#" target="_blank" className="hover:text-primary transition">
+            <a href="https://www.tiktok.com/@set.nepal" target="_blank" className="hover:text-primary transition">
               <FaTiktok size={14} />
             </a>
           </div>

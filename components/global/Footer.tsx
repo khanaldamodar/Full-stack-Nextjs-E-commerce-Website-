@@ -125,6 +125,7 @@ const Footer = () => {
         <div>
           <h3 className="text-xl font-semibold text-white mb-4">Contact Us</h3>
           <ul className="space-y-3 text-black">
+          <h4 className="text-3xl font-bold text-white ml-7"><span className="text-primary">Set</span>Nepal</h4>
             <li className="flex items-center gap-3">
               <Phone className="w-5 h-5 text-green-500" />
               <span>01-5312298, 9851331773</span>
