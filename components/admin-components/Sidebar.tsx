@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie"; // for reading cookies
+import Cookies from "js-cookie";
 import {
   MdSpaceDashboard,
   MdOutlineProductionQuantityLimits,
@@ -17,13 +17,11 @@ import { TbTruckDelivery } from "react-icons/tb";
 
 export default function Sidebar() {
   const [activeView, setActiveView] = useState("dashboard");
-  const [email, setEmail] = useState<string>(""); // store user email
+  const [email, setEmail] = useState<string>("");
   const router = useRouter();
 
   useEffect(() => {
-    // Get email from cookies on client load
     const savedEmail = Cookies.get("email");
-    console.log("📧 Email from cookies:", savedEmail); // Debug check
     if (savedEmail) setEmail(savedEmail);
   }, []);
 
@@ -51,23 +49,29 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="w-60 bg-zinc-800 p-6 flex flex-col justify-start items-center">
+    <aside className="w-60 bg-green-100 p-4 flex flex-col justify-start items-center">
       {/* Menu Buttons */}
-      {menuItems.map((item) => (
-        <button
-          key={item.id}
-          onClick={() => handleClick(item)}
-          className={`text-white w-full py-3 px-2 flex items-center justify-start gap-2 transition ${
-            activeView === item.id ? "bg-zinc-600" : "hover:bg-zinc-700"
-          }`}
-        >
-          {item.icon}
-          {item.label}
-        </button>
-      ))}
+      <div className="flex flex-col w-full gap-3"> 
+        {menuItems.map((item) => (
+          <button
+            key={item.id}
+            onClick={() => handleClick(item)}
+            className={`w-full text-white flex items-center justify-start gap-2
+            rounded-md transition-all duration-200 py-2 px-3
+            ${
+              activeView === item.id
+                ? "bg-green-600"
+                : "bg-green-500 hover:bg-green-600"
+            }`}
+          >
+            {item.icon}
+            <span className="text-sm">{item.label}</span>
+          </button>
+        ))}
+      </div>
 
-      {/* Footer (Set Nepal + Email) */}
-      <div className="mt-auto flex items-center gap-3 p-4 bg-zinc-900 rounded-xl w-full">
+      {/* Footer */}
+      <div className="mt-auto flex items-center gap-3 p-3 bg-green-600 rounded-xl w-full">
         <Image
           src="/logo.jpeg"
           alt="Shop Logo"
