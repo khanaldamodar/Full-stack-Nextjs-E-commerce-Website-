@@ -31,7 +31,7 @@ export default function CRUDTable({ endpoint, columns, data }: CRUDTableProps) {
 
         <tbody>
           {data.map((item, index) => (
-            <tr key={item.id} className="hover:bg-zinc-700">
+            <tr key={item.id} className="hover:bg-green-400">
               <td className="border p-2 text-center">{index + 1}</td>
 
               {columns.map((col) => (
