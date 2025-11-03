@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+
 interface CRUDTableProps {
-  endpoint: string; 
+  endpoint: string;
   columns: string[];
   data: any[];
 }
@@ -15,13 +16,17 @@ export default function CRUDTable({ endpoint, columns, data }: CRUDTableProps) {
   }
 
   return (
-    <div className="p-5 overflow-x-auto">
-      <table className="w-full border-collapse border">
-        <thead>
+    
+    <div className="w-full p-5 overflow-x-auto">
+      <table className="w-full min-w-full border-collapse border">
+        <thead className="bg-green-100">
           <tr>
             <th className="border p-2 w-12 text-center">SN</th>
             {columns.map((col) => (
-              <th key={col} className="border p-2 capitalize text-left">
+              <th
+                key={col}
+                className="border p-2 capitalize text-left whitespace-nowrap"
+              >
                 {col}
               </th>
             ))}
@@ -31,11 +36,11 @@ export default function CRUDTable({ endpoint, columns, data }: CRUDTableProps) {
 
         <tbody>
           {data.map((item, index) => (
-            <tr key={item.id} className="hover:bg-green-400">
+            <tr key={item.id} className="hover:bg-green-200">
               <td className="border p-2 text-center">{index + 1}</td>
 
               {columns.map((col) => (
-                <td key={col} className="border p-2">
+                <td key={col} className="border p-2 whitespace-nowrap">
                   {Array.isArray(item[col])
                     ? item[col].map((subItem: any) => subItem.name).join(", ")
                     : item[col]}
@@ -45,7 +50,9 @@ export default function CRUDTable({ endpoint, columns, data }: CRUDTableProps) {
               <td className="border p-2 flex gap-2 justify-center">
                 <button
                   className="bg-yellow-400 px-2 rounded"
-                  onClick={() => router.push(`/admin/${endpoint}/edit/${item.id}`)}
+                  onClick={() =>
+                    router.push(`/admin/${endpoint}/edit/${item.id}`)
+                  }
                 >
                   Edit
                 </button>
