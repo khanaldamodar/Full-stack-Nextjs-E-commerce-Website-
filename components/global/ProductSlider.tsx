@@ -69,7 +69,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({ products }) => {
   }
 
   return (
-    <div className="relative w-full py-5 px-8  font-poppins">
+    <div className="relative w-full py-5 px-8 md:px-20 font-poppins">
       {/* Left Arrow */}
       <button
         onClick={() => instanceRef.current?.prev()}

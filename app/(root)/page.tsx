@@ -114,7 +114,7 @@ export default function Home() {
       <FeatureProductsSection />
       <FeaturedPackages />
 
-      <div className="md:px-52 flex flex-col items-center text-white font-poppins">
+      <div className=" justify-center flex flex-col items-center text-white font-poppins">
         <Heading title="Our Products" />
         <ProductSlider products={products} />
         <HappyClientsSlider certificates={certificates} />
