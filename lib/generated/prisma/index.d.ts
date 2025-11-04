@@ -3010,7 +3010,7 @@ export namespace Prisma {
 
   export type CategoryGroupByOutputType = {
     id: number
-    name: string
+    name: string | null
     _count: CategoryCountAggregateOutputType | null
     _avg: CategoryAvgAggregateOutputType | null
     _sum: CategorySumAggregateOutputType | null
@@ -3059,7 +3059,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      name: string
+      name: string | null
     }, ExtArgs["result"]["category"]>
     composites: {}
   }
@@ -3650,7 +3650,7 @@ export namespace Prisma {
     /**
      * The data needed to create a Category.
      */
-    data: XOR<CategoryCreateInput, CategoryUncheckedCreateInput>
+    data?: XOR<CategoryCreateInput, CategoryUncheckedCreateInput>
   }
 
   /**
@@ -4814,7 +4814,6 @@ export namespace Prisma {
     sku: string | null
     weight: number | null
     imageUrl: string | null
-    gallery: string | null
     isFeatured: boolean | null
     isActive: boolean | null
     createdAt: Date | null
@@ -4833,7 +4832,6 @@ export namespace Prisma {
     sku: string | null
     weight: number | null
     imageUrl: string | null
-    gallery: string | null
     isFeatured: boolean | null
     isActive: boolean | null
     createdAt: Date | null
@@ -4893,7 +4891,6 @@ export namespace Prisma {
     sku?: true
     weight?: true
     imageUrl?: true
-    gallery?: true
     isFeatured?: true
     isActive?: true
     createdAt?: true
@@ -4912,7 +4909,6 @@ export namespace Prisma {
     sku?: true
     weight?: true
     imageUrl?: true
-    gallery?: true
     isFeatured?: true
     isActive?: true
     createdAt?: true
@@ -5037,7 +5033,7 @@ export namespace Prisma {
     sku: string | null
     weight: number | null
     imageUrl: string | null
-    gallery: string | null
+    gallery: JsonValue | null
     isFeatured: boolean
     isActive: boolean
     createdAt: Date
@@ -5140,7 +5136,7 @@ export namespace Prisma {
       sku: string | null
       weight: number | null
       imageUrl: string | null
-      gallery: string | null
+      gallery: Prisma.JsonValue | null
       isFeatured: boolean
       isActive: boolean
       createdAt: Date
@@ -5530,7 +5526,7 @@ export namespace Prisma {
     readonly sku: FieldRef<"Product", 'String'>
     readonly weight: FieldRef<"Product", 'Float'>
     readonly imageUrl: FieldRef<"Product", 'String'>
-    readonly gallery: FieldRef<"Product", 'String'>
+    readonly gallery: FieldRef<"Product", 'Json'>
     readonly isFeatured: FieldRef<"Product", 'Boolean'>
     readonly isActive: FieldRef<"Product", 'Boolean'>
     readonly createdAt: FieldRef<"Product", 'DateTime'>
@@ -10374,12 +10370,28 @@ export namespace Prisma {
   export type BrandOrderByRelevanceFieldEnum = (typeof BrandOrderByRelevanceFieldEnum)[keyof typeof BrandOrderByRelevanceFieldEnum]
 
 
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+  export const QueryMode: {
+    default: 'default',
+    insensitive: 'insensitive'
+  };
+
+  export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
   export const ProductOrderByRelevanceFieldEnum: {
     name: 'name',
     description: 'description',
     sku: 'sku',
-    imageUrl: 'imageUrl',
-    gallery: 'gallery'
+    imageUrl: 'imageUrl'
   };
 
   export type ProductOrderByRelevanceFieldEnum = (typeof ProductOrderByRelevanceFieldEnum)[keyof typeof ProductOrderByRelevanceFieldEnum]
@@ -10399,23 +10411,6 @@ export namespace Prisma {
   };
 
   export type OrderOrderByRelevanceFieldEnum = (typeof OrderOrderByRelevanceFieldEnum)[keyof typeof OrderOrderByRelevanceFieldEnum]
-
-
-  export const JsonNullValueFilter: {
-    DbNull: typeof DbNull,
-    JsonNull: typeof JsonNull,
-    AnyNull: typeof AnyNull
-  };
-
-  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
-
-
-  export const QueryMode: {
-    default: 'default',
-    insensitive: 'insensitive'
-  };
-
-  export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
   export const PaymentOrderByRelevanceFieldEnum: {
@@ -10473,6 +10468,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
    * Reference to a field of type 'OrderStatus'
    */
   export type EnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderStatus'>
@@ -10490,20 +10499,6 @@ export namespace Prisma {
    * Reference to a field of type 'PaymentStatus'
    */
   export type EnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus'>
-    
-
-
-  /**
-   * Reference to a field of type 'Json'
-   */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-  /**
-   * Reference to a field of type 'QueryMode'
-   */
-  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
   /**
    * Deep Input Types
@@ -10612,13 +10607,13 @@ export namespace Prisma {
     OR?: CategoryWhereInput[]
     NOT?: CategoryWhereInput | CategoryWhereInput[]
     id?: IntFilter<"Category"> | number
-    name?: StringFilter<"Category"> | string
+    name?: StringNullableFilter<"Category"> | string | null
     products?: ProductListRelationFilter
   }
 
   export type CategoryOrderByWithRelationInput = {
     id?: SortOrder
-    name?: SortOrder
+    name?: SortOrderInput | SortOrder
     products?: ProductOrderByRelationAggregateInput
     _relevance?: CategoryOrderByRelevanceInput
   }
@@ -10628,13 +10623,13 @@ export namespace Prisma {
     AND?: CategoryWhereInput | CategoryWhereInput[]
     OR?: CategoryWhereInput[]
     NOT?: CategoryWhereInput | CategoryWhereInput[]
-    name?: StringFilter<"Category"> | string
+    name?: StringNullableFilter<"Category"> | string | null
     products?: ProductListRelationFilter
   }, "id">
 
   export type CategoryOrderByWithAggregationInput = {
     id?: SortOrder
-    name?: SortOrder
+    name?: SortOrderInput | SortOrder
     _count?: CategoryCountOrderByAggregateInput
     _avg?: CategoryAvgOrderByAggregateInput
     _max?: CategoryMaxOrderByAggregateInput
@@ -10647,7 +10642,7 @@ export namespace Prisma {
     OR?: CategoryScalarWhereWithAggregatesInput[]
     NOT?: CategoryScalarWhereWithAggregatesInput | CategoryScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Category"> | number
-    name?: StringWithAggregatesFilter<"Category"> | string
+    name?: StringNullableWithAggregatesFilter<"Category"> | string | null
   }
 
   export type BrandWhereInput = {
@@ -10705,7 +10700,7 @@ export namespace Prisma {
     sku?: StringNullableFilter<"Product"> | string | null
     weight?: FloatNullableFilter<"Product"> | number | null
     imageUrl?: StringNullableFilter<"Product"> | string | null
-    gallery?: StringNullableFilter<"Product"> | string | null
+    gallery?: JsonNullableFilter<"Product">
     isFeatured?: BoolFilter<"Product"> | boolean
     isActive?: BoolFilter<"Product"> | boolean
     createdAt?: DateTimeFilter<"Product"> | Date | string
@@ -10757,7 +10752,7 @@ export namespace Prisma {
     stock?: IntFilter<"Product"> | number
     weight?: FloatNullableFilter<"Product"> | number | null
     imageUrl?: StringNullableFilter<"Product"> | string | null
-    gallery?: StringNullableFilter<"Product"> | string | null
+    gallery?: JsonNullableFilter<"Product">
     isFeatured?: BoolFilter<"Product"> | boolean
     isActive?: BoolFilter<"Product"> | boolean
     createdAt?: DateTimeFilter<"Product"> | Date | string
@@ -10808,7 +10803,7 @@ export namespace Prisma {
     sku?: StringNullableWithAggregatesFilter<"Product"> | string | null
     weight?: FloatNullableWithAggregatesFilter<"Product"> | number | null
     imageUrl?: StringNullableWithAggregatesFilter<"Product"> | string | null
-    gallery?: StringNullableWithAggregatesFilter<"Product"> | string | null
+    gallery?: JsonNullableWithAggregatesFilter<"Product">
     isFeatured?: BoolWithAggregatesFilter<"Product"> | boolean
     isActive?: BoolWithAggregatesFilter<"Product"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Product"> | Date | string
@@ -11256,39 +11251,39 @@ export namespace Prisma {
   }
 
   export type CategoryCreateInput = {
-    name: string
+    name?: string | null
     products?: ProductCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUncheckedCreateInput = {
     id?: number
-    name: string
+    name?: string | null
     products?: ProductUncheckedCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUpdateInput = {
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     products?: ProductUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     products?: ProductUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryCreateManyInput = {
     id?: number
-    name: string
+    name?: string | null
   }
 
   export type CategoryUpdateManyMutationInput = {
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CategoryUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type BrandCreateInput = {
@@ -11335,7 +11330,7 @@ export namespace Prisma {
     sku?: string | null
     weight?: number | null
     imageUrl?: string | null
-    gallery?: string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: boolean
     isActive?: boolean
     createdAt?: Date | string
@@ -11356,7 +11351,7 @@ export namespace Prisma {
     sku?: string | null
     weight?: number | null
     imageUrl?: string | null
-    gallery?: string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: boolean
     isActive?: boolean
     createdAt?: Date | string
@@ -11376,7 +11371,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableFloatFieldUpdateOperationsInput | number | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gallery?: NullableStringFieldUpdateOperationsInput | string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11397,7 +11392,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableFloatFieldUpdateOperationsInput | number | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gallery?: NullableStringFieldUpdateOperationsInput | string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11418,7 +11413,7 @@ export namespace Prisma {
     sku?: string | null
     weight?: number | null
     imageUrl?: string | null
-    gallery?: string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: boolean
     isActive?: boolean
     createdAt?: Date | string
@@ -11436,7 +11431,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableFloatFieldUpdateOperationsInput | number | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gallery?: NullableStringFieldUpdateOperationsInput | string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11452,7 +11447,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableFloatFieldUpdateOperationsInput | number | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gallery?: NullableStringFieldUpdateOperationsInput | string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12120,6 +12115,29 @@ export namespace Prisma {
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue
+    lte?: InputJsonValue
+    gt?: InputJsonValue
+    gte?: InputJsonValue
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type IntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
@@ -12201,7 +12219,6 @@ export namespace Prisma {
     sku?: SortOrder
     weight?: SortOrder
     imageUrl?: SortOrder
-    gallery?: SortOrder
     isFeatured?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -12220,7 +12237,6 @@ export namespace Prisma {
     sku?: SortOrder
     weight?: SortOrder
     imageUrl?: SortOrder
-    gallery?: SortOrder
     isFeatured?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -12270,6 +12286,32 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue
+    lte?: InputJsonValue
+    gt?: InputJsonValue
+    gte?: InputJsonValue
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -12514,29 +12556,6 @@ export namespace Prisma {
     quantity?: SortOrder
     price?: SortOrder
   }
-  export type JsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue
-    lte?: InputJsonValue
-    gt?: InputJsonValue
-    gte?: InputJsonValue
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type PaymentOrderByRelevanceInput = {
     fields: PaymentOrderByRelevanceFieldEnum | PaymentOrderByRelevanceFieldEnum[]
@@ -12593,32 +12612,6 @@ export namespace Prisma {
     orderId?: SortOrder
     userId?: SortOrder
     amount?: SortOrder
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue
-    lte?: InputJsonValue
-    gt?: InputJsonValue
-    gte?: InputJsonValue
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type ProductCreateNestedManyWithoutCreatedByInput = {
@@ -13485,6 +13478,29 @@ export namespace Prisma {
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue
+    lte?: InputJsonValue
+    gt?: InputJsonValue
+    gte?: InputJsonValue
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
@@ -13552,29 +13568,6 @@ export namespace Prisma {
     _min?: NestedEnumPaymentStatusFilter<$PrismaModel>
     _max?: NestedEnumPaymentStatusFilter<$PrismaModel>
   }
-  export type NestedJsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue
-    lte?: InputJsonValue
-    gt?: InputJsonValue
-    gte?: InputJsonValue
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type ProductCreateWithoutCreatedByInput = {
     name: string
@@ -13584,7 +13577,7 @@ export namespace Prisma {
     sku?: string | null
     weight?: number | null
     imageUrl?: string | null
-    gallery?: string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: boolean
     isActive?: boolean
     createdAt?: Date | string
@@ -13604,7 +13597,7 @@ export namespace Prisma {
     sku?: string | null
     weight?: number | null
     imageUrl?: string | null
-    gallery?: string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: boolean
     isActive?: boolean
     createdAt?: Date | string
@@ -13760,7 +13753,7 @@ export namespace Prisma {
     sku?: StringNullableFilter<"Product"> | string | null
     weight?: FloatNullableFilter<"Product"> | number | null
     imageUrl?: StringNullableFilter<"Product"> | string | null
-    gallery?: StringNullableFilter<"Product"> | string | null
+    gallery?: JsonNullableFilter<"Product">
     isFeatured?: BoolFilter<"Product"> | boolean
     isActive?: BoolFilter<"Product"> | boolean
     createdAt?: DateTimeFilter<"Product"> | Date | string
@@ -13875,7 +13868,7 @@ export namespace Prisma {
     sku?: string | null
     weight?: number | null
     imageUrl?: string | null
-    gallery?: string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: boolean
     isActive?: boolean
     createdAt?: Date | string
@@ -13895,7 +13888,7 @@ export namespace Prisma {
     sku?: string | null
     weight?: number | null
     imageUrl?: string | null
-    gallery?: string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: boolean
     isActive?: boolean
     createdAt?: Date | string
@@ -13940,7 +13933,7 @@ export namespace Prisma {
     sku?: string | null
     weight?: number | null
     imageUrl?: string | null
-    gallery?: string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: boolean
     isActive?: boolean
     createdAt?: Date | string
@@ -13960,7 +13953,7 @@ export namespace Prisma {
     sku?: string | null
     weight?: number | null
     imageUrl?: string | null
-    gallery?: string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: boolean
     isActive?: boolean
     createdAt?: Date | string
@@ -13998,12 +13991,12 @@ export namespace Prisma {
   }
 
   export type CategoryCreateWithoutProductsInput = {
-    name: string
+    name?: string | null
   }
 
   export type CategoryUncheckedCreateWithoutProductsInput = {
     id?: number
-    name: string
+    name?: string | null
   }
 
   export type CategoryCreateOrConnectWithoutProductsInput = {
@@ -14132,12 +14125,12 @@ export namespace Prisma {
   }
 
   export type CategoryUpdateWithoutProductsInput = {
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CategoryUncheckedUpdateWithoutProductsInput = {
     id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type BrandUpsertWithoutProductsInput = {
@@ -14293,7 +14286,7 @@ export namespace Prisma {
     sku?: string | null
     weight?: number | null
     imageUrl?: string | null
-    gallery?: string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: boolean
     isActive?: boolean
     createdAt?: Date | string
@@ -14313,7 +14306,7 @@ export namespace Prisma {
     sku?: string | null
     weight?: number | null
     imageUrl?: string | null
-    gallery?: string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: boolean
     isActive?: boolean
     createdAt?: Date | string
@@ -14597,7 +14590,7 @@ export namespace Prisma {
     sku?: string | null
     weight?: number | null
     imageUrl?: string | null
-    gallery?: string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: boolean
     isActive?: boolean
     createdAt?: Date | string
@@ -14617,7 +14610,7 @@ export namespace Prisma {
     sku?: string | null
     weight?: number | null
     imageUrl?: string | null
-    gallery?: string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: boolean
     isActive?: boolean
     createdAt?: Date | string
@@ -14688,7 +14681,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableFloatFieldUpdateOperationsInput | number | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gallery?: NullableStringFieldUpdateOperationsInput | string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14708,7 +14701,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableFloatFieldUpdateOperationsInput | number | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gallery?: NullableStringFieldUpdateOperationsInput | string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14876,7 +14869,7 @@ export namespace Prisma {
     sku?: string | null
     weight?: number | null
     imageUrl?: string | null
-    gallery?: string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: boolean
     isActive?: boolean
     createdAt?: Date | string
@@ -14930,7 +14923,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableFloatFieldUpdateOperationsInput | number | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gallery?: NullableStringFieldUpdateOperationsInput | string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14950,7 +14943,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableFloatFieldUpdateOperationsInput | number | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gallery?: NullableStringFieldUpdateOperationsInput | string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14970,7 +14963,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableFloatFieldUpdateOperationsInput | number | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gallery?: NullableStringFieldUpdateOperationsInput | string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15102,7 +15095,7 @@ export namespace Prisma {
     sku?: string | null
     weight?: number | null
     imageUrl?: string | null
-    gallery?: string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: boolean
     isActive?: boolean
     createdAt?: Date | string
@@ -15119,7 +15112,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableFloatFieldUpdateOperationsInput | number | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gallery?: NullableStringFieldUpdateOperationsInput | string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15139,7 +15132,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableFloatFieldUpdateOperationsInput | number | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gallery?: NullableStringFieldUpdateOperationsInput | string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15159,7 +15152,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableFloatFieldUpdateOperationsInput | number | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gallery?: NullableStringFieldUpdateOperationsInput | string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15177,7 +15170,7 @@ export namespace Prisma {
     sku?: string | null
     weight?: number | null
     imageUrl?: string | null
-    gallery?: string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: boolean
     isActive?: boolean
     createdAt?: Date | string
@@ -15194,7 +15187,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableFloatFieldUpdateOperationsInput | number | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gallery?: NullableStringFieldUpdateOperationsInput | string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15214,7 +15207,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableFloatFieldUpdateOperationsInput | number | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gallery?: NullableStringFieldUpdateOperationsInput | string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15234,7 +15227,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableFloatFieldUpdateOperationsInput | number | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gallery?: NullableStringFieldUpdateOperationsInput | string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15322,7 +15315,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableFloatFieldUpdateOperationsInput | number | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gallery?: NullableStringFieldUpdateOperationsInput | string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15342,7 +15335,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableFloatFieldUpdateOperationsInput | number | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gallery?: NullableStringFieldUpdateOperationsInput | string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15362,7 +15355,7 @@ export namespace Prisma {
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableFloatFieldUpdateOperationsInput | number | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    gallery?: NullableStringFieldUpdateOperationsInput | string | null
+    gallery?: NullableJsonNullValueInput | InputJsonValue
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

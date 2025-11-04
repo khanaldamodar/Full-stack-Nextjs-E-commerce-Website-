@@ -55,7 +55,7 @@ model Product {
   sku         String?   @unique
   weight      Float?
   imageUrl    String?
-  gallery     String?
+  gallery     Json?
   isFeatured  Boolean   @default(false)
   isActive    Boolean   @default(true)
   createdAt   DateTime  @default(now())
