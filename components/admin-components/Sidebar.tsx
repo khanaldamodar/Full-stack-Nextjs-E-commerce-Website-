@@ -49,29 +49,27 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="w-60 bg-green-100 p-4 flex flex-col justify-start items-center">
-      {/* Menu Buttons */}
-      <div className="flex flex-col w-full gap-3"> 
+    <aside
+      className="w-60 p-4 flex flex-col justify-start items-start"
+      style={{ backgroundColor: "#aec958" }}
+    >
+      {/* Menu Items as list, not buttons */}
+      <ul className="flex flex-col w-full gap-4">
         {menuItems.map((item) => (
-          <button
+          <li
             key={item.id}
             onClick={() => handleClick(item)}
-            className={`w-full text-white flex items-center justify-start gap-2
-            rounded-md transition-all duration-200 py-2 px-3
-            ${
-              activeView === item.id
-                ? "bg-green-600"
-                : "bg-green-500 hover:bg-green-600"
-            }`}
+            className={`flex items-center gap-3 cursor-pointer px-2 py-2 rounded transition-colors duration-200
+              ${activeView === item.id ? "bg-green-700 text-white" : "text-white hover:bg-green-600"}`}
           >
             {item.icon}
-            <span className="text-sm">{item.label}</span>
-          </button>
+            <span className="text-base font-medium">{item.label}</span>
+          </li>
         ))}
-      </div>
+      </ul>
 
       {/* Footer */}
-      <div className="mt-auto flex items-center gap-3 p-3 bg-green-600 rounded-xl w-full">
+      <div className="mt-auto flex items-center gap-3 p-3 bg-green-700 rounded-xl w-full">
         <Image
           src="/logo.jpeg"
           alt="Shop Logo"
@@ -81,9 +79,9 @@ export default function Sidebar() {
         />
         <div className="text-white text-sm truncate">
           <div>
-            Set <span className="text-green-400">Nepal</span>
+            Set <span className="text-green-200">Nepal</span>
           </div>
-          <div className="text-gray-300 truncate text-xs">
+          <div className="text-gray-100 truncate text-xs">
             {email || "guest@example.com"}
           </div>
         </div>
