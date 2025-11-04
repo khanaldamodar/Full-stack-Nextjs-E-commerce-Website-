@@ -53,7 +53,7 @@ export default function PackagesPage(){
         {packages.length > 0 ? (
           <CRUDTable
             endpoint="packages"
-            columns={["name"]}
+            columns={["name", "description", "price", "discount", "stock", "imgUrl", "isFeatured", "isActive", "createdAt", "updatedAt", "createdById" ]}
             data={packages}
             setData={setPackages} 
           />

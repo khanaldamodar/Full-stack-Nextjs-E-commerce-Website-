@@ -1,185 +1,225 @@
 "use client";
 
 import { useState } from "react";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+import { usePost } from "@/services/usePost";
 
-interface Product {
-  uniqueId: number;
-  productValue: string;
+interface PackageType {
+  name: string;
+  description: string;
+  price: number;
+  discount: number;
+  stock: number;
+  isActive: boolean;
+  isFeatured: boolean;
 }
 
 export default function Page() {
-  const [products, setProducts] = useState<Product[]>([{ uniqueId: Date.now(), productValue: "" }]);
+  const router = useRouter();
+  const { postData, loading, error } = usePost<PackageType>("http://localhost:3000/api/packages");
 
-  const handleAddProduct = () => {
-    setProducts([...products, { uniqueId: Date.now(), productValue: "" }]);
+  const [packageData, setPackageData] = useState({
+    name: "",
+    description: "",
+    price: "",       // 👈 make these empty strings
+    discount: "",
+    stock: "",
+    isActive: true,
+    isFeatured: false,
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type } = e.target;
+
+    const parsedValue =
+      type === "radio"
+        ? value === "true"
+        : value;
+
+    setPackageData((prev) => ({ ...prev, [name]: parsedValue }));
   };
 
-  const handleChangeProduct = (uniqueId: number, value: string) => {
-    const updatedProducts = products.map(p =>
-      p.uniqueId === uniqueId ? { ...p, productValue: value } : p
-    );
-    setProducts(updatedProducts);
-  };
+  const handleAddBrand = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const token = Cookies.get("token");
 
-  const handleRemoveProduct = (uniqueId: number) => {
-    setProducts(products.filter(p => p.uniqueId !== uniqueId));
+    // Convert string numbers back to numbers before sending
+    const formattedData: PackageType = {
+      ...packageData,
+      price: Number(packageData.price),
+      discount: Number(packageData.discount),
+      stock: Number(packageData.stock),
+    };
+
+    try {
+      const data = await postData(formattedData, token);
+      alert("Package added successfully!");
+
+      setPackageData({
+        name: "",
+        description: "",
+        price: "",
+        discount: "",
+        stock: "",
+        isActive: true,
+        isFeatured: false,
+      });
+
+      // Optional: router.push("/packages");
+    } catch (err) {
+      console.error(err);
+      alert(error?.message || "Something went wrong. Please try again.");
+    }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center mt-3 gap-6 bg-zinc-800 p-4">
+    <div className="flex flex-col items-center justify-center mt-3 gap-6 bg-gradient-to-t from-green-700 to-green-400 w-full rounded p-5">
       <h1 className="text-2xl text-white font-bold text-center mb-2 pt-2">Add Packages</h1>
-      <form>
-        <div className="rounded-xl p-2 gap-4 shadow-lg grid grid-cols-3 w-full">
+
+      <form className="w-full" onSubmit={handleAddBrand}>
+        <div className="rounded-xl p-4 gap-4 shadow-lg grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full">
+
           {/* Package Name */}
-          <div className="flex-col flex gap-4">
-            <label htmlFor="packageName" className="text-xl text-white">Package Name</label>
+          <div className="flex flex-col gap-2 w-full">
+            <label htmlFor="name" className="text-xl text-white">Package Name</label>
             <input
               type="text"
-              id="packageName"
-              name="packageName"
-              required
+              id="name"
+              name="name"
+              value={packageData.name}
+              onChange={handleChange}
               placeholder="Package Name"
-              className="p-3 bg-zinc-900 text-white placeholder-zinc-400 rounded-2xl outline-none focus:ring-2 focus:ring-zinc-900"
+              className="p-3 bg-green-900 text-white placeholder-zinc-400 rounded-2xl outline-none focus:ring-2 focus:ring-green-700 w-full"
+              required
             />
           </div>
 
           {/* Description */}
-          <div className="flex-col flex gap-4">
-            <label htmlFor="packageDescription" className="text-xl text-white">Description</label>
+          <div className="flex flex-col gap-2 w-full">
+            <label htmlFor="description" className="text-xl text-white">Description</label>
             <input
               type="text"
-              id="packageDescription"
-              name="packageDescription"
-              required
+              id="description"
+              name="description"
+              value={packageData.description}
+              onChange={handleChange}
               placeholder="Package Description"
-              className="p-3 bg-zinc-900 text-white placeholder-zinc-400 rounded-2xl outline-none focus:ring-2 focus:ring-zinc-900"
+              className="p-3 bg-zinc-900 text-white placeholder-zinc-400 rounded-2xl outline-none focus:ring-2 focus:ring-zinc-900 w-full"
+              required
             />
           </div>
 
           {/* Price */}
-          <div className="flex-col flex gap-4">
+          <div className="flex flex-col gap-2 w-full">
             <label htmlFor="price" className="text-xl text-white">Price</label>
             <input
-              type="text"
+              type="number"
               id="price"
               name="price"
-              required
+              value={packageData.price}
+              onChange={handleChange}
               placeholder="Price"
-              className="p-3 bg-zinc-900 text-white placeholder-zinc-400 rounded-2xl outline-none focus:ring-2 focus:ring-zinc-900"
+              min="0"
+              className="p-3 bg-zinc-900 text-white placeholder-zinc-400 rounded-2xl outline-none focus:ring-2 focus:ring-zinc-900 w-full"
+              required
             />
           </div>
 
           {/* Discount */}
-          <div className="flex-col flex gap-4">
+          <div className="flex flex-col gap-2 w-full">
             <label htmlFor="discount" className="text-xl text-white">Discount</label>
             <input
-              type="text"
+              type="number"
               id="discount"
               name="discount"
-              required
+              value={packageData.discount}
+              onChange={handleChange}
               placeholder="Discount"
-              className="p-3 bg-zinc-900 text-white placeholder-zinc-400 rounded-2xl outline-none focus:ring-2 focus:ring-zinc-900"
+              min="0"
+              className="p-3 bg-zinc-900 text-white placeholder-zinc-400 rounded-2xl outline-none focus:ring-2 focus:ring-zinc-900 w-full"
             />
           </div>
 
           {/* Stock */}
-          <div className="flex-col flex gap-4">
+          <div className="flex flex-col gap-2 w-full">
             <label htmlFor="stock" className="text-xl text-white">Stock</label>
             <input
-              type="text"
+              type="number"
               id="stock"
               name="stock"
-              required
+              value={packageData.stock}
+              onChange={handleChange}
               placeholder="Stock"
-              className="p-3 bg-zinc-900 text-white placeholder-zinc-400 rounded-2xl outline-none focus:ring-2 focus:ring-zinc-900"
-            />
-          </div>
-
-          {/* Image */}
-          <div className="flex-col flex gap-4">
-            <label htmlFor="packageImage" className="text-xl text-white">Image</label>
-            <input
-              type="file"
-              id="packageImage"
-              name="packageImage"
-              className="p-3 bg-zinc-900 text-white rounded-2xl outline-none focus:ring-2 focus:ring-zinc-900"
+              min="0"
+              className="p-3 bg-zinc-900 text-white placeholder-zinc-400 rounded-2xl outline-none focus:ring-2 focus:ring-zinc-900 w-full"
             />
           </div>
 
           {/* Featured */}
-          <div className="flex-col flex gap-2">
+          <div className="flex flex-col gap-2 w-full">
             <label className="text-xl text-white">Featured</label>
             <div className="flex gap-4 items-center">
               <label className="flex items-center gap-2">
-                <input type="radio" name="featured" value="yes" className="w-4 h-4 accent-zinc-900" required /> Yes
+                <input
+                  type="radio"
+                  name="isFeatured"
+                  value="true"
+                  checked={packageData.isFeatured === true}
+                  onChange={handleChange}
+                  className="w-4 h-4 accent-zinc-900"
+                /> Yes
               </label>
               <label className="flex items-center gap-2">
-                <input type="radio" name="featured" value="no" className="w-4 h-4 accent-zinc-900" /> No
+                <input
+                  type="radio"
+                  name="isFeatured"
+                  value="false"
+                  checked={packageData.isFeatured === false}
+                  onChange={handleChange}
+                  className="w-4 h-4 accent-zinc-900"
+                /> No
               </label>
             </div>
           </div>
 
           {/* Active */}
-          <div className="flex-col flex gap-2">
+          <div className="flex flex-col gap-2 w-full">
             <label className="text-xl text-white">Active</label>
             <div className="flex gap-4 items-center">
               <label className="flex items-center gap-2">
-                <input type="radio" name="active" value="yes" className="w-4 h-4 accent-zinc-900" required /> Yes
+                <input
+                  type="radio"
+                  name="isActive"
+                  value="true"
+                  checked={packageData.isActive === true}
+                  onChange={handleChange}
+                  className="w-4 h-4 accent-zinc-900"
+                /> Yes
               </label>
               <label className="flex items-center gap-2">
-                <input type="radio" name="active" value="no" className="w-4 h-4 accent-zinc-900" /> No
+                <input
+                  type="radio"
+                  name="isActive"
+                  value="false"
+                  checked={packageData.isActive === false}
+                  onChange={handleChange}
+                  className="w-4 h-4 accent-zinc-900"
+                /> No
               </label>
             </div>
           </div>
 
-          {/* Products dynamic dropdown */}
-          <div className="flex-col flex gap-2 col-span-3">
-            <label className="text-xl text-white">Products</label>
-            {products.map((p, index) => (
-              <div key={p.uniqueId} className="flex gap-2 items-center mt-2">
-                <select
-                  value={p.productValue}
-                  onChange={(e) => handleChangeProduct(p.uniqueId, e.target.value)}
-                  className="flex-1 p-3 bg-zinc-900 text-white rounded-2xl outline-none focus:ring-2 focus:ring-zinc-900"
-                >
-                  <option value="">Select a Product</option>
-                  <option value="product1">Product 1</option>
-                  <option value="product2">Product 2</option>
-                  <option value="product3">Product 3</option>
-                </select>
-
-                {index === products.length - 1 && (
-                  <button
-                    type="button"
-                    onClick={handleAddProduct}
-                    className="bg-green-500 text-white p-2 rounded-xl"
-                  >
-                    +
-                  </button>
-                )}
-
-                {products.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveProduct(p.uniqueId)}
-                    className="bg-red-500 text-white p-2 rounded-xl"
-                  >
-                    -
-                  </button>
-                )}
-              </div>
-            ))}
+          {/* Submit */}
+          <div className="col-span-full flex justify-center mt-4">
+            <button
+              type="submit"
+              disabled={loading}
+              className="bg-white hover:bg-green-300 text-black cursor-pointer font-bold py-3 rounded-2xl transition-all duration-200 w-full max-w-md"
+            >
+              {loading ? "Submitting..." : "Add Package"}
+            </button>
           </div>
-        </div>
-
-        {/* Submit button */}
-        <div className="flex justify-center mt-4">
-          <button
-            type="submit"
-            className="bg-white hover:bg-zinc-100 text-black font-bold py-3 px-8 rounded-2xl transition-all duration-200"
-          >
-            Add Package
-          </button>
         </div>
       </form>
     </div>
