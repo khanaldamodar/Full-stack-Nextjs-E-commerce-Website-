@@ -3,47 +3,30 @@
 import { useState } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { usePost } from "@/services/usePost";
 
 interface CategoryType {
   name: string;
 }
 
 export default function Page() {
-  const [category, setCategory] = useState<CategoryType>({ name: "" });
-  const [loading, setLoading] = useState(false);
-
-const router = useRouter();
-
-const handleAddCategory = async (e: React.FormEvent) => {
-    e.preventDefault(); 
-    setLoading(true);
-
-    try {
-      const token = Cookies.get("token"); 
-      const response = await fetch("http://localhost:3000/api/categories", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token ? `Bearer ${token}` : "",
-        },
-        body: JSON.stringify(category),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
+   const router = useRouter();
+    const [category, setCategory] = useState<CategoryType>({ name: "" });
+  
+    const { postData, loading, error } = usePost<CategoryType>("http://localhost:3000/api/categories");
+  
+    const handleAddCategory = async (e: React.FormEvent) => {
+      e.preventDefault();
+      const token = Cookies.get("token");
+  
+      try {
+        const data = await postData(category, token);
         alert("Category added successfully!");
         setCategory({ name: "" });
-        
-      } else {
-        alert(`Error: ${data.message || "Could not add Category"}`);
+              } catch (err) {
+        console.error(err);
+        alert(error?.message || "Something went wrong. Please try again.");
       }
-    } catch (err) {
-      console.error(err);
-      alert("Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
-    }
   };
 
   return (
