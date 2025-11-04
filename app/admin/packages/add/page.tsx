@@ -74,7 +74,7 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center mt-3 gap-6 bg-gradient-to-t from-green-700 to-green-400 w-full rounded p-5">
+    <div className="flex flex-col items-center justify-center mt-3 gap-6 bg-linear-to-t from-green-700 to-green-400 w-full rounded p-5">
       <h1 className="text-2xl text-white font-bold text-center mb-2 pt-2">Add Packages</h1>
 
       <form className="w-full" onSubmit={handleAddBrand}>
@@ -155,6 +155,18 @@ export default function Page() {
               className="p-3 bg-zinc-900 text-white placeholder-zinc-400 rounded-2xl outline-none focus:ring-2 focus:ring-zinc-900 w-full"
             />
           </div>
+
+           <div className="flex flex-col gap-2 w-full">
+            <label htmlFor="imageUrl" className="text-xl text-white">Image</label>
+            <input
+              type="file"
+              id="imageUrl"
+              name="imageUrl"
+              className="p-3 bg-zinc-900 text-white rounded-2xl outline-none focus:ring-2 focus:ring-zinc-900 w-full"
+            />
+          </div> 
+
+          
 
           {/* Featured */}
           <div className="flex flex-col gap-2 w-full">

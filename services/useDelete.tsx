@@ -26,12 +26,13 @@ export function useDelete<T extends { id: string | number }>(
 
     try {
       const token = Cookies.get("token");
-      const res = await fetch(`${apiEndpoint}/${id}`, {
+      const res = await fetch(`${apiEndpoint}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: token ? `Bearer ${token}` : "",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
+        body: JSON.stringify({ id }),
       });
 
       if (!res.ok) {
