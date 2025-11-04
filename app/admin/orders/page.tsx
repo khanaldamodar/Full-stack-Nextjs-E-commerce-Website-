@@ -1,27 +1,61 @@
 "use client";
 
-import React from 'react'
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import CRUDTable from "@/components/admin-components/CRUDTable";
 
-const page = () => {
-      const router = useRouter();
-
-  return (
-    <div className='h-screen'>
-        {/* header */}
-        <div className='w-full bg-zinc-700 flex items-center p-4 shadow-md justify-between '>
-            <h3 className='text-2xl text-white font-bold'>Orders</h3>
-            <button onClick={() => router.push("/admin/orders/add")} className='bg-zinc-600 text-white px-4 py-2  hover:bg-zinc-700 transition '>Add Order</button>
-        </div>
-
-        <div>
-            <CRUDTable endpoint="orders" columns={["id",'total']} />
-         </div>
-                
-        
-    </div>
-  )
+interface OrderType {
+  id: number;
+  name: string;
 }
 
-export default page;
+const OrdersPage = () => {
+  const router = useRouter();
+  const [orders, setOrders] = useState<OrderType[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch data from API
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const res = await fetch("/api/orders");
+        if (!res.ok) throw new Error("Failed to fetch Orders");
+        const data: OrderType[] = await res.json();
+        setOrders(data);
+      } catch (err: any) {
+        setError(err.message || "Something went wrong");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchOrders();
+  }, []);
+
+  if (loading) return <div className="p-6 text-lg">Loading Orders...</div>;
+  if (error) return <div className="p-6 text-red-500">Error: {error}</div>;
+
+  return (
+    <div className="h-screen flex flex-col">
+
+      {/* main content */}
+      <div className="flex-1 p-4">
+        {orders.length > 0 ? (
+          <CRUDTable
+            endpoint="orders"
+            columns={["name"]}
+            data={orders}
+            setData={setOrders} 
+          />
+        ) : (
+          <div className="text-center text-gray-400 mt-10">
+            No Orders Found.
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default OrdersPage;
+
