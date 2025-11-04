@@ -3,45 +3,31 @@
 import { useState } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { usePost } from "@/services/usePost";
 
 interface BrandType {
   name: string;
 }
 
-export default function Page() {
+export default function AddBrandPage() {
   const router = useRouter();
   const [brand, setBrand] = useState<BrandType>({ name: "" });
-  const [loading, setLoading] = useState(false);
+
+  const { postData, loading, error } = usePost<BrandType>("http://localhost:3000/api/brands");
 
   const handleAddBrand = async (e: React.FormEvent) => {
-    e.preventDefault(); 
-    setLoading(true);
+    e.preventDefault();
+    const token = Cookies.get("token");
 
     try {
-      const token = Cookies.get("token"); 
-      const response = await fetch("http://localhost:3000/api/brands", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token ? `Bearer ${token}` : "",
-        },
-        body: JSON.stringify(brand),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        alert("Brand added successfully!");
-        setBrand({ name: "" });
-        
-      } else {
-        alert(`Error: ${data.message || "Could not add brand"}`);
-      }
+      const data = await postData(brand, token);
+      alert("Brand added successfully!");
+      setBrand({ name: "" });
+      // Optional: redirect to brands list
+      // router.push("/brands");
     } catch (err) {
       console.error(err);
-      alert("Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
+      alert(error?.message || "Something went wrong. Please try again.");
     }
   };
 
