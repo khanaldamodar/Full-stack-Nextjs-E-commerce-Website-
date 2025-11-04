@@ -18,6 +18,7 @@ import { TbTruckDelivery } from "react-icons/tb";
 export default function Sidebar() {
   const [activeView, setActiveView] = useState("dashboard");
   const [email, setEmail] = useState<string>("");
+  const [showLogout, setShowLogout] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -48,43 +49,69 @@ export default function Sidebar() {
     if (item.path) router.push(item.path);
   };
 
+  const handleLogout = () => {
+    Cookies.remove("email");
+    router.push("/login");
+  };
+
   return (
     <aside
-      className="w-60 p-4 flex flex-col justify-start items-start"
+      className="w-20 lg:w-60 p-4 flex flex-col justify-start items-center min-h-screen"
       style={{ backgroundColor: "#aec958" }}
     >
-      {/* Menu Items as list, not buttons */}
-      <ul className="flex flex-col w-full gap-4">
+      {/* Menu Items */}
+      <div className="flex flex-col w-full gap-2">
         {menuItems.map((item) => (
-          <li
+          <button
             key={item.id}
             onClick={() => handleClick(item)}
-            className={`flex items-center gap-3 cursor-pointer px-2 py-2 rounded transition-colors duration-200
-              ${activeView === item.id ? "bg-green-700 text-white" : "text-white hover:bg-green-600"}`}
+            className={`w-full flex items-center justify-start gap-3 text-white font-medium
+              rounded-md transition-all duration-200 py-3 px-4
+              ${
+                activeView === item.id
+                  ? "bg-[#4998d1]"
+                  : "hover:bg-[#4998d1] bg-transparent"
+              }`}
           >
             {item.icon}
-            <span className="text-base font-medium">{item.label}</span>
-          </li>
+            {/* Label hidden on sm/md, visible on lg+ */}
+            <span className="text-base hidden lg:inline">{item.label}</span>
+          </button>
         ))}
-      </ul>
+      </div>
 
       {/* Footer */}
-      <div className="mt-auto flex items-center gap-3 p-3 bg-green-700 rounded-xl w-full">
-        <Image
-          src="/logo.jpeg"
-          alt="Shop Logo"
-          width={40}
-          height={40}
-          className="rounded-full size-10"
-        />
-        <div className="text-white text-sm truncate">
-          <div>
-            Set <span className="text-green-200">Nepal</span>
-          </div>
-          <div className="text-gray-100 truncate text-xs">
-            {email || "guest@example.com"}
+      <div className="mt-auto flex flex-col items-start w-full">
+        <div
+          className="flex items-center gap-3 p-3 bg-[#4998d1] rounded-xl w-full cursor-pointer transition-all duration-200 hover:bg-blue-700"
+          onClick={() => setShowLogout(!showLogout)}
+        >
+          <Image
+            src="/logo.jpeg"
+            alt="Shop Logo"
+            width={40}
+            height={40}
+            className="rounded-full size-10"
+          />
+          <div className="text-white text-sm truncate hidden lg:block">
+            <div>
+              Set <span className="text-blue-200">Nepal</span>
+            </div>
+            <div className="text-gray-100 truncate text-xs">
+              {email || "guest@example.com"}
+            </div>
           </div>
         </div>
+
+        {/* Logout Button */}
+        {showLogout && (
+          <button
+            onClick={handleLogout}
+            className="mt-2 w-full bg-red-500 text-white font-medium py-2 rounded-md hover:bg-red-600 transition-all duration-200"
+          >
+            Log Out
+          </button>
+        )}
       </div>
     </aside>
   );

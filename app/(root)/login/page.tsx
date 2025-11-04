@@ -30,7 +30,7 @@ export default function Page() {
       const data = await response.json();
 
       if (data.token) {
-        // ✅ Save token and email in cookies
+        
         Cookies.set("token", data.token, { expires: 7 });
         Cookies.set("email", logindetails.email, { expires: 7 });
 
