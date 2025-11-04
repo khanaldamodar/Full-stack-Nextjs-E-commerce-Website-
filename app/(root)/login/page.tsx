@@ -46,9 +46,9 @@ export default function Page() {
   };
 
   return (
-    <div className="flex h-screen w-full items-center justify-center mx-auto mt-2">
+    <div className="flex h-screen w-full items-center justify-center mx-auto mt-2 bg-green-100">
       {/* Left Section */}
-      <div className="sm:w-2/5 w-full bg-green-100 rounded-xl shadow-lg p-6">
+      <div className="md:w-2/5 w-full bg-green-100 rounded-xl shadow-lg p-6">
         <div className="pt-1">
           <Image
             src="/logo.jpeg"
