@@ -21,8 +21,9 @@ export default function CRUDTable({ endpoint, columns, data, setData }: CRUDTabl
   }
 
   return (
-<div className="w-full p-5 overflow-x-auto flex justify-center">
-  <table className="w-full max-w-[1600px] border-collapse border"> 
+<div className="w-full p-5 overflow-x-auto flex">
+  <table className="w-full min-w-[600px] max-w-[1600px] border-collapse border">
+
     <thead className="bg-green-100">
       <tr>
         <th className="border p-2 w-20 text-center">SN</th>

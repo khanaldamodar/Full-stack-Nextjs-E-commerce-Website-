@@ -23,16 +23,14 @@ export default function AddBrandPage() {
       const data = await postData(brand, token);
       alert("Brand added successfully!");
       setBrand({ name: "" });
-      // Optional: redirect to brands list
-      // router.push("/brands");
-    } catch (err) {
+          } catch (err) {
       console.error(err);
       alert(error?.message || "Something went wrong. Please try again.");
     }
   };
 
   return (
-     <div className="flex items-center justify-center mx-auto min-h-screen">
+     <div className="flex items-center justify-center mx-auto">
       <div className="flex-col flex items-center justify-center mt-3 gap-6 w-2/5 rounded p-5 shadow-xl border-2 border-[#aec958]">
         <h1 className="text-2xl text-black font-bold text-center mb-2 pt-4">Add Brand</h1>
         <form onSubmit={handleAddBrand} className="w-full">
