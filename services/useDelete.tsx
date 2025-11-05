@@ -18,25 +18,25 @@ export function useDelete<T extends { id: string | number }>(
   const [error, setError] = useState<string | null>(null);
 
   const deleteItem = async (id: string | number): Promise<boolean> => {
-    const confirmDelete = confirm("Are you sure you want to delete this item?");
-    if (!confirmDelete) return false;
+    if (!confirm("Are you sure you want to delete this item?")) 
+      return false;
 
     setLoading(true);
     setError(null);
 
     try {
       const token = Cookies.get("token");
-      const res = await fetch(`${apiEndpoint}`, {
+
+      const res = await fetch(`${apiEndpoint}/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify({ id }),
       });
 
       if (!res.ok) {
-        const data = await res.json();
+        const data = await res.json().catch(() => ({ message: res.statusText }));
         throw new Error(data.message || "Failed to delete item");
       }
 
