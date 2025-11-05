@@ -94,74 +94,6 @@ import { requireAuth } from "@/lib/auth";
  *         description: Order not found
  *       500:
  *         description: Server error
- *
- *   patch:
- *     summary: Update a payment (ADMIN only)
- *     tags:
- *       - Payments
- *     security:
- *       - BearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required: [id]
- *             properties:
- *               id:
- *                 type: integer
- *                 example: 1
- *               status:
- *                 type: string
- *                 example: "FAILED"
- *               method:
- *                 type: string
- *                 example: "COD"
- *               transactionId:
- *                 type: string
- *                 example: "TX654321"
- *     responses:
- *       200:
- *         description: Payment updated successfully
- *       400:
- *         description: Payment ID required
- *       403:
- *         description: Forbidden (non-admin)
- *       500:
- *         description: Server error
- *
- *   delete:
- *     summary: Delete a payment (ADMIN only)
- *     tags:
- *       - Payments
- *     security:
- *       - BearerAuth: []
- *     parameters:
- *       - in: query
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *           example: 1
- *         description: Payment ID to delete
- *     responses:
- *       200:
- *         description: Payment deleted successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Payment deleted"
- *       400:
- *         description: Payment ID required
- *       403:
- *         description: Forbidden (non-admin)
- *       500:
- *         description: Server error
  */
 
 export async function GET(req: NextRequest) {
@@ -235,48 +167,48 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// PATCH: update payment (ADMIN only)
-export async function PATCH(req: NextRequest) {
-  try {
-    const user = requireAuth(req);
-    if (user.role !== "ADMIN") {
-      return NextResponse.json({ message: "Forbidden" }, { status: 403 });
-    }
+// // PATCH: update payment (ADMIN only)
+// export async function PATCH(req: NextRequest) {
+//   try {
+//     const user = requireAuth(req);
+//     if (user.role !== "ADMIN") {
+//       return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+//     }
 
-    const body = await req.json();
-    const { id, status, method, transactionId } = body;
-    if (!id) return NextResponse.json({ message: "Payment ID required" }, { status: 400 });
+//     const body = await req.json();
+//     const { id, status, method, transactionId } = body;
+//     if (!id) return NextResponse.json({ message: "Payment ID required" }, { status: 400 });
 
-    const payment = await prisma.payment.update({
-      where: { id },
-      data: { status, method, transactionId },
-      include: { order: true, user: true },
-    });
+//     const payment = await prisma.payment.update({
+//       where: { id },
+//       data: { status, method, transactionId },
+//       include: { order: true, user: true },
+//     });
 
-    return NextResponse.json(payment);
-  } catch (err) {
-    console.error(err);
-    return NextResponse.json({ message: "Failed to update payment" }, { status: 500 });
-  }
-}
+//     return NextResponse.json(payment);
+//   } catch (err) {
+//     console.error(err);
+//     return NextResponse.json({ message: "Failed to update payment" }, { status: 500 });
+//   }
+// }
 
-// DELETE: delete payment (ADMIN only)
-export async function DELETE(req: NextRequest) {
-  try {
-    const user = requireAuth(req);
-    if (user.role !== "ADMIN") {
-      return NextResponse.json({ message: "Forbidden" }, { status: 403 });
-    }
+// // DELETE: delete payment (ADMIN only)
+// export async function DELETE(req: NextRequest) {
+//   try {
+//     const user = requireAuth(req);
+//     if (user.role !== "ADMIN") {
+//       return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+//     }
 
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
-    if (!id) return NextResponse.json({ message: "Payment ID required" }, { status: 400 });
+//     const { searchParams } = new URL(req.url);
+//     const id = searchParams.get("id");
+//     if (!id) return NextResponse.json({ message: "Payment ID required" }, { status: 400 });
 
-    await prisma.payment.delete({ where: { id: parseInt(id) } });
+//     await prisma.payment.delete({ where: { id: parseInt(id) } });
 
-    return NextResponse.json({ message: "Payment deleted" });
-  } catch (err) {
-    console.error(err);
-    return NextResponse.json({ message: "Failed to delete payment" }, { status: 500 });
-  }
-}
+//     return NextResponse.json({ message: "Payment deleted" });
+//   } catch (err) {
+//     console.error(err);
+//     return NextResponse.json({ message: "Failed to delete payment" }, { status: 500 });
+//   }
+// }

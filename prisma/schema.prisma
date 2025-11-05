@@ -55,7 +55,7 @@ model Product {
   sku         String?   @unique
   weight      Float?
   imageUrl    String?
-  gallery     String?
+  gallery     Json?
   isFeatured  Boolean   @default(false)
   isActive    Boolean   @default(true)
   createdAt   DateTime  @default(now())
@@ -133,6 +133,61 @@ model Payment {
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 }
+
+model Settings {
+  id           Int      @id @default(autoincrement())
+  companyName  String
+  slogan       String?                     // optional short slogan
+  aboutShort   String?                     // short description
+  about        String?                     // detailed about section
+
+  // Contact Info
+  phone1       String?                     // first phone
+  phone2       String?                     // second phone (optional)
+  email1       String?                     // first email
+  email2       String?                     // second email (optional)
+
+  // Address
+  address      String?                     // street or area
+  city         String?
+  postalCode   String?
+
+  // Media
+  logo         String?                     // company logo URL
+  favicon      String?                     // favicon URL
+
+  // Social Links
+  facebook     String? 
+  twitter      String?
+  instagram    String?
+  linkedin     String?
+  youtube      String?
+  tiktok       String?
+  github       String?
+  website      String?
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Gallery {
+  id          Int             @id @default(autoincrement())
+  title       String
+  description String?
+  images      GalleryImage[]  // relation to multiple images
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+model GalleryImage {
+  id        Int      @id @default(autoincrement())
+  url       String
+  gallery   Gallery  @relation(fields: [galleryId], references: [id], onDelete: Cascade)
+  galleryId Int
+}
+
+
+
 
 enum OrderStatus {
   PENDING

@@ -1,22 +1,23 @@
 "use client"
 
 import type React from "react"
-
+import { useState } from "react"
+import { useKeenSlider } from "keen-slider/react"
+import "keen-slider/keen-slider.min.css"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useCart } from "@/hooks/use-cart"
-import { useState } from "react"
 import Heading from "../global/Heading"
 
-// Featured packages data - top 4 packages
 const FEATURED_PACKAGES = [
   {
     id: 1,
-    name: "Home Office Starter",
+    name: "विज्ञान प्रयोगशाला प्याकेजहरु",
     description: "Perfect for beginners setting up a home office",
-    price: 299.99,
-    originalPrice: 399.99,
+    price: 299,
+    originalPrice: 399,
     category: "Office Setup",
     rating: 4.6,
     image: "/logo.jpeg",
@@ -24,10 +25,10 @@ const FEATURED_PACKAGES = [
   },
   {
     id: 2,
-    name: "Professional Setup",
+    name: "गणित तथा विषयगत प्रयोगशाला प्याकेजहरु",
     description: "Complete professional workstation package",
-    price: 599.99,
-    originalPrice: 799.99,
+    price: 599,
+    originalPrice: 799,
     category: "Professional",
     rating: 4.8,
     image: "/logo.jpeg",
@@ -35,10 +36,10 @@ const FEATURED_PACKAGES = [
   },
   {
     id: 5,
-    name: "Gaming Setup",
+    name: "आइ.टि तथा आइ.सि.टि प्रयोगशाला प्याकेजहरु",
     description: "Everything you need for gaming",
-    price: 449.99,
-    originalPrice: 599.99,
+    price: 449,
+    originalPrice: 599,
     category: "Gaming",
     rating: 4.7,
     image: "/logo.jpeg",
@@ -46,10 +47,32 @@ const FEATURED_PACKAGES = [
   },
   {
     id: 6,
-    name: "Streaming Bundle",
+    name: "इ.सि.डि तथा बालमैत्री प्रयोगशाला प्याकेजहरु",
     description: "Complete streaming setup for content creators",
-    price: 699.99,
-    originalPrice: 899.99,
+    price: 699,
+    originalPrice: 899,
+    category: "Professional",
+    rating: 4.9,
+    image: "/logo.jpeg",
+    productCount: 6,
+  },
+  {
+    id: 7,
+    name: "रोबोटिक्स प्याकेजहरु",
+    description: "Complete streaming setup for content creators",
+    price: 699,
+    originalPrice: 899,
+    category: "Professional",
+    rating: 4.9,
+    image: "/logo.jpeg",
+    productCount: 6,
+  },
+  {
+    id: 8,
+    name: "ए.आइ. कोडिङ प्याकेजहरु",
+    description: "Complete streaming setup for content creators",
+    price: 699,
+    originalPrice: 899,
     category: "Professional",
     rating: 4.9,
     image: "/logo.jpeg",
@@ -61,6 +84,23 @@ export function FeaturedPackages() {
   const { addToCart } = useCart()
   const [addedItems, setAddedItems] = useState<Set<number>>(new Set())
 
+  const [sliderRef, instanceRef] = useKeenSlider({
+    loop: true,
+    mode: "free",
+    slides: {
+      perView: 1.2,
+      spacing: 16,
+    },
+    breakpoints: {
+      "(min-width: 640px)": {
+        slides: { perView: 2, spacing: 20 },
+      },
+      "(min-width: 1024px)": {
+        slides: { perView: 4, spacing: 24 },
+      },
+    },
+  })
+
   const handleAddToCart = (e: React.MouseEvent, pkg: (typeof FEATURED_PACKAGES)[0]) => {
     e.preventDefault()
     addToCart(
@@ -71,10 +111,9 @@ export function FeaturedPackages() {
         image: pkg.image,
         category: pkg.category,
       },
-      1,
+      1
     )
 
-    // Show feedback
     setAddedItems((prev) => new Set(prev).add(pkg.id))
     setTimeout(() => {
       setAddedItems((prev) => {
@@ -86,78 +125,82 @@ export function FeaturedPackages() {
   }
 
   return (
-    <section className="py-16 font-poppins">
-      <div className="flex flex-col px-10 md:px-40">
+    <section className="py-8 font-poppins relative">
+      <div className="flex flex-col px-6 md:px-20">
         {/* Section Header */}
         <div className="mb-12 text-center text-white">
-          {/* <h2 className="text-3xl font-bold text-foreground">Featured Packages</h2> */}
-          <Heading title="Featured Packages"/>
-          <p className="mt-4 text-lg text-muted-foreground">Curated bundles designed to save you money and time</p>
+          <Heading title="Featured Packages" />
+          <p className="mt-4 text-lg text-white">आफ्नोे रोजाईको प्याकेज छान्नुहोस</p>
         </div>
 
-        {/* Packages Grid */}
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Slider Navigation Buttons */}
+        <div className="absolute left-6 top-1/2 -translate-y-1/2 z-10 hidden md:flex">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-full bg-white/20 hover:bg-white/30 text-white"
+            onClick={() => instanceRef.current?.prev()}
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </Button>
+        </div>
+
+        <div className="absolute right-6 top-1/2 -translate-y-1/2 z-10 hidden md:flex">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-full bg-white/20 hover:bg-white/30 text-white"
+            onClick={() => instanceRef.current?.next()}
+          >
+            <ChevronRight className="w-5 h-5" />
+          </Button>
+        </div>
+
+        {/* Keen Slider */}
+        <div ref={sliderRef} className="keen-slider">
           {FEATURED_PACKAGES.map((pkg) => {
             const discount = Math.round(((pkg.originalPrice - pkg.price) / pkg.originalPrice) * 100)
 
             return (
-              <Link key={pkg.id} href={`/packages/${pkg.id}`}>
-                <Card className="overflow-hidden transition-all hover:shadow-lg cursor-pointer h-full flex flex-col">
-                  {/* Package Image */}
-                  <div className="relative h-40 w-full overflow-hidden bg-muted">
-                    <img
-                      src={pkg.image || "/placeholder.svg"}
-                      alt={pkg.name}
-                      className="h-full w-full object-cover transition-transform hover:scale-105"
-                    />
-                    {/* Discount Badge */}
-                    {discount > 0 && (
-                      <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded text-sm font-bold">
-                        -{discount}%
-                      </div>
-                    )}
-                  </div>
+              <div key={pkg.id} className="keen-slider__slide">
+                <Link href={`/packages/${pkg.id}`}>
+                  <Card className="overflow-hidden transition-all hover:shadow-lg cursor-pointer h-full flex flex-col">
+                    {/* Image */}
+                    <div className="relative h-40 w-full overflow-hidden bg-muted">
+                      <img
+                        src={pkg.image || "/placeholder.svg"}
+                        alt={pkg.name}
+                        className="h-full w-full object-cover transition-transform hover:scale-105"
+                      />
+                      {discount > 0 && (
+                        <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded text-sm font-bold">
+                          -{discount}%
+                        </div>
+                      )}
+                    </div>
 
-                  {/* Package Info */}
-                  <div className="p-4 flex-1 flex flex-col">
-                    <div className="mb-2">
-                      <h3 className="font-semibold text-foreground line-clamp-2">{pkg.name}</h3>
+                    {/* Info */}
+                    <div className="p-4 flex-1 flex flex-col">
+                      <h3 className="font-semibold text-foreground text-sm line-clamp-2">{pkg.name}</h3>
                       <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{pkg.description}</p>
-                    </div>
 
-                    {/* Product Count */}
-                    <div className="mb-2 text-xs text-muted-foreground">
-                      <span className="font-medium">{pkg.productCount} items</span>
-                    </div>
-
-                    {/* Rating */}
-                    <div className="mb-3 flex items-center gap-1">
-                      <div className="flex text-yellow-400">{"★".repeat(Math.floor(pkg.rating))}</div>
-                      <span className="text-xs text-muted-foreground">({pkg.rating})</span>
-                    </div>
-
-                    {/* Price and Button */}
-                    <div className="flex items-center justify-between mt-auto gap-2">
-                      <div className="flex flex-col">
-                        <span className="text-base font-bold text-foreground">Rs. {pkg.price.toFixed(2)}</span>
-                        {pkg.originalPrice > pkg.price && (
-                          <span className="text-xs text-muted-foreground line-through">
-                            Rs. {pkg.originalPrice.toFixed(2)}
-                          </span>
-                        )}
+                      <div className="flex items-center justify-between mt-auto gap-2 pt-3">
+                        <div className="flex flex-col">
+                          <span className="text-base font-bold text-foreground">Rs. {pkg.price}</span>
+                        </div>
+                        <Button
+                          size="sm"
+                          variant="default"
+                          onClick={(e) => handleAddToCart(e, pkg)}
+                          className={addedItems.has(pkg.id) ? "bg-green-600 hover:bg-green-700" : ""}
+                        >
+                          {addedItems.has(pkg.id) ? "✓" : "+"}
+                        </Button>
                       </div>
-                      <Button
-                        size="sm"
-                        variant={addedItems.has(pkg.id) ? "default" : "default"}
-                        onClick={(e) => handleAddToCart(e, pkg)}
-                        className={addedItems.has(pkg.id) ? "bg-green-600 hover:bg-green-700" : ""}
-                      >
-                        {addedItems.has(pkg.id) ? "✓" : "+"}
-                      </Button>
                     </div>
-                  </div>
-                </Card>
-              </Link>
+                  </Card>
+                </Link>
+              </div>
             )
           })}
         </div>
@@ -165,7 +208,7 @@ export function FeaturedPackages() {
         {/* View All Button */}
         <div className="mt-12 text-center">
           <Link href="/packages">
-            <Button size="lg"  className="bg-secondary hover:text-primary hover:bg-blue-900">
+            <Button size="lg" className="bg-secondary hover:text-primary hover:bg-blue-900">
               View All Packages
             </Button>
           </Link>

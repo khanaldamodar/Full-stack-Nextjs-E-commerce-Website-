@@ -35,8 +35,7 @@ export default function Page() {
       <h1 className="text-2xl text-white font-bold text-center mb-2 pt-4">Add Categories</h1>
       <form onSubmit={handleAddCategory}>
         <div className="rounded-xl p-2 gap-4 shadow-lg flex justify-center items-center mx-auto ">
-          
-                <div className="flex-col flex gap-4">
+             <div className="flex-col flex gap-4">
                 <label htmlFor="name" className="text-xl text-black">Category Name</label>
                 <input 
                 type="text" 

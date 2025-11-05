@@ -39,10 +39,10 @@ export default function Sidebar() {
     { id: "dashboard", label: "Dashboard", icon: <MdSpaceDashboard />, path: "/admin" },
     { id: "brands", label: "Brands", icon: <MdOutlineBrandingWatermark />, path: "/admin/brands" },
     { id: "category", label: "Categories", icon: <BiSolidCategoryAlt />, path: "/admin/categories" },
+    { id: "products", label: "Products", icon: <MdOutlineProductionQuantityLimits />, path: "/admin/products" },
     { id: "orders", label: "Orders", icon: <TbTruckDelivery />, path: "/admin/orders" },
     { id: "package", label: "Packages", icon: <PiPackageFill />, path: "/admin/packages" },
     { id: "payments", label: "Payments", icon: <MdOutlinePayments />, path: "/admin/payments" },
-    { id: "products", label: "Products", icon: <MdOutlineProductionQuantityLimits />, path: "/admin/products" },
     { id: "gallery", label: "gallery", icon: <GrGallery />, path: "/admin/gallery" },
     { id: "settings", label: "Settings", icon: <IoMdSettings />, path: "/admin/settings" },
   ];

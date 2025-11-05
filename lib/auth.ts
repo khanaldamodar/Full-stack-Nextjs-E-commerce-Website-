@@ -3,6 +3,7 @@ import { verifyToken } from "./jwt";
 
 export function requireAuth(req: NextRequest, allowedRoles: string[] = ['USER', 'ADMIN']) {
   const authHeader = req.headers.get('authorization');
+  // console.log("Authorization Header:", authHeader);
   if (!authHeader || !authHeader.startsWith('Bearer ')) throw new Error('Unauthorized');
 
   const token = authHeader.split(' ')[1];
