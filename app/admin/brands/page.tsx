@@ -49,7 +49,7 @@ const BrandsPage = () => {
       </div>
 
       {/* main content */}
-      <div className="flex-1 p-4">
+      <div className="flex-1 p-4 w-full">
         {brands.length > 0 ? (
           <CRUDTable
             endpoint="brands"
