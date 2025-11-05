@@ -1,152 +1,121 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import {
-  MdSpaceDashboard,
-  MdOutlineProductionQuantityLimits,
-  MdOutlineBrandingWatermark,
-  MdOutlinePayments,
+  MdOutlineLocalPostOffice,
+  MdOutlinePhone,
+  MdShortText,
 } from "react-icons/md";
 import { HiOutlineOfficeBuilding } from "react-icons/hi";
-import { MdOutlineLocalPostOffice } from "react-icons/md";
-import { RiInstagramFill } from "react-icons/ri";
 import { IoLogoFacebook } from "react-icons/io";
 import { IoLocation } from "react-icons/io5";
-import { MdOutlinePhone } from "react-icons/md";
+import { RiInstagramFill } from "react-icons/ri";
+import { TbFavicon } from "react-icons/tb";
+import { FcAbout } from "react-icons/fc";
 
 const Page = () => {
   return (
     <div className="flex min-h-screen bg-gray-100">
-      {/* Main Content */}
       <main className="flex-1">
-        <div className="bg-white shadow-lg rounded-2xl p-8">
-          {/* Company Info Section */}
-          <h2 className="text-xl font-bold text-gray-700 underline mb-5">
+        <div className="bg-white shadow-md rounded-xl p-6 md:p-8">
+          
+          <h2 className="text-lg font-semibold text-gray-700 underline mb-4">
             Company Information
           </h2>
 
-          <form className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Company Name */}
-            <div className="flex flex-col gap-2">
-              <label className="text-gray-700 font-medium flex items-center gap-3">
-                <span
-                  className="w-10 h-10 flex items-center justify-center rounded-full"
-                  style={{ backgroundColor: "#aec958" }}
-                >
-                  <HiOutlineOfficeBuilding className="text-white text-xl" />
-                </span>
-                Company Name
-              </label>
-              <input
-                type="text"
-                placeholder="Enter company name"
-                className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-lime-500 transition"
+          <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <InputField
+              label="Company Name"
+              icon={<HiOutlineOfficeBuilding className="text-white text-lg" />}
+              placeholder="Enter company name"
+            />
+
+            <InputField
+              label="E-mail"
+              type="email"
+              icon={<MdOutlineLocalPostOffice className="text-white text-lg" />}
+              placeholder="Enter company email"
+            />
+
+            
+            <InputField
+              label="Phone Number 1"
+              icon={<MdOutlinePhone className="text-white text-lg" />}
+              placeholder="Enter primary phone number"
+            />
+
+            <InputField
+              label="Phone Number 2"
+              icon={<MdOutlinePhone className="text-white text-lg" />}
+              placeholder="Enter secondary phone number"
+            />
+
+            <InputField
+              label="Address"
+              icon={<IoLocation className="text-white text-lg" />}
+              placeholder="Enter company address"
+            />
+
+            <InputField
+              label="Favicon"
+              type="file"
+              icon={<TbFavicon className="text-white text-lg" />}
+            />
+
+            
+            <div className="flex flex-col gap-1.5 md:col-span-1">
+              <Label
+                label="About 1"
+                icon={<FcAbout className="text-white text-lg" />}
+              />
+              <textarea
+                placeholder="Write something about the company..."
+                className="border border-gray-300 rounded-md p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-lime-500 transition resize-y h-20"
               />
             </div>
 
-            {/* Email */}
-            <div className="flex flex-col gap-2">
-              <label className="text-gray-700 font-medium flex items-center gap-3">
-                <span
-                  className="w-10 h-10 flex items-center justify-center rounded-full"
-                  style={{ backgroundColor: "#aec958" }}
-                >
-                  <MdOutlineLocalPostOffice className="text-white text-xl" />
-                </span>
-                E-mail
-              </label>
-              <input
-                type="email"
-                placeholder="Enter company email"
-                className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-lime-500 transition"
+            <div className="flex flex-col gap-1.5 md:col-span-1">
+              <Label
+                label="About 2"
+                icon={<FcAbout className="text-white text-lg" />}
+              />
+              <textarea
+                placeholder="Additional information..."
+                className="border border-gray-300 rounded-md p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-lime-500 transition resize-y h-20"
               />
             </div>
 
-            {/* Phone Number */}
-            <div className="flex flex-col gap-2">
-              <label className="text-gray-700 font-medium flex items-center gap-3">
-                <span
-                  className="w-10 h-10 flex items-center justify-center rounded-full"
-                  style={{ backgroundColor: "#aec958" }}
-                >
-                  <MdOutlinePhone className="text-white text-xl" />
-                </span>
-                Phone Number
-              </label>
-              <input
-                type="text"
-                placeholder="Enter phone number"
-                className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-lime-500 transition"
-              />
-            </div>
-
-            {/* Address */}
-            <div className="flex flex-col gap-2">
-              <label className="text-gray-700 font-medium flex items-center gap-3">
-                <span
-                  className="w-10 h-10 flex items-center justify-center rounded-full"
-                  style={{ backgroundColor: "#aec958" }}
-                >
-                  <IoLocation className="text-white text-xl" />
-                </span>
-                Address
-              </label>
-              <input
-                type="text"
-                placeholder="Enter company address"
-                className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-lime-500 transition"
-              />
-            </div>
+            <InputField
+              label="Slogan"
+              icon={<MdShortText className="text-white text-lg" />}
+              placeholder="Enter company slogan"
+            />
           </form>
 
-          {/* Social Media Section */}
-          <h2 className="text-xl font-bold text-gray-700 underline mb-8 mt-6">
+          
+          <h2 className="text-lg font-semibold text-gray-700 underline mb-6 mt-6">
             Social Media Links
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Facebook */}
-            <div className="flex flex-col gap-2">
-              <label className="text-gray-700 font-medium flex items-center gap-3">
-                <span
-                  className="w-10 h-10 flex items-center justify-center rounded-full"
-                  style={{ backgroundColor: "#aec958" }}
-                >
-                  <IoLogoFacebook className="text-white text-xl" />
-                </span>
-                Facebook
-              </label>
-              <input
-                type="text"
-                placeholder="Enter Facebook's Link"
-                className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-lime-500 transition"
-              />
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <InputField
+              label="Facebook"
+              icon={<IoLogoFacebook className="text-white text-lg" />}
+              placeholder="Enter Facebook link"
+            />
 
-            {/* Instagram */}
-            <div className="flex flex-col gap-2">
-              <label className="text-gray-700 font-medium flex items-center gap-3">
-                <span
-                  className="w-10 h-10 flex items-center justify-center rounded-full"
-                  style={{ backgroundColor: "#aec958" }}
-                >
-                  <RiInstagramFill className="text-white text-xl" />
-                </span>
-                Instagram
-              </label>
-              <input
-                type="text"
-                placeholder="Enter Instagram's Link"
-                className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-lime-500 transition"
-              />
-            </div>
+            <InputField
+              label="Instagram"
+              icon={<RiInstagramFill className="text-white text-lg" />}
+              placeholder="Enter Instagram link"
+            />
           </div>
 
-          {/* Save Button */}
-          <div className="flex justify-center mt-10">
+          
+          <div className="flex justify-center mt-8">
             <button
               type="submit"
-              className="bg-[#aec958] hover:bg-[#9bb648] text-white px-8 py-3 rounded-lg font-semibold transition"
+              className="bg-[#aec958] hover:bg-[#9bb648] text-white px-6 py-2.5 rounded-md font-medium text-sm transition"
             >
               Save Changes
             </button>
@@ -156,5 +125,30 @@ const Page = () => {
     </div>
   );
 };
+
+
+const InputField = ({ label, type = "text", icon, placeholder }) => (
+  <div className="flex flex-col gap-1.5">
+    <Label label={label} icon={icon} />
+    <input
+      type={type}
+      placeholder={placeholder}
+      className="border border-gray-300 rounded-md p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-lime-500 transition"
+    />
+  </div>
+);
+
+
+const Label = ({ label, icon }) => (
+  <label className="text-gray-700 text-sm font-medium flex items-center gap-2.5">
+    <span
+      className="w-8 h-8 flex items-center justify-center rounded-full"
+      style={{ backgroundColor: "#aec958" }}
+    >
+      {icon}
+    </span>
+    {label}
+  </label>
+);
 
 export default Page;
