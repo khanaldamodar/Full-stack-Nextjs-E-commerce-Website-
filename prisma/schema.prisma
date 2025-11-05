@@ -62,10 +62,10 @@ model Product {
   updatedAt   DateTime  @updatedAt
 
   categoryId  Int?
-  category    Category? @relation(fields: [categoryId], references: [id])
+  category    Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
   brandId     Int?
-  brand       Brand?    @relation(fields: [brandId], references: [id])
+  brand       Brand?    @relation(fields: [brandId], references: [id], onDelete: SetNull)
 
   createdById Int?
   createdBy   User?     @relation(fields: [createdById], references: [id])
