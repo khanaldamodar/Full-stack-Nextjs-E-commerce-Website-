@@ -14,6 +14,8 @@ import { BiSolidCategoryAlt } from "react-icons/bi";
 import { PiPackageFill } from "react-icons/pi";
 import { IoMdSettings } from "react-icons/io";
 import { TbTruckDelivery } from "react-icons/tb";
+import { GrGallery } from "react-icons/gr";
+
 
 export default function Sidebar() {
   const [activeView, setActiveView] = useState("dashboard");
@@ -41,6 +43,7 @@ export default function Sidebar() {
     { id: "package", label: "Packages", icon: <PiPackageFill />, path: "/admin/packages" },
     { id: "payments", label: "Payments", icon: <MdOutlinePayments />, path: "/admin/payments" },
     { id: "products", label: "Products", icon: <MdOutlineProductionQuantityLimits />, path: "/admin/products" },
+    { id: "gallery", label: "gallery", icon: <GrGallery />, path: "/admin/gallery" },
     { id: "settings", label: "Settings", icon: <IoMdSettings />, path: "/admin/settings" },
   ];
 
