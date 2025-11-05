@@ -84,9 +84,9 @@ export async function GET(req: NextRequest) {
     const brands = await prisma.brand.findMany({
       include: { products: true },
     });
-    return NextResponse.json(brands);
+    return NextResponse.json(brands, { status: 200 });
   } catch (err) {
-    console.error(err);
+    console.error("Error fetching brands:", err);
     return NextResponse.json(
       { message: "Failed to fetch brands" },
       { status: 500 }
@@ -102,16 +102,18 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { name } = body;
 
-    if (!name)
+    if (!name) {
       return NextResponse.json(
         { message: "Name is required" },
         { status: 400 }
       );
+    }
 
     const brand = await prisma.brand.create({ data: { name } });
+
     return NextResponse.json(brand, { status: 201 });
   } catch (err: any) {
-    console.error(err);
+    console.error("Error creating brand:", err);
     if (err.message === "Unauthorized") {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }

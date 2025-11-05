@@ -115,88 +115,6 @@ import { requireAuth } from "@/lib/auth";
  *       401:
  *         description: Unauthorized
  *
- *   patch:
- *     summary: Update an existing package
- *     tags:
- *       - Packages
- *     security:
- *       - BearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required: [id]
- *             properties:
- *               id:
- *                 type: integer
- *                 example: 1
- *               name:
- *                 type: string
- *               description:
- *                 type: string
- *               price:
- *                 type: number
- *               discount:
- *                 type: number
- *               stock:
- *                 type: integer
- *               imageUrl:
- *                 type: string
- *               isFeatured:
- *                 type: boolean
- *               isActive:
- *                 type: boolean
- *               productIds:
- *                 type: array
- *                 items:
- *                   type: integer
- *                 example: [1,2,3]
- *     responses:
- *       200:
- *         description: Package updated successfully
- *       400:
- *         description: Package ID required or invalid product IDs
- *       401:
- *         description: Unauthorized
- *
- *   delete:
- *     summary: Delete a package
- *     tags:
- *       - Packages
- *     security:
- *       - BearerAuth: []
- *     parameters:
- *       - in: query
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *           example: 1
- *         description: ID of the package to delete
- *     responses:
- *       200:
- *         description: Package deleted successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Package deleted"
- *                 package:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: integer
- *                     name:
- *                       type: string
- *       400:
- *         description: Package ID required
- *       401:
- *         description: Unauthorized
  */
 
 export async function GET(req: NextRequest) {
@@ -268,76 +186,76 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// PATCH: Update a package (auth required)
-export async function PATCH(req: NextRequest) {
-  try {
-    const user = requireAuth(req);
+// // PATCH: Update a package (auth required)
+// export async function PATCH(req: NextRequest) {
+//   try {
+//     const user = requireAuth(req);
 
-    const body = await req.json();
-    const { id, name, description, price, discount, stock, imageUrl, isFeatured, isActive, productIds } = body;
+//     const body = await req.json();
+//     const { id, name, description, price, discount, stock, imageUrl, isFeatured, isActive, productIds } = body;
 
-    if (!id) return NextResponse.json({ message: "Package ID is required" }, { status: 400 });
+//     if (!id) return NextResponse.json({ message: "Package ID is required" }, { status: 400 });
 
-    // Validate productIds
-    let connectProducts = undefined;
-    if (productIds && productIds.length > 0) {
-      const existingProducts = await prisma.product.findMany({
-        where: { id: { in: productIds } },
-      });
+//     // Validate productIds
+//     let connectProducts = undefined;
+//     if (productIds && productIds.length > 0) {
+//       const existingProducts = await prisma.product.findMany({
+//         where: { id: { in: productIds } },
+//       });
 
-      if (existingProducts.length !== productIds.length) {
-        return NextResponse.json(
-          { message: "One or more products do not exist" },
-          { status: 400 }
-        );
-      }
+//       if (existingProducts.length !== productIds.length) {
+//         return NextResponse.json(
+//           { message: "One or more products do not exist" },
+//           { status: 400 }
+//         );
+//       }
 
-      connectProducts = {
-        set: [], // remove old relations
-        connect: existingProducts.map((p) => ({ id: p.id })),
-      };
-    }
+//       connectProducts = {
+//         set: [], // remove old relations
+//         connect: existingProducts.map((p) => ({ id: p.id })),
+//       };
+//     }
 
-    const pkg = await prisma.package.update({
-      where: { id },
-      data: {
-        name,
-        description,
-        price,
-        discount,
-        stock,
-        imageUrl,
-        isFeatured,
-        isActive,
-        products: connectProducts,
-      },
-      include: { products: true },
-    });
+//     const pkg = await prisma.package.update({
+//       where: { id },
+//       data: {
+//         name,
+//         description,
+//         price,
+//         discount,
+//         stock,
+//         imageUrl,
+//         isFeatured,
+//         isActive,
+//         products: connectProducts,
+//       },
+//       include: { products: true },
+//     });
 
-    return NextResponse.json(pkg);
-  } catch (err: any) {
-    console.error(err);
-    return NextResponse.json({ message: err.message || "Failed to update package" }, { status: 401 });
-  }
-}
+//     return NextResponse.json(pkg);
+//   } catch (err: any) {
+//     console.error(err);
+//     return NextResponse.json({ message: err.message || "Failed to update package" }, { status: 401 });
+//   }
+// }
 
-// DELETE: Delete a package (auth required)
-export async function DELETE(req: NextRequest) {
-  try {
-    const user = requireAuth(req);
+// // DELETE: Delete a package (auth required)
+// export async function DELETE(req: NextRequest) {
+//   try {
+//     const user = requireAuth(req);
 
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
+//     const { searchParams } = new URL(req.url);
+//     const id = searchParams.get("id");
 
-    if (!id) return NextResponse.json({ message: "Package ID is required" }, { status: 400 });
+//     if (!id) return NextResponse.json({ message: "Package ID is required" }, { status: 400 });
 
-    const pkg = await prisma.package.delete({
-      where: { id: parseInt(id) },
-    });
+//     const pkg = await prisma.package.delete({
+//       where: { id: parseInt(id) },
+//     });
 
-    return NextResponse.json({ message: "Package deleted", package: pkg });
-  } catch (err: any) {
-    console.error(err);
-    return NextResponse.json({ message: err.message || "Failed to delete package" }, { status: 401 });
-  }
-}
+//     return NextResponse.json({ message: "Package deleted", package: pkg });
+//   } catch (err: any) {
+//     console.error(err);
+//     return NextResponse.json({ message: err.message || "Failed to delete package" }, { status: 401 });
+//   }
+// }
