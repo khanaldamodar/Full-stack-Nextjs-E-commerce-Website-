@@ -53,6 +53,21 @@ export type OrderItem = $Result.DefaultSelection<Prisma.$OrderItemPayload>
  * 
  */
 export type Payment = $Result.DefaultSelection<Prisma.$PaymentPayload>
+/**
+ * Model Settings
+ * 
+ */
+export type Settings = $Result.DefaultSelection<Prisma.$SettingsPayload>
+/**
+ * Model Gallery
+ * 
+ */
+export type Gallery = $Result.DefaultSelection<Prisma.$GalleryPayload>
+/**
+ * Model GalleryImage
+ * 
+ */
+export type GalleryImage = $Result.DefaultSelection<Prisma.$GalleryImagePayload>
 
 /**
  * Enums
@@ -309,6 +324,36 @@ export class PrismaClient<
     * ```
     */
   get payment(): Prisma.PaymentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.settings`: Exposes CRUD operations for the **Settings** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Settings
+    * const settings = await prisma.settings.findMany()
+    * ```
+    */
+  get settings(): Prisma.SettingsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.gallery`: Exposes CRUD operations for the **Gallery** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Galleries
+    * const galleries = await prisma.gallery.findMany()
+    * ```
+    */
+  get gallery(): Prisma.GalleryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.galleryImage`: Exposes CRUD operations for the **GalleryImage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GalleryImages
+    * const galleryImages = await prisma.galleryImage.findMany()
+    * ```
+    */
+  get galleryImage(): Prisma.GalleryImageDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -757,7 +802,10 @@ export namespace Prisma {
     Package: 'Package',
     Order: 'Order',
     OrderItem: 'OrderItem',
-    Payment: 'Payment'
+    Payment: 'Payment',
+    Settings: 'Settings',
+    Gallery: 'Gallery',
+    GalleryImage: 'GalleryImage'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -776,7 +824,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "category" | "brand" | "product" | "package" | "order" | "orderItem" | "payment"
+      modelProps: "user" | "category" | "brand" | "product" | "package" | "order" | "orderItem" | "payment" | "settings" | "gallery" | "galleryImage"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1308,6 +1356,204 @@ export namespace Prisma {
           }
         }
       }
+      Settings: {
+        payload: Prisma.$SettingsPayload<ExtArgs>
+        fields: Prisma.SettingsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SettingsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SettingsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingsPayload>
+          }
+          findFirst: {
+            args: Prisma.SettingsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SettingsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingsPayload>
+          }
+          findMany: {
+            args: Prisma.SettingsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingsPayload>[]
+          }
+          create: {
+            args: Prisma.SettingsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingsPayload>
+          }
+          createMany: {
+            args: Prisma.SettingsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.SettingsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingsPayload>
+          }
+          update: {
+            args: Prisma.SettingsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingsPayload>
+          }
+          deleteMany: {
+            args: Prisma.SettingsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SettingsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SettingsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SettingsPayload>
+          }
+          aggregate: {
+            args: Prisma.SettingsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSettings>
+          }
+          groupBy: {
+            args: Prisma.SettingsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SettingsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SettingsCountArgs<ExtArgs>
+            result: $Utils.Optional<SettingsCountAggregateOutputType> | number
+          }
+        }
+      }
+      Gallery: {
+        payload: Prisma.$GalleryPayload<ExtArgs>
+        fields: Prisma.GalleryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GalleryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GalleryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GalleryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GalleryPayload>
+          }
+          findFirst: {
+            args: Prisma.GalleryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GalleryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GalleryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GalleryPayload>
+          }
+          findMany: {
+            args: Prisma.GalleryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GalleryPayload>[]
+          }
+          create: {
+            args: Prisma.GalleryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GalleryPayload>
+          }
+          createMany: {
+            args: Prisma.GalleryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.GalleryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GalleryPayload>
+          }
+          update: {
+            args: Prisma.GalleryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GalleryPayload>
+          }
+          deleteMany: {
+            args: Prisma.GalleryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GalleryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.GalleryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GalleryPayload>
+          }
+          aggregate: {
+            args: Prisma.GalleryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGallery>
+          }
+          groupBy: {
+            args: Prisma.GalleryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GalleryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GalleryCountArgs<ExtArgs>
+            result: $Utils.Optional<GalleryCountAggregateOutputType> | number
+          }
+        }
+      }
+      GalleryImage: {
+        payload: Prisma.$GalleryImagePayload<ExtArgs>
+        fields: Prisma.GalleryImageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GalleryImageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GalleryImagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GalleryImageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GalleryImagePayload>
+          }
+          findFirst: {
+            args: Prisma.GalleryImageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GalleryImagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GalleryImageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GalleryImagePayload>
+          }
+          findMany: {
+            args: Prisma.GalleryImageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GalleryImagePayload>[]
+          }
+          create: {
+            args: Prisma.GalleryImageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GalleryImagePayload>
+          }
+          createMany: {
+            args: Prisma.GalleryImageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.GalleryImageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GalleryImagePayload>
+          }
+          update: {
+            args: Prisma.GalleryImageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GalleryImagePayload>
+          }
+          deleteMany: {
+            args: Prisma.GalleryImageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GalleryImageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.GalleryImageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GalleryImagePayload>
+          }
+          aggregate: {
+            args: Prisma.GalleryImageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGalleryImage>
+          }
+          groupBy: {
+            args: Prisma.GalleryImageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GalleryImageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GalleryImageCountArgs<ExtArgs>
+            result: $Utils.Optional<GalleryImageCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1412,6 +1658,9 @@ export namespace Prisma {
     order?: OrderOmit
     orderItem?: OrderItemOmit
     payment?: PaymentOmit
+    settings?: SettingsOmit
+    gallery?: GalleryOmit
+    galleryImage?: GalleryImageOmit
   }
 
   /* Types for Logging */
@@ -1715,6 +1964,37 @@ export namespace Prisma {
    */
   export type OrderCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PaymentWhereInput
+  }
+
+
+  /**
+   * Count Type GalleryCountOutputType
+   */
+
+  export type GalleryCountOutputType = {
+    images: number
+  }
+
+  export type GalleryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    images?: boolean | GalleryCountOutputTypeCountImagesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * GalleryCountOutputType without action
+   */
+  export type GalleryCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GalleryCountOutputType
+     */
+    select?: GalleryCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * GalleryCountOutputType without action
+   */
+  export type GalleryCountOutputTypeCountImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GalleryImageWhereInput
   }
 
 
@@ -10192,6 +10472,3065 @@ export namespace Prisma {
 
 
   /**
+   * Model Settings
+   */
+
+  export type AggregateSettings = {
+    _count: SettingsCountAggregateOutputType | null
+    _avg: SettingsAvgAggregateOutputType | null
+    _sum: SettingsSumAggregateOutputType | null
+    _min: SettingsMinAggregateOutputType | null
+    _max: SettingsMaxAggregateOutputType | null
+  }
+
+  export type SettingsAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type SettingsSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type SettingsMinAggregateOutputType = {
+    id: number | null
+    companyName: string | null
+    slogan: string | null
+    aboutShort: string | null
+    about: string | null
+    phone1: string | null
+    phone2: string | null
+    email1: string | null
+    email2: string | null
+    address: string | null
+    city: string | null
+    postalCode: string | null
+    logo: string | null
+    favicon: string | null
+    facebook: string | null
+    twitter: string | null
+    instagram: string | null
+    linkedin: string | null
+    youtube: string | null
+    tiktok: string | null
+    github: string | null
+    website: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SettingsMaxAggregateOutputType = {
+    id: number | null
+    companyName: string | null
+    slogan: string | null
+    aboutShort: string | null
+    about: string | null
+    phone1: string | null
+    phone2: string | null
+    email1: string | null
+    email2: string | null
+    address: string | null
+    city: string | null
+    postalCode: string | null
+    logo: string | null
+    favicon: string | null
+    facebook: string | null
+    twitter: string | null
+    instagram: string | null
+    linkedin: string | null
+    youtube: string | null
+    tiktok: string | null
+    github: string | null
+    website: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SettingsCountAggregateOutputType = {
+    id: number
+    companyName: number
+    slogan: number
+    aboutShort: number
+    about: number
+    phone1: number
+    phone2: number
+    email1: number
+    email2: number
+    address: number
+    city: number
+    postalCode: number
+    logo: number
+    favicon: number
+    facebook: number
+    twitter: number
+    instagram: number
+    linkedin: number
+    youtube: number
+    tiktok: number
+    github: number
+    website: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SettingsAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type SettingsSumAggregateInputType = {
+    id?: true
+  }
+
+  export type SettingsMinAggregateInputType = {
+    id?: true
+    companyName?: true
+    slogan?: true
+    aboutShort?: true
+    about?: true
+    phone1?: true
+    phone2?: true
+    email1?: true
+    email2?: true
+    address?: true
+    city?: true
+    postalCode?: true
+    logo?: true
+    favicon?: true
+    facebook?: true
+    twitter?: true
+    instagram?: true
+    linkedin?: true
+    youtube?: true
+    tiktok?: true
+    github?: true
+    website?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SettingsMaxAggregateInputType = {
+    id?: true
+    companyName?: true
+    slogan?: true
+    aboutShort?: true
+    about?: true
+    phone1?: true
+    phone2?: true
+    email1?: true
+    email2?: true
+    address?: true
+    city?: true
+    postalCode?: true
+    logo?: true
+    favicon?: true
+    facebook?: true
+    twitter?: true
+    instagram?: true
+    linkedin?: true
+    youtube?: true
+    tiktok?: true
+    github?: true
+    website?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SettingsCountAggregateInputType = {
+    id?: true
+    companyName?: true
+    slogan?: true
+    aboutShort?: true
+    about?: true
+    phone1?: true
+    phone2?: true
+    email1?: true
+    email2?: true
+    address?: true
+    city?: true
+    postalCode?: true
+    logo?: true
+    favicon?: true
+    facebook?: true
+    twitter?: true
+    instagram?: true
+    linkedin?: true
+    youtube?: true
+    tiktok?: true
+    github?: true
+    website?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SettingsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Settings to aggregate.
+     */
+    where?: SettingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Settings to fetch.
+     */
+    orderBy?: SettingsOrderByWithRelationInput | SettingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SettingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Settings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Settings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Settings
+    **/
+    _count?: true | SettingsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SettingsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SettingsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SettingsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SettingsMaxAggregateInputType
+  }
+
+  export type GetSettingsAggregateType<T extends SettingsAggregateArgs> = {
+        [P in keyof T & keyof AggregateSettings]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSettings[P]>
+      : GetScalarType<T[P], AggregateSettings[P]>
+  }
+
+
+
+
+  export type SettingsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SettingsWhereInput
+    orderBy?: SettingsOrderByWithAggregationInput | SettingsOrderByWithAggregationInput[]
+    by: SettingsScalarFieldEnum[] | SettingsScalarFieldEnum
+    having?: SettingsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SettingsCountAggregateInputType | true
+    _avg?: SettingsAvgAggregateInputType
+    _sum?: SettingsSumAggregateInputType
+    _min?: SettingsMinAggregateInputType
+    _max?: SettingsMaxAggregateInputType
+  }
+
+  export type SettingsGroupByOutputType = {
+    id: number
+    companyName: string
+    slogan: string | null
+    aboutShort: string | null
+    about: string | null
+    phone1: string | null
+    phone2: string | null
+    email1: string | null
+    email2: string | null
+    address: string | null
+    city: string | null
+    postalCode: string | null
+    logo: string | null
+    favicon: string | null
+    facebook: string | null
+    twitter: string | null
+    instagram: string | null
+    linkedin: string | null
+    youtube: string | null
+    tiktok: string | null
+    github: string | null
+    website: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: SettingsCountAggregateOutputType | null
+    _avg: SettingsAvgAggregateOutputType | null
+    _sum: SettingsSumAggregateOutputType | null
+    _min: SettingsMinAggregateOutputType | null
+    _max: SettingsMaxAggregateOutputType | null
+  }
+
+  type GetSettingsGroupByPayload<T extends SettingsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SettingsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SettingsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SettingsGroupByOutputType[P]>
+            : GetScalarType<T[P], SettingsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SettingsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyName?: boolean
+    slogan?: boolean
+    aboutShort?: boolean
+    about?: boolean
+    phone1?: boolean
+    phone2?: boolean
+    email1?: boolean
+    email2?: boolean
+    address?: boolean
+    city?: boolean
+    postalCode?: boolean
+    logo?: boolean
+    favicon?: boolean
+    facebook?: boolean
+    twitter?: boolean
+    instagram?: boolean
+    linkedin?: boolean
+    youtube?: boolean
+    tiktok?: boolean
+    github?: boolean
+    website?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["settings"]>
+
+
+
+  export type SettingsSelectScalar = {
+    id?: boolean
+    companyName?: boolean
+    slogan?: boolean
+    aboutShort?: boolean
+    about?: boolean
+    phone1?: boolean
+    phone2?: boolean
+    email1?: boolean
+    email2?: boolean
+    address?: boolean
+    city?: boolean
+    postalCode?: boolean
+    logo?: boolean
+    favicon?: boolean
+    facebook?: boolean
+    twitter?: boolean
+    instagram?: boolean
+    linkedin?: boolean
+    youtube?: boolean
+    tiktok?: boolean
+    github?: boolean
+    website?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyName" | "slogan" | "aboutShort" | "about" | "phone1" | "phone2" | "email1" | "email2" | "address" | "city" | "postalCode" | "logo" | "favicon" | "facebook" | "twitter" | "instagram" | "linkedin" | "youtube" | "tiktok" | "github" | "website" | "createdAt" | "updatedAt", ExtArgs["result"]["settings"]>
+
+  export type $SettingsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Settings"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      companyName: string
+      slogan: string | null
+      aboutShort: string | null
+      about: string | null
+      phone1: string | null
+      phone2: string | null
+      email1: string | null
+      email2: string | null
+      address: string | null
+      city: string | null
+      postalCode: string | null
+      logo: string | null
+      favicon: string | null
+      facebook: string | null
+      twitter: string | null
+      instagram: string | null
+      linkedin: string | null
+      youtube: string | null
+      tiktok: string | null
+      github: string | null
+      website: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["settings"]>
+    composites: {}
+  }
+
+  type SettingsGetPayload<S extends boolean | null | undefined | SettingsDefaultArgs> = $Result.GetResult<Prisma.$SettingsPayload, S>
+
+  type SettingsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SettingsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SettingsCountAggregateInputType | true
+    }
+
+  export interface SettingsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Settings'], meta: { name: 'Settings' } }
+    /**
+     * Find zero or one Settings that matches the filter.
+     * @param {SettingsFindUniqueArgs} args - Arguments to find a Settings
+     * @example
+     * // Get one Settings
+     * const settings = await prisma.settings.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SettingsFindUniqueArgs>(args: SelectSubset<T, SettingsFindUniqueArgs<ExtArgs>>): Prisma__SettingsClient<$Result.GetResult<Prisma.$SettingsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Settings that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SettingsFindUniqueOrThrowArgs} args - Arguments to find a Settings
+     * @example
+     * // Get one Settings
+     * const settings = await prisma.settings.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SettingsFindUniqueOrThrowArgs>(args: SelectSubset<T, SettingsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SettingsClient<$Result.GetResult<Prisma.$SettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Settings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingsFindFirstArgs} args - Arguments to find a Settings
+     * @example
+     * // Get one Settings
+     * const settings = await prisma.settings.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SettingsFindFirstArgs>(args?: SelectSubset<T, SettingsFindFirstArgs<ExtArgs>>): Prisma__SettingsClient<$Result.GetResult<Prisma.$SettingsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Settings that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingsFindFirstOrThrowArgs} args - Arguments to find a Settings
+     * @example
+     * // Get one Settings
+     * const settings = await prisma.settings.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SettingsFindFirstOrThrowArgs>(args?: SelectSubset<T, SettingsFindFirstOrThrowArgs<ExtArgs>>): Prisma__SettingsClient<$Result.GetResult<Prisma.$SettingsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Settings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Settings
+     * const settings = await prisma.settings.findMany()
+     * 
+     * // Get first 10 Settings
+     * const settings = await prisma.settings.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const settingsWithIdOnly = await prisma.settings.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SettingsFindManyArgs>(args?: SelectSubset<T, SettingsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SettingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Settings.
+     * @param {SettingsCreateArgs} args - Arguments to create a Settings.
+     * @example
+     * // Create one Settings
+     * const Settings = await prisma.settings.create({
+     *   data: {
+     *     // ... data to create a Settings
+     *   }
+     * })
+     * 
+     */
+    create<T extends SettingsCreateArgs>(args: SelectSubset<T, SettingsCreateArgs<ExtArgs>>): Prisma__SettingsClient<$Result.GetResult<Prisma.$SettingsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Settings.
+     * @param {SettingsCreateManyArgs} args - Arguments to create many Settings.
+     * @example
+     * // Create many Settings
+     * const settings = await prisma.settings.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SettingsCreateManyArgs>(args?: SelectSubset<T, SettingsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Settings.
+     * @param {SettingsDeleteArgs} args - Arguments to delete one Settings.
+     * @example
+     * // Delete one Settings
+     * const Settings = await prisma.settings.delete({
+     *   where: {
+     *     // ... filter to delete one Settings
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SettingsDeleteArgs>(args: SelectSubset<T, SettingsDeleteArgs<ExtArgs>>): Prisma__SettingsClient<$Result.GetResult<Prisma.$SettingsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Settings.
+     * @param {SettingsUpdateArgs} args - Arguments to update one Settings.
+     * @example
+     * // Update one Settings
+     * const settings = await prisma.settings.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SettingsUpdateArgs>(args: SelectSubset<T, SettingsUpdateArgs<ExtArgs>>): Prisma__SettingsClient<$Result.GetResult<Prisma.$SettingsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Settings.
+     * @param {SettingsDeleteManyArgs} args - Arguments to filter Settings to delete.
+     * @example
+     * // Delete a few Settings
+     * const { count } = await prisma.settings.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SettingsDeleteManyArgs>(args?: SelectSubset<T, SettingsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Settings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Settings
+     * const settings = await prisma.settings.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SettingsUpdateManyArgs>(args: SelectSubset<T, SettingsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Settings.
+     * @param {SettingsUpsertArgs} args - Arguments to update or create a Settings.
+     * @example
+     * // Update or create a Settings
+     * const settings = await prisma.settings.upsert({
+     *   create: {
+     *     // ... data to create a Settings
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Settings we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SettingsUpsertArgs>(args: SelectSubset<T, SettingsUpsertArgs<ExtArgs>>): Prisma__SettingsClient<$Result.GetResult<Prisma.$SettingsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Settings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingsCountArgs} args - Arguments to filter Settings to count.
+     * @example
+     * // Count the number of Settings
+     * const count = await prisma.settings.count({
+     *   where: {
+     *     // ... the filter for the Settings we want to count
+     *   }
+     * })
+    **/
+    count<T extends SettingsCountArgs>(
+      args?: Subset<T, SettingsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SettingsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Settings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SettingsAggregateArgs>(args: Subset<T, SettingsAggregateArgs>): Prisma.PrismaPromise<GetSettingsAggregateType<T>>
+
+    /**
+     * Group by Settings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SettingsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SettingsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SettingsGroupByArgs['orderBy'] }
+        : { orderBy?: SettingsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SettingsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSettingsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Settings model
+   */
+  readonly fields: SettingsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Settings.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SettingsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Settings model
+   */
+  interface SettingsFieldRefs {
+    readonly id: FieldRef<"Settings", 'Int'>
+    readonly companyName: FieldRef<"Settings", 'String'>
+    readonly slogan: FieldRef<"Settings", 'String'>
+    readonly aboutShort: FieldRef<"Settings", 'String'>
+    readonly about: FieldRef<"Settings", 'String'>
+    readonly phone1: FieldRef<"Settings", 'String'>
+    readonly phone2: FieldRef<"Settings", 'String'>
+    readonly email1: FieldRef<"Settings", 'String'>
+    readonly email2: FieldRef<"Settings", 'String'>
+    readonly address: FieldRef<"Settings", 'String'>
+    readonly city: FieldRef<"Settings", 'String'>
+    readonly postalCode: FieldRef<"Settings", 'String'>
+    readonly logo: FieldRef<"Settings", 'String'>
+    readonly favicon: FieldRef<"Settings", 'String'>
+    readonly facebook: FieldRef<"Settings", 'String'>
+    readonly twitter: FieldRef<"Settings", 'String'>
+    readonly instagram: FieldRef<"Settings", 'String'>
+    readonly linkedin: FieldRef<"Settings", 'String'>
+    readonly youtube: FieldRef<"Settings", 'String'>
+    readonly tiktok: FieldRef<"Settings", 'String'>
+    readonly github: FieldRef<"Settings", 'String'>
+    readonly website: FieldRef<"Settings", 'String'>
+    readonly createdAt: FieldRef<"Settings", 'DateTime'>
+    readonly updatedAt: FieldRef<"Settings", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Settings findUnique
+   */
+  export type SettingsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Settings
+     */
+    select?: SettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Settings
+     */
+    omit?: SettingsOmit<ExtArgs> | null
+    /**
+     * Filter, which Settings to fetch.
+     */
+    where: SettingsWhereUniqueInput
+  }
+
+  /**
+   * Settings findUniqueOrThrow
+   */
+  export type SettingsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Settings
+     */
+    select?: SettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Settings
+     */
+    omit?: SettingsOmit<ExtArgs> | null
+    /**
+     * Filter, which Settings to fetch.
+     */
+    where: SettingsWhereUniqueInput
+  }
+
+  /**
+   * Settings findFirst
+   */
+  export type SettingsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Settings
+     */
+    select?: SettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Settings
+     */
+    omit?: SettingsOmit<ExtArgs> | null
+    /**
+     * Filter, which Settings to fetch.
+     */
+    where?: SettingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Settings to fetch.
+     */
+    orderBy?: SettingsOrderByWithRelationInput | SettingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Settings.
+     */
+    cursor?: SettingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Settings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Settings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Settings.
+     */
+    distinct?: SettingsScalarFieldEnum | SettingsScalarFieldEnum[]
+  }
+
+  /**
+   * Settings findFirstOrThrow
+   */
+  export type SettingsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Settings
+     */
+    select?: SettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Settings
+     */
+    omit?: SettingsOmit<ExtArgs> | null
+    /**
+     * Filter, which Settings to fetch.
+     */
+    where?: SettingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Settings to fetch.
+     */
+    orderBy?: SettingsOrderByWithRelationInput | SettingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Settings.
+     */
+    cursor?: SettingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Settings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Settings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Settings.
+     */
+    distinct?: SettingsScalarFieldEnum | SettingsScalarFieldEnum[]
+  }
+
+  /**
+   * Settings findMany
+   */
+  export type SettingsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Settings
+     */
+    select?: SettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Settings
+     */
+    omit?: SettingsOmit<ExtArgs> | null
+    /**
+     * Filter, which Settings to fetch.
+     */
+    where?: SettingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Settings to fetch.
+     */
+    orderBy?: SettingsOrderByWithRelationInput | SettingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Settings.
+     */
+    cursor?: SettingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Settings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Settings.
+     */
+    skip?: number
+    distinct?: SettingsScalarFieldEnum | SettingsScalarFieldEnum[]
+  }
+
+  /**
+   * Settings create
+   */
+  export type SettingsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Settings
+     */
+    select?: SettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Settings
+     */
+    omit?: SettingsOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Settings.
+     */
+    data: XOR<SettingsCreateInput, SettingsUncheckedCreateInput>
+  }
+
+  /**
+   * Settings createMany
+   */
+  export type SettingsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Settings.
+     */
+    data: SettingsCreateManyInput | SettingsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Settings update
+   */
+  export type SettingsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Settings
+     */
+    select?: SettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Settings
+     */
+    omit?: SettingsOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Settings.
+     */
+    data: XOR<SettingsUpdateInput, SettingsUncheckedUpdateInput>
+    /**
+     * Choose, which Settings to update.
+     */
+    where: SettingsWhereUniqueInput
+  }
+
+  /**
+   * Settings updateMany
+   */
+  export type SettingsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Settings.
+     */
+    data: XOR<SettingsUpdateManyMutationInput, SettingsUncheckedUpdateManyInput>
+    /**
+     * Filter which Settings to update
+     */
+    where?: SettingsWhereInput
+    /**
+     * Limit how many Settings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Settings upsert
+   */
+  export type SettingsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Settings
+     */
+    select?: SettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Settings
+     */
+    omit?: SettingsOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Settings to update in case it exists.
+     */
+    where: SettingsWhereUniqueInput
+    /**
+     * In case the Settings found by the `where` argument doesn't exist, create a new Settings with this data.
+     */
+    create: XOR<SettingsCreateInput, SettingsUncheckedCreateInput>
+    /**
+     * In case the Settings was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SettingsUpdateInput, SettingsUncheckedUpdateInput>
+  }
+
+  /**
+   * Settings delete
+   */
+  export type SettingsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Settings
+     */
+    select?: SettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Settings
+     */
+    omit?: SettingsOmit<ExtArgs> | null
+    /**
+     * Filter which Settings to delete.
+     */
+    where: SettingsWhereUniqueInput
+  }
+
+  /**
+   * Settings deleteMany
+   */
+  export type SettingsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Settings to delete
+     */
+    where?: SettingsWhereInput
+    /**
+     * Limit how many Settings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Settings without action
+   */
+  export type SettingsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Settings
+     */
+    select?: SettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Settings
+     */
+    omit?: SettingsOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Gallery
+   */
+
+  export type AggregateGallery = {
+    _count: GalleryCountAggregateOutputType | null
+    _avg: GalleryAvgAggregateOutputType | null
+    _sum: GallerySumAggregateOutputType | null
+    _min: GalleryMinAggregateOutputType | null
+    _max: GalleryMaxAggregateOutputType | null
+  }
+
+  export type GalleryAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type GallerySumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type GalleryMinAggregateOutputType = {
+    id: number | null
+    title: string | null
+    description: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GalleryMaxAggregateOutputType = {
+    id: number | null
+    title: string | null
+    description: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GalleryCountAggregateOutputType = {
+    id: number
+    title: number
+    description: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type GalleryAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type GallerySumAggregateInputType = {
+    id?: true
+  }
+
+  export type GalleryMinAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GalleryMaxAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GalleryCountAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type GalleryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Gallery to aggregate.
+     */
+    where?: GalleryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Galleries to fetch.
+     */
+    orderBy?: GalleryOrderByWithRelationInput | GalleryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GalleryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Galleries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Galleries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Galleries
+    **/
+    _count?: true | GalleryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: GalleryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GallerySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GalleryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GalleryMaxAggregateInputType
+  }
+
+  export type GetGalleryAggregateType<T extends GalleryAggregateArgs> = {
+        [P in keyof T & keyof AggregateGallery]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGallery[P]>
+      : GetScalarType<T[P], AggregateGallery[P]>
+  }
+
+
+
+
+  export type GalleryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GalleryWhereInput
+    orderBy?: GalleryOrderByWithAggregationInput | GalleryOrderByWithAggregationInput[]
+    by: GalleryScalarFieldEnum[] | GalleryScalarFieldEnum
+    having?: GalleryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GalleryCountAggregateInputType | true
+    _avg?: GalleryAvgAggregateInputType
+    _sum?: GallerySumAggregateInputType
+    _min?: GalleryMinAggregateInputType
+    _max?: GalleryMaxAggregateInputType
+  }
+
+  export type GalleryGroupByOutputType = {
+    id: number
+    title: string
+    description: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: GalleryCountAggregateOutputType | null
+    _avg: GalleryAvgAggregateOutputType | null
+    _sum: GallerySumAggregateOutputType | null
+    _min: GalleryMinAggregateOutputType | null
+    _max: GalleryMaxAggregateOutputType | null
+  }
+
+  type GetGalleryGroupByPayload<T extends GalleryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GalleryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GalleryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GalleryGroupByOutputType[P]>
+            : GetScalarType<T[P], GalleryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GallerySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    images?: boolean | Gallery$imagesArgs<ExtArgs>
+    _count?: boolean | GalleryCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gallery"]>
+
+
+
+  export type GallerySelectScalar = {
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type GalleryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "createdAt" | "updatedAt", ExtArgs["result"]["gallery"]>
+  export type GalleryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    images?: boolean | Gallery$imagesArgs<ExtArgs>
+    _count?: boolean | GalleryCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $GalleryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Gallery"
+    objects: {
+      images: Prisma.$GalleryImagePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      title: string
+      description: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["gallery"]>
+    composites: {}
+  }
+
+  type GalleryGetPayload<S extends boolean | null | undefined | GalleryDefaultArgs> = $Result.GetResult<Prisma.$GalleryPayload, S>
+
+  type GalleryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GalleryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GalleryCountAggregateInputType | true
+    }
+
+  export interface GalleryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Gallery'], meta: { name: 'Gallery' } }
+    /**
+     * Find zero or one Gallery that matches the filter.
+     * @param {GalleryFindUniqueArgs} args - Arguments to find a Gallery
+     * @example
+     * // Get one Gallery
+     * const gallery = await prisma.gallery.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GalleryFindUniqueArgs>(args: SelectSubset<T, GalleryFindUniqueArgs<ExtArgs>>): Prisma__GalleryClient<$Result.GetResult<Prisma.$GalleryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Gallery that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GalleryFindUniqueOrThrowArgs} args - Arguments to find a Gallery
+     * @example
+     * // Get one Gallery
+     * const gallery = await prisma.gallery.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GalleryFindUniqueOrThrowArgs>(args: SelectSubset<T, GalleryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GalleryClient<$Result.GetResult<Prisma.$GalleryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Gallery that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GalleryFindFirstArgs} args - Arguments to find a Gallery
+     * @example
+     * // Get one Gallery
+     * const gallery = await prisma.gallery.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GalleryFindFirstArgs>(args?: SelectSubset<T, GalleryFindFirstArgs<ExtArgs>>): Prisma__GalleryClient<$Result.GetResult<Prisma.$GalleryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Gallery that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GalleryFindFirstOrThrowArgs} args - Arguments to find a Gallery
+     * @example
+     * // Get one Gallery
+     * const gallery = await prisma.gallery.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GalleryFindFirstOrThrowArgs>(args?: SelectSubset<T, GalleryFindFirstOrThrowArgs<ExtArgs>>): Prisma__GalleryClient<$Result.GetResult<Prisma.$GalleryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Galleries that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GalleryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Galleries
+     * const galleries = await prisma.gallery.findMany()
+     * 
+     * // Get first 10 Galleries
+     * const galleries = await prisma.gallery.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const galleryWithIdOnly = await prisma.gallery.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GalleryFindManyArgs>(args?: SelectSubset<T, GalleryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GalleryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Gallery.
+     * @param {GalleryCreateArgs} args - Arguments to create a Gallery.
+     * @example
+     * // Create one Gallery
+     * const Gallery = await prisma.gallery.create({
+     *   data: {
+     *     // ... data to create a Gallery
+     *   }
+     * })
+     * 
+     */
+    create<T extends GalleryCreateArgs>(args: SelectSubset<T, GalleryCreateArgs<ExtArgs>>): Prisma__GalleryClient<$Result.GetResult<Prisma.$GalleryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Galleries.
+     * @param {GalleryCreateManyArgs} args - Arguments to create many Galleries.
+     * @example
+     * // Create many Galleries
+     * const gallery = await prisma.gallery.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GalleryCreateManyArgs>(args?: SelectSubset<T, GalleryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Gallery.
+     * @param {GalleryDeleteArgs} args - Arguments to delete one Gallery.
+     * @example
+     * // Delete one Gallery
+     * const Gallery = await prisma.gallery.delete({
+     *   where: {
+     *     // ... filter to delete one Gallery
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GalleryDeleteArgs>(args: SelectSubset<T, GalleryDeleteArgs<ExtArgs>>): Prisma__GalleryClient<$Result.GetResult<Prisma.$GalleryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Gallery.
+     * @param {GalleryUpdateArgs} args - Arguments to update one Gallery.
+     * @example
+     * // Update one Gallery
+     * const gallery = await prisma.gallery.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GalleryUpdateArgs>(args: SelectSubset<T, GalleryUpdateArgs<ExtArgs>>): Prisma__GalleryClient<$Result.GetResult<Prisma.$GalleryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Galleries.
+     * @param {GalleryDeleteManyArgs} args - Arguments to filter Galleries to delete.
+     * @example
+     * // Delete a few Galleries
+     * const { count } = await prisma.gallery.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GalleryDeleteManyArgs>(args?: SelectSubset<T, GalleryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Galleries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GalleryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Galleries
+     * const gallery = await prisma.gallery.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GalleryUpdateManyArgs>(args: SelectSubset<T, GalleryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Gallery.
+     * @param {GalleryUpsertArgs} args - Arguments to update or create a Gallery.
+     * @example
+     * // Update or create a Gallery
+     * const gallery = await prisma.gallery.upsert({
+     *   create: {
+     *     // ... data to create a Gallery
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Gallery we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GalleryUpsertArgs>(args: SelectSubset<T, GalleryUpsertArgs<ExtArgs>>): Prisma__GalleryClient<$Result.GetResult<Prisma.$GalleryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Galleries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GalleryCountArgs} args - Arguments to filter Galleries to count.
+     * @example
+     * // Count the number of Galleries
+     * const count = await prisma.gallery.count({
+     *   where: {
+     *     // ... the filter for the Galleries we want to count
+     *   }
+     * })
+    **/
+    count<T extends GalleryCountArgs>(
+      args?: Subset<T, GalleryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GalleryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Gallery.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GalleryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GalleryAggregateArgs>(args: Subset<T, GalleryAggregateArgs>): Prisma.PrismaPromise<GetGalleryAggregateType<T>>
+
+    /**
+     * Group by Gallery.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GalleryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GalleryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GalleryGroupByArgs['orderBy'] }
+        : { orderBy?: GalleryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GalleryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGalleryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Gallery model
+   */
+  readonly fields: GalleryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Gallery.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GalleryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    images<T extends Gallery$imagesArgs<ExtArgs> = {}>(args?: Subset<T, Gallery$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GalleryImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Gallery model
+   */
+  interface GalleryFieldRefs {
+    readonly id: FieldRef<"Gallery", 'Int'>
+    readonly title: FieldRef<"Gallery", 'String'>
+    readonly description: FieldRef<"Gallery", 'String'>
+    readonly createdAt: FieldRef<"Gallery", 'DateTime'>
+    readonly updatedAt: FieldRef<"Gallery", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Gallery findUnique
+   */
+  export type GalleryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Gallery
+     */
+    select?: GallerySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Gallery
+     */
+    omit?: GalleryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GalleryInclude<ExtArgs> | null
+    /**
+     * Filter, which Gallery to fetch.
+     */
+    where: GalleryWhereUniqueInput
+  }
+
+  /**
+   * Gallery findUniqueOrThrow
+   */
+  export type GalleryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Gallery
+     */
+    select?: GallerySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Gallery
+     */
+    omit?: GalleryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GalleryInclude<ExtArgs> | null
+    /**
+     * Filter, which Gallery to fetch.
+     */
+    where: GalleryWhereUniqueInput
+  }
+
+  /**
+   * Gallery findFirst
+   */
+  export type GalleryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Gallery
+     */
+    select?: GallerySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Gallery
+     */
+    omit?: GalleryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GalleryInclude<ExtArgs> | null
+    /**
+     * Filter, which Gallery to fetch.
+     */
+    where?: GalleryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Galleries to fetch.
+     */
+    orderBy?: GalleryOrderByWithRelationInput | GalleryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Galleries.
+     */
+    cursor?: GalleryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Galleries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Galleries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Galleries.
+     */
+    distinct?: GalleryScalarFieldEnum | GalleryScalarFieldEnum[]
+  }
+
+  /**
+   * Gallery findFirstOrThrow
+   */
+  export type GalleryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Gallery
+     */
+    select?: GallerySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Gallery
+     */
+    omit?: GalleryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GalleryInclude<ExtArgs> | null
+    /**
+     * Filter, which Gallery to fetch.
+     */
+    where?: GalleryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Galleries to fetch.
+     */
+    orderBy?: GalleryOrderByWithRelationInput | GalleryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Galleries.
+     */
+    cursor?: GalleryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Galleries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Galleries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Galleries.
+     */
+    distinct?: GalleryScalarFieldEnum | GalleryScalarFieldEnum[]
+  }
+
+  /**
+   * Gallery findMany
+   */
+  export type GalleryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Gallery
+     */
+    select?: GallerySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Gallery
+     */
+    omit?: GalleryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GalleryInclude<ExtArgs> | null
+    /**
+     * Filter, which Galleries to fetch.
+     */
+    where?: GalleryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Galleries to fetch.
+     */
+    orderBy?: GalleryOrderByWithRelationInput | GalleryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Galleries.
+     */
+    cursor?: GalleryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Galleries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Galleries.
+     */
+    skip?: number
+    distinct?: GalleryScalarFieldEnum | GalleryScalarFieldEnum[]
+  }
+
+  /**
+   * Gallery create
+   */
+  export type GalleryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Gallery
+     */
+    select?: GallerySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Gallery
+     */
+    omit?: GalleryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GalleryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Gallery.
+     */
+    data: XOR<GalleryCreateInput, GalleryUncheckedCreateInput>
+  }
+
+  /**
+   * Gallery createMany
+   */
+  export type GalleryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Galleries.
+     */
+    data: GalleryCreateManyInput | GalleryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Gallery update
+   */
+  export type GalleryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Gallery
+     */
+    select?: GallerySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Gallery
+     */
+    omit?: GalleryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GalleryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Gallery.
+     */
+    data: XOR<GalleryUpdateInput, GalleryUncheckedUpdateInput>
+    /**
+     * Choose, which Gallery to update.
+     */
+    where: GalleryWhereUniqueInput
+  }
+
+  /**
+   * Gallery updateMany
+   */
+  export type GalleryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Galleries.
+     */
+    data: XOR<GalleryUpdateManyMutationInput, GalleryUncheckedUpdateManyInput>
+    /**
+     * Filter which Galleries to update
+     */
+    where?: GalleryWhereInput
+    /**
+     * Limit how many Galleries to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Gallery upsert
+   */
+  export type GalleryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Gallery
+     */
+    select?: GallerySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Gallery
+     */
+    omit?: GalleryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GalleryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Gallery to update in case it exists.
+     */
+    where: GalleryWhereUniqueInput
+    /**
+     * In case the Gallery found by the `where` argument doesn't exist, create a new Gallery with this data.
+     */
+    create: XOR<GalleryCreateInput, GalleryUncheckedCreateInput>
+    /**
+     * In case the Gallery was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GalleryUpdateInput, GalleryUncheckedUpdateInput>
+  }
+
+  /**
+   * Gallery delete
+   */
+  export type GalleryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Gallery
+     */
+    select?: GallerySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Gallery
+     */
+    omit?: GalleryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GalleryInclude<ExtArgs> | null
+    /**
+     * Filter which Gallery to delete.
+     */
+    where: GalleryWhereUniqueInput
+  }
+
+  /**
+   * Gallery deleteMany
+   */
+  export type GalleryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Galleries to delete
+     */
+    where?: GalleryWhereInput
+    /**
+     * Limit how many Galleries to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Gallery.images
+   */
+  export type Gallery$imagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GalleryImage
+     */
+    select?: GalleryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GalleryImage
+     */
+    omit?: GalleryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GalleryImageInclude<ExtArgs> | null
+    where?: GalleryImageWhereInput
+    orderBy?: GalleryImageOrderByWithRelationInput | GalleryImageOrderByWithRelationInput[]
+    cursor?: GalleryImageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GalleryImageScalarFieldEnum | GalleryImageScalarFieldEnum[]
+  }
+
+  /**
+   * Gallery without action
+   */
+  export type GalleryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Gallery
+     */
+    select?: GallerySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Gallery
+     */
+    omit?: GalleryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GalleryInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model GalleryImage
+   */
+
+  export type AggregateGalleryImage = {
+    _count: GalleryImageCountAggregateOutputType | null
+    _avg: GalleryImageAvgAggregateOutputType | null
+    _sum: GalleryImageSumAggregateOutputType | null
+    _min: GalleryImageMinAggregateOutputType | null
+    _max: GalleryImageMaxAggregateOutputType | null
+  }
+
+  export type GalleryImageAvgAggregateOutputType = {
+    id: number | null
+    galleryId: number | null
+  }
+
+  export type GalleryImageSumAggregateOutputType = {
+    id: number | null
+    galleryId: number | null
+  }
+
+  export type GalleryImageMinAggregateOutputType = {
+    id: number | null
+    url: string | null
+    galleryId: number | null
+  }
+
+  export type GalleryImageMaxAggregateOutputType = {
+    id: number | null
+    url: string | null
+    galleryId: number | null
+  }
+
+  export type GalleryImageCountAggregateOutputType = {
+    id: number
+    url: number
+    galleryId: number
+    _all: number
+  }
+
+
+  export type GalleryImageAvgAggregateInputType = {
+    id?: true
+    galleryId?: true
+  }
+
+  export type GalleryImageSumAggregateInputType = {
+    id?: true
+    galleryId?: true
+  }
+
+  export type GalleryImageMinAggregateInputType = {
+    id?: true
+    url?: true
+    galleryId?: true
+  }
+
+  export type GalleryImageMaxAggregateInputType = {
+    id?: true
+    url?: true
+    galleryId?: true
+  }
+
+  export type GalleryImageCountAggregateInputType = {
+    id?: true
+    url?: true
+    galleryId?: true
+    _all?: true
+  }
+
+  export type GalleryImageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GalleryImage to aggregate.
+     */
+    where?: GalleryImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GalleryImages to fetch.
+     */
+    orderBy?: GalleryImageOrderByWithRelationInput | GalleryImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GalleryImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GalleryImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GalleryImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GalleryImages
+    **/
+    _count?: true | GalleryImageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: GalleryImageAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GalleryImageSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GalleryImageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GalleryImageMaxAggregateInputType
+  }
+
+  export type GetGalleryImageAggregateType<T extends GalleryImageAggregateArgs> = {
+        [P in keyof T & keyof AggregateGalleryImage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGalleryImage[P]>
+      : GetScalarType<T[P], AggregateGalleryImage[P]>
+  }
+
+
+
+
+  export type GalleryImageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GalleryImageWhereInput
+    orderBy?: GalleryImageOrderByWithAggregationInput | GalleryImageOrderByWithAggregationInput[]
+    by: GalleryImageScalarFieldEnum[] | GalleryImageScalarFieldEnum
+    having?: GalleryImageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GalleryImageCountAggregateInputType | true
+    _avg?: GalleryImageAvgAggregateInputType
+    _sum?: GalleryImageSumAggregateInputType
+    _min?: GalleryImageMinAggregateInputType
+    _max?: GalleryImageMaxAggregateInputType
+  }
+
+  export type GalleryImageGroupByOutputType = {
+    id: number
+    url: string
+    galleryId: number
+    _count: GalleryImageCountAggregateOutputType | null
+    _avg: GalleryImageAvgAggregateOutputType | null
+    _sum: GalleryImageSumAggregateOutputType | null
+    _min: GalleryImageMinAggregateOutputType | null
+    _max: GalleryImageMaxAggregateOutputType | null
+  }
+
+  type GetGalleryImageGroupByPayload<T extends GalleryImageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GalleryImageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GalleryImageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GalleryImageGroupByOutputType[P]>
+            : GetScalarType<T[P], GalleryImageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GalleryImageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    url?: boolean
+    galleryId?: boolean
+    gallery?: boolean | GalleryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["galleryImage"]>
+
+
+
+  export type GalleryImageSelectScalar = {
+    id?: boolean
+    url?: boolean
+    galleryId?: boolean
+  }
+
+  export type GalleryImageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "url" | "galleryId", ExtArgs["result"]["galleryImage"]>
+  export type GalleryImageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    gallery?: boolean | GalleryDefaultArgs<ExtArgs>
+  }
+
+  export type $GalleryImagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GalleryImage"
+    objects: {
+      gallery: Prisma.$GalleryPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      url: string
+      galleryId: number
+    }, ExtArgs["result"]["galleryImage"]>
+    composites: {}
+  }
+
+  type GalleryImageGetPayload<S extends boolean | null | undefined | GalleryImageDefaultArgs> = $Result.GetResult<Prisma.$GalleryImagePayload, S>
+
+  type GalleryImageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GalleryImageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GalleryImageCountAggregateInputType | true
+    }
+
+  export interface GalleryImageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GalleryImage'], meta: { name: 'GalleryImage' } }
+    /**
+     * Find zero or one GalleryImage that matches the filter.
+     * @param {GalleryImageFindUniqueArgs} args - Arguments to find a GalleryImage
+     * @example
+     * // Get one GalleryImage
+     * const galleryImage = await prisma.galleryImage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GalleryImageFindUniqueArgs>(args: SelectSubset<T, GalleryImageFindUniqueArgs<ExtArgs>>): Prisma__GalleryImageClient<$Result.GetResult<Prisma.$GalleryImagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one GalleryImage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GalleryImageFindUniqueOrThrowArgs} args - Arguments to find a GalleryImage
+     * @example
+     * // Get one GalleryImage
+     * const galleryImage = await prisma.galleryImage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GalleryImageFindUniqueOrThrowArgs>(args: SelectSubset<T, GalleryImageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GalleryImageClient<$Result.GetResult<Prisma.$GalleryImagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GalleryImage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GalleryImageFindFirstArgs} args - Arguments to find a GalleryImage
+     * @example
+     * // Get one GalleryImage
+     * const galleryImage = await prisma.galleryImage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GalleryImageFindFirstArgs>(args?: SelectSubset<T, GalleryImageFindFirstArgs<ExtArgs>>): Prisma__GalleryImageClient<$Result.GetResult<Prisma.$GalleryImagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GalleryImage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GalleryImageFindFirstOrThrowArgs} args - Arguments to find a GalleryImage
+     * @example
+     * // Get one GalleryImage
+     * const galleryImage = await prisma.galleryImage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GalleryImageFindFirstOrThrowArgs>(args?: SelectSubset<T, GalleryImageFindFirstOrThrowArgs<ExtArgs>>): Prisma__GalleryImageClient<$Result.GetResult<Prisma.$GalleryImagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more GalleryImages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GalleryImageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GalleryImages
+     * const galleryImages = await prisma.galleryImage.findMany()
+     * 
+     * // Get first 10 GalleryImages
+     * const galleryImages = await prisma.galleryImage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const galleryImageWithIdOnly = await prisma.galleryImage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GalleryImageFindManyArgs>(args?: SelectSubset<T, GalleryImageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GalleryImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a GalleryImage.
+     * @param {GalleryImageCreateArgs} args - Arguments to create a GalleryImage.
+     * @example
+     * // Create one GalleryImage
+     * const GalleryImage = await prisma.galleryImage.create({
+     *   data: {
+     *     // ... data to create a GalleryImage
+     *   }
+     * })
+     * 
+     */
+    create<T extends GalleryImageCreateArgs>(args: SelectSubset<T, GalleryImageCreateArgs<ExtArgs>>): Prisma__GalleryImageClient<$Result.GetResult<Prisma.$GalleryImagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many GalleryImages.
+     * @param {GalleryImageCreateManyArgs} args - Arguments to create many GalleryImages.
+     * @example
+     * // Create many GalleryImages
+     * const galleryImage = await prisma.galleryImage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GalleryImageCreateManyArgs>(args?: SelectSubset<T, GalleryImageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a GalleryImage.
+     * @param {GalleryImageDeleteArgs} args - Arguments to delete one GalleryImage.
+     * @example
+     * // Delete one GalleryImage
+     * const GalleryImage = await prisma.galleryImage.delete({
+     *   where: {
+     *     // ... filter to delete one GalleryImage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GalleryImageDeleteArgs>(args: SelectSubset<T, GalleryImageDeleteArgs<ExtArgs>>): Prisma__GalleryImageClient<$Result.GetResult<Prisma.$GalleryImagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one GalleryImage.
+     * @param {GalleryImageUpdateArgs} args - Arguments to update one GalleryImage.
+     * @example
+     * // Update one GalleryImage
+     * const galleryImage = await prisma.galleryImage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GalleryImageUpdateArgs>(args: SelectSubset<T, GalleryImageUpdateArgs<ExtArgs>>): Prisma__GalleryImageClient<$Result.GetResult<Prisma.$GalleryImagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more GalleryImages.
+     * @param {GalleryImageDeleteManyArgs} args - Arguments to filter GalleryImages to delete.
+     * @example
+     * // Delete a few GalleryImages
+     * const { count } = await prisma.galleryImage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GalleryImageDeleteManyArgs>(args?: SelectSubset<T, GalleryImageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GalleryImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GalleryImageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GalleryImages
+     * const galleryImage = await prisma.galleryImage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GalleryImageUpdateManyArgs>(args: SelectSubset<T, GalleryImageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one GalleryImage.
+     * @param {GalleryImageUpsertArgs} args - Arguments to update or create a GalleryImage.
+     * @example
+     * // Update or create a GalleryImage
+     * const galleryImage = await prisma.galleryImage.upsert({
+     *   create: {
+     *     // ... data to create a GalleryImage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GalleryImage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GalleryImageUpsertArgs>(args: SelectSubset<T, GalleryImageUpsertArgs<ExtArgs>>): Prisma__GalleryImageClient<$Result.GetResult<Prisma.$GalleryImagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of GalleryImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GalleryImageCountArgs} args - Arguments to filter GalleryImages to count.
+     * @example
+     * // Count the number of GalleryImages
+     * const count = await prisma.galleryImage.count({
+     *   where: {
+     *     // ... the filter for the GalleryImages we want to count
+     *   }
+     * })
+    **/
+    count<T extends GalleryImageCountArgs>(
+      args?: Subset<T, GalleryImageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GalleryImageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GalleryImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GalleryImageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GalleryImageAggregateArgs>(args: Subset<T, GalleryImageAggregateArgs>): Prisma.PrismaPromise<GetGalleryImageAggregateType<T>>
+
+    /**
+     * Group by GalleryImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GalleryImageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GalleryImageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GalleryImageGroupByArgs['orderBy'] }
+        : { orderBy?: GalleryImageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GalleryImageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGalleryImageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GalleryImage model
+   */
+  readonly fields: GalleryImageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GalleryImage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GalleryImageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    gallery<T extends GalleryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, GalleryDefaultArgs<ExtArgs>>): Prisma__GalleryClient<$Result.GetResult<Prisma.$GalleryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GalleryImage model
+   */
+  interface GalleryImageFieldRefs {
+    readonly id: FieldRef<"GalleryImage", 'Int'>
+    readonly url: FieldRef<"GalleryImage", 'String'>
+    readonly galleryId: FieldRef<"GalleryImage", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GalleryImage findUnique
+   */
+  export type GalleryImageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GalleryImage
+     */
+    select?: GalleryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GalleryImage
+     */
+    omit?: GalleryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GalleryImageInclude<ExtArgs> | null
+    /**
+     * Filter, which GalleryImage to fetch.
+     */
+    where: GalleryImageWhereUniqueInput
+  }
+
+  /**
+   * GalleryImage findUniqueOrThrow
+   */
+  export type GalleryImageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GalleryImage
+     */
+    select?: GalleryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GalleryImage
+     */
+    omit?: GalleryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GalleryImageInclude<ExtArgs> | null
+    /**
+     * Filter, which GalleryImage to fetch.
+     */
+    where: GalleryImageWhereUniqueInput
+  }
+
+  /**
+   * GalleryImage findFirst
+   */
+  export type GalleryImageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GalleryImage
+     */
+    select?: GalleryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GalleryImage
+     */
+    omit?: GalleryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GalleryImageInclude<ExtArgs> | null
+    /**
+     * Filter, which GalleryImage to fetch.
+     */
+    where?: GalleryImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GalleryImages to fetch.
+     */
+    orderBy?: GalleryImageOrderByWithRelationInput | GalleryImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GalleryImages.
+     */
+    cursor?: GalleryImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GalleryImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GalleryImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GalleryImages.
+     */
+    distinct?: GalleryImageScalarFieldEnum | GalleryImageScalarFieldEnum[]
+  }
+
+  /**
+   * GalleryImage findFirstOrThrow
+   */
+  export type GalleryImageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GalleryImage
+     */
+    select?: GalleryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GalleryImage
+     */
+    omit?: GalleryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GalleryImageInclude<ExtArgs> | null
+    /**
+     * Filter, which GalleryImage to fetch.
+     */
+    where?: GalleryImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GalleryImages to fetch.
+     */
+    orderBy?: GalleryImageOrderByWithRelationInput | GalleryImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GalleryImages.
+     */
+    cursor?: GalleryImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GalleryImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GalleryImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GalleryImages.
+     */
+    distinct?: GalleryImageScalarFieldEnum | GalleryImageScalarFieldEnum[]
+  }
+
+  /**
+   * GalleryImage findMany
+   */
+  export type GalleryImageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GalleryImage
+     */
+    select?: GalleryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GalleryImage
+     */
+    omit?: GalleryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GalleryImageInclude<ExtArgs> | null
+    /**
+     * Filter, which GalleryImages to fetch.
+     */
+    where?: GalleryImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GalleryImages to fetch.
+     */
+    orderBy?: GalleryImageOrderByWithRelationInput | GalleryImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GalleryImages.
+     */
+    cursor?: GalleryImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GalleryImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GalleryImages.
+     */
+    skip?: number
+    distinct?: GalleryImageScalarFieldEnum | GalleryImageScalarFieldEnum[]
+  }
+
+  /**
+   * GalleryImage create
+   */
+  export type GalleryImageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GalleryImage
+     */
+    select?: GalleryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GalleryImage
+     */
+    omit?: GalleryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GalleryImageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a GalleryImage.
+     */
+    data: XOR<GalleryImageCreateInput, GalleryImageUncheckedCreateInput>
+  }
+
+  /**
+   * GalleryImage createMany
+   */
+  export type GalleryImageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GalleryImages.
+     */
+    data: GalleryImageCreateManyInput | GalleryImageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GalleryImage update
+   */
+  export type GalleryImageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GalleryImage
+     */
+    select?: GalleryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GalleryImage
+     */
+    omit?: GalleryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GalleryImageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a GalleryImage.
+     */
+    data: XOR<GalleryImageUpdateInput, GalleryImageUncheckedUpdateInput>
+    /**
+     * Choose, which GalleryImage to update.
+     */
+    where: GalleryImageWhereUniqueInput
+  }
+
+  /**
+   * GalleryImage updateMany
+   */
+  export type GalleryImageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GalleryImages.
+     */
+    data: XOR<GalleryImageUpdateManyMutationInput, GalleryImageUncheckedUpdateManyInput>
+    /**
+     * Filter which GalleryImages to update
+     */
+    where?: GalleryImageWhereInput
+    /**
+     * Limit how many GalleryImages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * GalleryImage upsert
+   */
+  export type GalleryImageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GalleryImage
+     */
+    select?: GalleryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GalleryImage
+     */
+    omit?: GalleryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GalleryImageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the GalleryImage to update in case it exists.
+     */
+    where: GalleryImageWhereUniqueInput
+    /**
+     * In case the GalleryImage found by the `where` argument doesn't exist, create a new GalleryImage with this data.
+     */
+    create: XOR<GalleryImageCreateInput, GalleryImageUncheckedCreateInput>
+    /**
+     * In case the GalleryImage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GalleryImageUpdateInput, GalleryImageUncheckedUpdateInput>
+  }
+
+  /**
+   * GalleryImage delete
+   */
+  export type GalleryImageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GalleryImage
+     */
+    select?: GalleryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GalleryImage
+     */
+    omit?: GalleryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GalleryImageInclude<ExtArgs> | null
+    /**
+     * Filter which GalleryImage to delete.
+     */
+    where: GalleryImageWhereUniqueInput
+  }
+
+  /**
+   * GalleryImage deleteMany
+   */
+  export type GalleryImageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GalleryImages to delete
+     */
+    where?: GalleryImageWhereInput
+    /**
+     * Limit how many GalleryImages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * GalleryImage without action
+   */
+  export type GalleryImageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GalleryImage
+     */
+    select?: GalleryImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GalleryImage
+     */
+    omit?: GalleryImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GalleryImageInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -10320,6 +13659,56 @@ export namespace Prisma {
   export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
 
 
+  export const SettingsScalarFieldEnum: {
+    id: 'id',
+    companyName: 'companyName',
+    slogan: 'slogan',
+    aboutShort: 'aboutShort',
+    about: 'about',
+    phone1: 'phone1',
+    phone2: 'phone2',
+    email1: 'email1',
+    email2: 'email2',
+    address: 'address',
+    city: 'city',
+    postalCode: 'postalCode',
+    logo: 'logo',
+    favicon: 'favicon',
+    facebook: 'facebook',
+    twitter: 'twitter',
+    instagram: 'instagram',
+    linkedin: 'linkedin',
+    youtube: 'youtube',
+    tiktok: 'tiktok',
+    github: 'github',
+    website: 'website',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SettingsScalarFieldEnum = (typeof SettingsScalarFieldEnum)[keyof typeof SettingsScalarFieldEnum]
+
+
+  export const GalleryScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    description: 'description',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type GalleryScalarFieldEnum = (typeof GalleryScalarFieldEnum)[keyof typeof GalleryScalarFieldEnum]
+
+
+  export const GalleryImageScalarFieldEnum: {
+    id: 'id',
+    url: 'url',
+    galleryId: 'galleryId'
+  };
+
+  export type GalleryImageScalarFieldEnum = (typeof GalleryImageScalarFieldEnum)[keyof typeof GalleryImageScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -10418,6 +13807,48 @@ export namespace Prisma {
   };
 
   export type PaymentOrderByRelevanceFieldEnum = (typeof PaymentOrderByRelevanceFieldEnum)[keyof typeof PaymentOrderByRelevanceFieldEnum]
+
+
+  export const SettingsOrderByRelevanceFieldEnum: {
+    companyName: 'companyName',
+    slogan: 'slogan',
+    aboutShort: 'aboutShort',
+    about: 'about',
+    phone1: 'phone1',
+    phone2: 'phone2',
+    email1: 'email1',
+    email2: 'email2',
+    address: 'address',
+    city: 'city',
+    postalCode: 'postalCode',
+    logo: 'logo',
+    favicon: 'favicon',
+    facebook: 'facebook',
+    twitter: 'twitter',
+    instagram: 'instagram',
+    linkedin: 'linkedin',
+    youtube: 'youtube',
+    tiktok: 'tiktok',
+    github: 'github',
+    website: 'website'
+  };
+
+  export type SettingsOrderByRelevanceFieldEnum = (typeof SettingsOrderByRelevanceFieldEnum)[keyof typeof SettingsOrderByRelevanceFieldEnum]
+
+
+  export const GalleryOrderByRelevanceFieldEnum: {
+    title: 'title',
+    description: 'description'
+  };
+
+  export type GalleryOrderByRelevanceFieldEnum = (typeof GalleryOrderByRelevanceFieldEnum)[keyof typeof GalleryOrderByRelevanceFieldEnum]
+
+
+  export const GalleryImageOrderByRelevanceFieldEnum: {
+    url: 'url'
+  };
+
+  export type GalleryImageOrderByRelevanceFieldEnum = (typeof GalleryImageOrderByRelevanceFieldEnum)[keyof typeof GalleryImageOrderByRelevanceFieldEnum]
 
 
   /**
@@ -11139,6 +14570,262 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
   }
 
+  export type SettingsWhereInput = {
+    AND?: SettingsWhereInput | SettingsWhereInput[]
+    OR?: SettingsWhereInput[]
+    NOT?: SettingsWhereInput | SettingsWhereInput[]
+    id?: IntFilter<"Settings"> | number
+    companyName?: StringFilter<"Settings"> | string
+    slogan?: StringNullableFilter<"Settings"> | string | null
+    aboutShort?: StringNullableFilter<"Settings"> | string | null
+    about?: StringNullableFilter<"Settings"> | string | null
+    phone1?: StringNullableFilter<"Settings"> | string | null
+    phone2?: StringNullableFilter<"Settings"> | string | null
+    email1?: StringNullableFilter<"Settings"> | string | null
+    email2?: StringNullableFilter<"Settings"> | string | null
+    address?: StringNullableFilter<"Settings"> | string | null
+    city?: StringNullableFilter<"Settings"> | string | null
+    postalCode?: StringNullableFilter<"Settings"> | string | null
+    logo?: StringNullableFilter<"Settings"> | string | null
+    favicon?: StringNullableFilter<"Settings"> | string | null
+    facebook?: StringNullableFilter<"Settings"> | string | null
+    twitter?: StringNullableFilter<"Settings"> | string | null
+    instagram?: StringNullableFilter<"Settings"> | string | null
+    linkedin?: StringNullableFilter<"Settings"> | string | null
+    youtube?: StringNullableFilter<"Settings"> | string | null
+    tiktok?: StringNullableFilter<"Settings"> | string | null
+    github?: StringNullableFilter<"Settings"> | string | null
+    website?: StringNullableFilter<"Settings"> | string | null
+    createdAt?: DateTimeFilter<"Settings"> | Date | string
+    updatedAt?: DateTimeFilter<"Settings"> | Date | string
+  }
+
+  export type SettingsOrderByWithRelationInput = {
+    id?: SortOrder
+    companyName?: SortOrder
+    slogan?: SortOrderInput | SortOrder
+    aboutShort?: SortOrderInput | SortOrder
+    about?: SortOrderInput | SortOrder
+    phone1?: SortOrderInput | SortOrder
+    phone2?: SortOrderInput | SortOrder
+    email1?: SortOrderInput | SortOrder
+    email2?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    postalCode?: SortOrderInput | SortOrder
+    logo?: SortOrderInput | SortOrder
+    favicon?: SortOrderInput | SortOrder
+    facebook?: SortOrderInput | SortOrder
+    twitter?: SortOrderInput | SortOrder
+    instagram?: SortOrderInput | SortOrder
+    linkedin?: SortOrderInput | SortOrder
+    youtube?: SortOrderInput | SortOrder
+    tiktok?: SortOrderInput | SortOrder
+    github?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _relevance?: SettingsOrderByRelevanceInput
+  }
+
+  export type SettingsWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: SettingsWhereInput | SettingsWhereInput[]
+    OR?: SettingsWhereInput[]
+    NOT?: SettingsWhereInput | SettingsWhereInput[]
+    companyName?: StringFilter<"Settings"> | string
+    slogan?: StringNullableFilter<"Settings"> | string | null
+    aboutShort?: StringNullableFilter<"Settings"> | string | null
+    about?: StringNullableFilter<"Settings"> | string | null
+    phone1?: StringNullableFilter<"Settings"> | string | null
+    phone2?: StringNullableFilter<"Settings"> | string | null
+    email1?: StringNullableFilter<"Settings"> | string | null
+    email2?: StringNullableFilter<"Settings"> | string | null
+    address?: StringNullableFilter<"Settings"> | string | null
+    city?: StringNullableFilter<"Settings"> | string | null
+    postalCode?: StringNullableFilter<"Settings"> | string | null
+    logo?: StringNullableFilter<"Settings"> | string | null
+    favicon?: StringNullableFilter<"Settings"> | string | null
+    facebook?: StringNullableFilter<"Settings"> | string | null
+    twitter?: StringNullableFilter<"Settings"> | string | null
+    instagram?: StringNullableFilter<"Settings"> | string | null
+    linkedin?: StringNullableFilter<"Settings"> | string | null
+    youtube?: StringNullableFilter<"Settings"> | string | null
+    tiktok?: StringNullableFilter<"Settings"> | string | null
+    github?: StringNullableFilter<"Settings"> | string | null
+    website?: StringNullableFilter<"Settings"> | string | null
+    createdAt?: DateTimeFilter<"Settings"> | Date | string
+    updatedAt?: DateTimeFilter<"Settings"> | Date | string
+  }, "id">
+
+  export type SettingsOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyName?: SortOrder
+    slogan?: SortOrderInput | SortOrder
+    aboutShort?: SortOrderInput | SortOrder
+    about?: SortOrderInput | SortOrder
+    phone1?: SortOrderInput | SortOrder
+    phone2?: SortOrderInput | SortOrder
+    email1?: SortOrderInput | SortOrder
+    email2?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    postalCode?: SortOrderInput | SortOrder
+    logo?: SortOrderInput | SortOrder
+    favicon?: SortOrderInput | SortOrder
+    facebook?: SortOrderInput | SortOrder
+    twitter?: SortOrderInput | SortOrder
+    instagram?: SortOrderInput | SortOrder
+    linkedin?: SortOrderInput | SortOrder
+    youtube?: SortOrderInput | SortOrder
+    tiktok?: SortOrderInput | SortOrder
+    github?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SettingsCountOrderByAggregateInput
+    _avg?: SettingsAvgOrderByAggregateInput
+    _max?: SettingsMaxOrderByAggregateInput
+    _min?: SettingsMinOrderByAggregateInput
+    _sum?: SettingsSumOrderByAggregateInput
+  }
+
+  export type SettingsScalarWhereWithAggregatesInput = {
+    AND?: SettingsScalarWhereWithAggregatesInput | SettingsScalarWhereWithAggregatesInput[]
+    OR?: SettingsScalarWhereWithAggregatesInput[]
+    NOT?: SettingsScalarWhereWithAggregatesInput | SettingsScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Settings"> | number
+    companyName?: StringWithAggregatesFilter<"Settings"> | string
+    slogan?: StringNullableWithAggregatesFilter<"Settings"> | string | null
+    aboutShort?: StringNullableWithAggregatesFilter<"Settings"> | string | null
+    about?: StringNullableWithAggregatesFilter<"Settings"> | string | null
+    phone1?: StringNullableWithAggregatesFilter<"Settings"> | string | null
+    phone2?: StringNullableWithAggregatesFilter<"Settings"> | string | null
+    email1?: StringNullableWithAggregatesFilter<"Settings"> | string | null
+    email2?: StringNullableWithAggregatesFilter<"Settings"> | string | null
+    address?: StringNullableWithAggregatesFilter<"Settings"> | string | null
+    city?: StringNullableWithAggregatesFilter<"Settings"> | string | null
+    postalCode?: StringNullableWithAggregatesFilter<"Settings"> | string | null
+    logo?: StringNullableWithAggregatesFilter<"Settings"> | string | null
+    favicon?: StringNullableWithAggregatesFilter<"Settings"> | string | null
+    facebook?: StringNullableWithAggregatesFilter<"Settings"> | string | null
+    twitter?: StringNullableWithAggregatesFilter<"Settings"> | string | null
+    instagram?: StringNullableWithAggregatesFilter<"Settings"> | string | null
+    linkedin?: StringNullableWithAggregatesFilter<"Settings"> | string | null
+    youtube?: StringNullableWithAggregatesFilter<"Settings"> | string | null
+    tiktok?: StringNullableWithAggregatesFilter<"Settings"> | string | null
+    github?: StringNullableWithAggregatesFilter<"Settings"> | string | null
+    website?: StringNullableWithAggregatesFilter<"Settings"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Settings"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Settings"> | Date | string
+  }
+
+  export type GalleryWhereInput = {
+    AND?: GalleryWhereInput | GalleryWhereInput[]
+    OR?: GalleryWhereInput[]
+    NOT?: GalleryWhereInput | GalleryWhereInput[]
+    id?: IntFilter<"Gallery"> | number
+    title?: StringFilter<"Gallery"> | string
+    description?: StringNullableFilter<"Gallery"> | string | null
+    createdAt?: DateTimeFilter<"Gallery"> | Date | string
+    updatedAt?: DateTimeFilter<"Gallery"> | Date | string
+    images?: GalleryImageListRelationFilter
+  }
+
+  export type GalleryOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    images?: GalleryImageOrderByRelationAggregateInput
+    _relevance?: GalleryOrderByRelevanceInput
+  }
+
+  export type GalleryWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: GalleryWhereInput | GalleryWhereInput[]
+    OR?: GalleryWhereInput[]
+    NOT?: GalleryWhereInput | GalleryWhereInput[]
+    title?: StringFilter<"Gallery"> | string
+    description?: StringNullableFilter<"Gallery"> | string | null
+    createdAt?: DateTimeFilter<"Gallery"> | Date | string
+    updatedAt?: DateTimeFilter<"Gallery"> | Date | string
+    images?: GalleryImageListRelationFilter
+  }, "id">
+
+  export type GalleryOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: GalleryCountOrderByAggregateInput
+    _avg?: GalleryAvgOrderByAggregateInput
+    _max?: GalleryMaxOrderByAggregateInput
+    _min?: GalleryMinOrderByAggregateInput
+    _sum?: GallerySumOrderByAggregateInput
+  }
+
+  export type GalleryScalarWhereWithAggregatesInput = {
+    AND?: GalleryScalarWhereWithAggregatesInput | GalleryScalarWhereWithAggregatesInput[]
+    OR?: GalleryScalarWhereWithAggregatesInput[]
+    NOT?: GalleryScalarWhereWithAggregatesInput | GalleryScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Gallery"> | number
+    title?: StringWithAggregatesFilter<"Gallery"> | string
+    description?: StringNullableWithAggregatesFilter<"Gallery"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Gallery"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Gallery"> | Date | string
+  }
+
+  export type GalleryImageWhereInput = {
+    AND?: GalleryImageWhereInput | GalleryImageWhereInput[]
+    OR?: GalleryImageWhereInput[]
+    NOT?: GalleryImageWhereInput | GalleryImageWhereInput[]
+    id?: IntFilter<"GalleryImage"> | number
+    url?: StringFilter<"GalleryImage"> | string
+    galleryId?: IntFilter<"GalleryImage"> | number
+    gallery?: XOR<GalleryScalarRelationFilter, GalleryWhereInput>
+  }
+
+  export type GalleryImageOrderByWithRelationInput = {
+    id?: SortOrder
+    url?: SortOrder
+    galleryId?: SortOrder
+    gallery?: GalleryOrderByWithRelationInput
+    _relevance?: GalleryImageOrderByRelevanceInput
+  }
+
+  export type GalleryImageWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: GalleryImageWhereInput | GalleryImageWhereInput[]
+    OR?: GalleryImageWhereInput[]
+    NOT?: GalleryImageWhereInput | GalleryImageWhereInput[]
+    url?: StringFilter<"GalleryImage"> | string
+    galleryId?: IntFilter<"GalleryImage"> | number
+    gallery?: XOR<GalleryScalarRelationFilter, GalleryWhereInput>
+  }, "id">
+
+  export type GalleryImageOrderByWithAggregationInput = {
+    id?: SortOrder
+    url?: SortOrder
+    galleryId?: SortOrder
+    _count?: GalleryImageCountOrderByAggregateInput
+    _avg?: GalleryImageAvgOrderByAggregateInput
+    _max?: GalleryImageMaxOrderByAggregateInput
+    _min?: GalleryImageMinOrderByAggregateInput
+    _sum?: GalleryImageSumOrderByAggregateInput
+  }
+
+  export type GalleryImageScalarWhereWithAggregatesInput = {
+    AND?: GalleryImageScalarWhereWithAggregatesInput | GalleryImageScalarWhereWithAggregatesInput[]
+    OR?: GalleryImageScalarWhereWithAggregatesInput[]
+    NOT?: GalleryImageScalarWhereWithAggregatesInput | GalleryImageScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"GalleryImage"> | number
+    url?: StringWithAggregatesFilter<"GalleryImage"> | string
+    galleryId?: IntWithAggregatesFilter<"GalleryImage"> | number
+  }
+
   export type UserCreateInput = {
     name: string
     email: string
@@ -11785,6 +15472,287 @@ export namespace Prisma {
     paymentData?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SettingsCreateInput = {
+    companyName: string
+    slogan?: string | null
+    aboutShort?: string | null
+    about?: string | null
+    phone1?: string | null
+    phone2?: string | null
+    email1?: string | null
+    email2?: string | null
+    address?: string | null
+    city?: string | null
+    postalCode?: string | null
+    logo?: string | null
+    favicon?: string | null
+    facebook?: string | null
+    twitter?: string | null
+    instagram?: string | null
+    linkedin?: string | null
+    youtube?: string | null
+    tiktok?: string | null
+    github?: string | null
+    website?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SettingsUncheckedCreateInput = {
+    id?: number
+    companyName: string
+    slogan?: string | null
+    aboutShort?: string | null
+    about?: string | null
+    phone1?: string | null
+    phone2?: string | null
+    email1?: string | null
+    email2?: string | null
+    address?: string | null
+    city?: string | null
+    postalCode?: string | null
+    logo?: string | null
+    favicon?: string | null
+    facebook?: string | null
+    twitter?: string | null
+    instagram?: string | null
+    linkedin?: string | null
+    youtube?: string | null
+    tiktok?: string | null
+    github?: string | null
+    website?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SettingsUpdateInput = {
+    companyName?: StringFieldUpdateOperationsInput | string
+    slogan?: NullableStringFieldUpdateOperationsInput | string | null
+    aboutShort?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    phone1?: NullableStringFieldUpdateOperationsInput | string | null
+    phone2?: NullableStringFieldUpdateOperationsInput | string | null
+    email1?: NullableStringFieldUpdateOperationsInput | string | null
+    email2?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    favicon?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    twitter?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    youtube?: NullableStringFieldUpdateOperationsInput | string | null
+    tiktok?: NullableStringFieldUpdateOperationsInput | string | null
+    github?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SettingsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    companyName?: StringFieldUpdateOperationsInput | string
+    slogan?: NullableStringFieldUpdateOperationsInput | string | null
+    aboutShort?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    phone1?: NullableStringFieldUpdateOperationsInput | string | null
+    phone2?: NullableStringFieldUpdateOperationsInput | string | null
+    email1?: NullableStringFieldUpdateOperationsInput | string | null
+    email2?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    favicon?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    twitter?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    youtube?: NullableStringFieldUpdateOperationsInput | string | null
+    tiktok?: NullableStringFieldUpdateOperationsInput | string | null
+    github?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SettingsCreateManyInput = {
+    id?: number
+    companyName: string
+    slogan?: string | null
+    aboutShort?: string | null
+    about?: string | null
+    phone1?: string | null
+    phone2?: string | null
+    email1?: string | null
+    email2?: string | null
+    address?: string | null
+    city?: string | null
+    postalCode?: string | null
+    logo?: string | null
+    favicon?: string | null
+    facebook?: string | null
+    twitter?: string | null
+    instagram?: string | null
+    linkedin?: string | null
+    youtube?: string | null
+    tiktok?: string | null
+    github?: string | null
+    website?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SettingsUpdateManyMutationInput = {
+    companyName?: StringFieldUpdateOperationsInput | string
+    slogan?: NullableStringFieldUpdateOperationsInput | string | null
+    aboutShort?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    phone1?: NullableStringFieldUpdateOperationsInput | string | null
+    phone2?: NullableStringFieldUpdateOperationsInput | string | null
+    email1?: NullableStringFieldUpdateOperationsInput | string | null
+    email2?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    favicon?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    twitter?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    youtube?: NullableStringFieldUpdateOperationsInput | string | null
+    tiktok?: NullableStringFieldUpdateOperationsInput | string | null
+    github?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SettingsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    companyName?: StringFieldUpdateOperationsInput | string
+    slogan?: NullableStringFieldUpdateOperationsInput | string | null
+    aboutShort?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    phone1?: NullableStringFieldUpdateOperationsInput | string | null
+    phone2?: NullableStringFieldUpdateOperationsInput | string | null
+    email1?: NullableStringFieldUpdateOperationsInput | string | null
+    email2?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    favicon?: NullableStringFieldUpdateOperationsInput | string | null
+    facebook?: NullableStringFieldUpdateOperationsInput | string | null
+    twitter?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedin?: NullableStringFieldUpdateOperationsInput | string | null
+    youtube?: NullableStringFieldUpdateOperationsInput | string | null
+    tiktok?: NullableStringFieldUpdateOperationsInput | string | null
+    github?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GalleryCreateInput = {
+    title: string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    images?: GalleryImageCreateNestedManyWithoutGalleryInput
+  }
+
+  export type GalleryUncheckedCreateInput = {
+    id?: number
+    title: string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    images?: GalleryImageUncheckedCreateNestedManyWithoutGalleryInput
+  }
+
+  export type GalleryUpdateInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: GalleryImageUpdateManyWithoutGalleryNestedInput
+  }
+
+  export type GalleryUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: GalleryImageUncheckedUpdateManyWithoutGalleryNestedInput
+  }
+
+  export type GalleryCreateManyInput = {
+    id?: number
+    title: string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GalleryUpdateManyMutationInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GalleryUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GalleryImageCreateInput = {
+    url: string
+    gallery: GalleryCreateNestedOneWithoutImagesInput
+  }
+
+  export type GalleryImageUncheckedCreateInput = {
+    id?: number
+    url: string
+    galleryId: number
+  }
+
+  export type GalleryImageUpdateInput = {
+    url?: StringFieldUpdateOperationsInput | string
+    gallery?: GalleryUpdateOneRequiredWithoutImagesNestedInput
+  }
+
+  export type GalleryImageUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    url?: StringFieldUpdateOperationsInput | string
+    galleryId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type GalleryImageCreateManyInput = {
+    id?: number
+    url: string
+    galleryId: number
+  }
+
+  export type GalleryImageUpdateManyMutationInput = {
+    url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type GalleryImageUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    url?: StringFieldUpdateOperationsInput | string
+    galleryId?: IntFieldUpdateOperationsInput | number
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -12614,6 +16582,188 @@ export namespace Prisma {
     amount?: SortOrder
   }
 
+  export type SettingsOrderByRelevanceInput = {
+    fields: SettingsOrderByRelevanceFieldEnum | SettingsOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type SettingsCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyName?: SortOrder
+    slogan?: SortOrder
+    aboutShort?: SortOrder
+    about?: SortOrder
+    phone1?: SortOrder
+    phone2?: SortOrder
+    email1?: SortOrder
+    email2?: SortOrder
+    address?: SortOrder
+    city?: SortOrder
+    postalCode?: SortOrder
+    logo?: SortOrder
+    favicon?: SortOrder
+    facebook?: SortOrder
+    twitter?: SortOrder
+    instagram?: SortOrder
+    linkedin?: SortOrder
+    youtube?: SortOrder
+    tiktok?: SortOrder
+    github?: SortOrder
+    website?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SettingsAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type SettingsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyName?: SortOrder
+    slogan?: SortOrder
+    aboutShort?: SortOrder
+    about?: SortOrder
+    phone1?: SortOrder
+    phone2?: SortOrder
+    email1?: SortOrder
+    email2?: SortOrder
+    address?: SortOrder
+    city?: SortOrder
+    postalCode?: SortOrder
+    logo?: SortOrder
+    favicon?: SortOrder
+    facebook?: SortOrder
+    twitter?: SortOrder
+    instagram?: SortOrder
+    linkedin?: SortOrder
+    youtube?: SortOrder
+    tiktok?: SortOrder
+    github?: SortOrder
+    website?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SettingsMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyName?: SortOrder
+    slogan?: SortOrder
+    aboutShort?: SortOrder
+    about?: SortOrder
+    phone1?: SortOrder
+    phone2?: SortOrder
+    email1?: SortOrder
+    email2?: SortOrder
+    address?: SortOrder
+    city?: SortOrder
+    postalCode?: SortOrder
+    logo?: SortOrder
+    favicon?: SortOrder
+    facebook?: SortOrder
+    twitter?: SortOrder
+    instagram?: SortOrder
+    linkedin?: SortOrder
+    youtube?: SortOrder
+    tiktok?: SortOrder
+    github?: SortOrder
+    website?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SettingsSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type GalleryImageListRelationFilter = {
+    every?: GalleryImageWhereInput
+    some?: GalleryImageWhereInput
+    none?: GalleryImageWhereInput
+  }
+
+  export type GalleryImageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type GalleryOrderByRelevanceInput = {
+    fields: GalleryOrderByRelevanceFieldEnum | GalleryOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type GalleryCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GalleryAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type GalleryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GalleryMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GallerySumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type GalleryScalarRelationFilter = {
+    is?: GalleryWhereInput
+    isNot?: GalleryWhereInput
+  }
+
+  export type GalleryImageOrderByRelevanceInput = {
+    fields: GalleryImageOrderByRelevanceFieldEnum | GalleryImageOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type GalleryImageCountOrderByAggregateInput = {
+    id?: SortOrder
+    url?: SortOrder
+    galleryId?: SortOrder
+  }
+
+  export type GalleryImageAvgOrderByAggregateInput = {
+    id?: SortOrder
+    galleryId?: SortOrder
+  }
+
+  export type GalleryImageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    url?: SortOrder
+    galleryId?: SortOrder
+  }
+
+  export type GalleryImageMinOrderByAggregateInput = {
+    id?: SortOrder
+    url?: SortOrder
+    galleryId?: SortOrder
+  }
+
+  export type GalleryImageSumOrderByAggregateInput = {
+    id?: SortOrder
+    galleryId?: SortOrder
+  }
+
   export type ProductCreateNestedManyWithoutCreatedByInput = {
     create?: XOR<ProductCreateWithoutCreatedByInput, ProductUncheckedCreateWithoutCreatedByInput> | ProductCreateWithoutCreatedByInput[] | ProductUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: ProductCreateOrConnectWithoutCreatedByInput | ProductCreateOrConnectWithoutCreatedByInput[]
@@ -13264,6 +17414,62 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutPaymentsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPaymentsInput, UserUpdateWithoutPaymentsInput>, UserUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type GalleryImageCreateNestedManyWithoutGalleryInput = {
+    create?: XOR<GalleryImageCreateWithoutGalleryInput, GalleryImageUncheckedCreateWithoutGalleryInput> | GalleryImageCreateWithoutGalleryInput[] | GalleryImageUncheckedCreateWithoutGalleryInput[]
+    connectOrCreate?: GalleryImageCreateOrConnectWithoutGalleryInput | GalleryImageCreateOrConnectWithoutGalleryInput[]
+    createMany?: GalleryImageCreateManyGalleryInputEnvelope
+    connect?: GalleryImageWhereUniqueInput | GalleryImageWhereUniqueInput[]
+  }
+
+  export type GalleryImageUncheckedCreateNestedManyWithoutGalleryInput = {
+    create?: XOR<GalleryImageCreateWithoutGalleryInput, GalleryImageUncheckedCreateWithoutGalleryInput> | GalleryImageCreateWithoutGalleryInput[] | GalleryImageUncheckedCreateWithoutGalleryInput[]
+    connectOrCreate?: GalleryImageCreateOrConnectWithoutGalleryInput | GalleryImageCreateOrConnectWithoutGalleryInput[]
+    createMany?: GalleryImageCreateManyGalleryInputEnvelope
+    connect?: GalleryImageWhereUniqueInput | GalleryImageWhereUniqueInput[]
+  }
+
+  export type GalleryImageUpdateManyWithoutGalleryNestedInput = {
+    create?: XOR<GalleryImageCreateWithoutGalleryInput, GalleryImageUncheckedCreateWithoutGalleryInput> | GalleryImageCreateWithoutGalleryInput[] | GalleryImageUncheckedCreateWithoutGalleryInput[]
+    connectOrCreate?: GalleryImageCreateOrConnectWithoutGalleryInput | GalleryImageCreateOrConnectWithoutGalleryInput[]
+    upsert?: GalleryImageUpsertWithWhereUniqueWithoutGalleryInput | GalleryImageUpsertWithWhereUniqueWithoutGalleryInput[]
+    createMany?: GalleryImageCreateManyGalleryInputEnvelope
+    set?: GalleryImageWhereUniqueInput | GalleryImageWhereUniqueInput[]
+    disconnect?: GalleryImageWhereUniqueInput | GalleryImageWhereUniqueInput[]
+    delete?: GalleryImageWhereUniqueInput | GalleryImageWhereUniqueInput[]
+    connect?: GalleryImageWhereUniqueInput | GalleryImageWhereUniqueInput[]
+    update?: GalleryImageUpdateWithWhereUniqueWithoutGalleryInput | GalleryImageUpdateWithWhereUniqueWithoutGalleryInput[]
+    updateMany?: GalleryImageUpdateManyWithWhereWithoutGalleryInput | GalleryImageUpdateManyWithWhereWithoutGalleryInput[]
+    deleteMany?: GalleryImageScalarWhereInput | GalleryImageScalarWhereInput[]
+  }
+
+  export type GalleryImageUncheckedUpdateManyWithoutGalleryNestedInput = {
+    create?: XOR<GalleryImageCreateWithoutGalleryInput, GalleryImageUncheckedCreateWithoutGalleryInput> | GalleryImageCreateWithoutGalleryInput[] | GalleryImageUncheckedCreateWithoutGalleryInput[]
+    connectOrCreate?: GalleryImageCreateOrConnectWithoutGalleryInput | GalleryImageCreateOrConnectWithoutGalleryInput[]
+    upsert?: GalleryImageUpsertWithWhereUniqueWithoutGalleryInput | GalleryImageUpsertWithWhereUniqueWithoutGalleryInput[]
+    createMany?: GalleryImageCreateManyGalleryInputEnvelope
+    set?: GalleryImageWhereUniqueInput | GalleryImageWhereUniqueInput[]
+    disconnect?: GalleryImageWhereUniqueInput | GalleryImageWhereUniqueInput[]
+    delete?: GalleryImageWhereUniqueInput | GalleryImageWhereUniqueInput[]
+    connect?: GalleryImageWhereUniqueInput | GalleryImageWhereUniqueInput[]
+    update?: GalleryImageUpdateWithWhereUniqueWithoutGalleryInput | GalleryImageUpdateWithWhereUniqueWithoutGalleryInput[]
+    updateMany?: GalleryImageUpdateManyWithWhereWithoutGalleryInput | GalleryImageUpdateManyWithWhereWithoutGalleryInput[]
+    deleteMany?: GalleryImageScalarWhereInput | GalleryImageScalarWhereInput[]
+  }
+
+  export type GalleryCreateNestedOneWithoutImagesInput = {
+    create?: XOR<GalleryCreateWithoutImagesInput, GalleryUncheckedCreateWithoutImagesInput>
+    connectOrCreate?: GalleryCreateOrConnectWithoutImagesInput
+    connect?: GalleryWhereUniqueInput
+  }
+
+  export type GalleryUpdateOneRequiredWithoutImagesNestedInput = {
+    create?: XOR<GalleryCreateWithoutImagesInput, GalleryUncheckedCreateWithoutImagesInput>
+    connectOrCreate?: GalleryCreateOrConnectWithoutImagesInput
+    upsert?: GalleryUpsertWithoutImagesInput
+    connect?: GalleryWhereUniqueInput
+    update?: XOR<XOR<GalleryUpdateToOneWithWhereWithoutImagesInput, GalleryUpdateWithoutImagesInput>, GalleryUncheckedUpdateWithoutImagesInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -14860,6 +19066,96 @@ export namespace Prisma {
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type GalleryImageCreateWithoutGalleryInput = {
+    url: string
+  }
+
+  export type GalleryImageUncheckedCreateWithoutGalleryInput = {
+    id?: number
+    url: string
+  }
+
+  export type GalleryImageCreateOrConnectWithoutGalleryInput = {
+    where: GalleryImageWhereUniqueInput
+    create: XOR<GalleryImageCreateWithoutGalleryInput, GalleryImageUncheckedCreateWithoutGalleryInput>
+  }
+
+  export type GalleryImageCreateManyGalleryInputEnvelope = {
+    data: GalleryImageCreateManyGalleryInput | GalleryImageCreateManyGalleryInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type GalleryImageUpsertWithWhereUniqueWithoutGalleryInput = {
+    where: GalleryImageWhereUniqueInput
+    update: XOR<GalleryImageUpdateWithoutGalleryInput, GalleryImageUncheckedUpdateWithoutGalleryInput>
+    create: XOR<GalleryImageCreateWithoutGalleryInput, GalleryImageUncheckedCreateWithoutGalleryInput>
+  }
+
+  export type GalleryImageUpdateWithWhereUniqueWithoutGalleryInput = {
+    where: GalleryImageWhereUniqueInput
+    data: XOR<GalleryImageUpdateWithoutGalleryInput, GalleryImageUncheckedUpdateWithoutGalleryInput>
+  }
+
+  export type GalleryImageUpdateManyWithWhereWithoutGalleryInput = {
+    where: GalleryImageScalarWhereInput
+    data: XOR<GalleryImageUpdateManyMutationInput, GalleryImageUncheckedUpdateManyWithoutGalleryInput>
+  }
+
+  export type GalleryImageScalarWhereInput = {
+    AND?: GalleryImageScalarWhereInput | GalleryImageScalarWhereInput[]
+    OR?: GalleryImageScalarWhereInput[]
+    NOT?: GalleryImageScalarWhereInput | GalleryImageScalarWhereInput[]
+    id?: IntFilter<"GalleryImage"> | number
+    url?: StringFilter<"GalleryImage"> | string
+    galleryId?: IntFilter<"GalleryImage"> | number
+  }
+
+  export type GalleryCreateWithoutImagesInput = {
+    title: string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GalleryUncheckedCreateWithoutImagesInput = {
+    id?: number
+    title: string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GalleryCreateOrConnectWithoutImagesInput = {
+    where: GalleryWhereUniqueInput
+    create: XOR<GalleryCreateWithoutImagesInput, GalleryUncheckedCreateWithoutImagesInput>
+  }
+
+  export type GalleryUpsertWithoutImagesInput = {
+    update: XOR<GalleryUpdateWithoutImagesInput, GalleryUncheckedUpdateWithoutImagesInput>
+    create: XOR<GalleryCreateWithoutImagesInput, GalleryUncheckedCreateWithoutImagesInput>
+    where?: GalleryWhereInput
+  }
+
+  export type GalleryUpdateToOneWithWhereWithoutImagesInput = {
+    where?: GalleryWhereInput
+    data: XOR<GalleryUpdateWithoutImagesInput, GalleryUncheckedUpdateWithoutImagesInput>
+  }
+
+  export type GalleryUpdateWithoutImagesInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GalleryUncheckedUpdateWithoutImagesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ProductCreateManyCreatedByInput = {
     id?: number
     name: string
@@ -15437,6 +19733,25 @@ export namespace Prisma {
     paymentData?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GalleryImageCreateManyGalleryInput = {
+    id?: number
+    url: string
+  }
+
+  export type GalleryImageUpdateWithoutGalleryInput = {
+    url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type GalleryImageUncheckedUpdateWithoutGalleryInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type GalleryImageUncheckedUpdateManyWithoutGalleryInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    url?: StringFieldUpdateOperationsInput | string
   }
 
 
