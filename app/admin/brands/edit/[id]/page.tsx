@@ -1,63 +1,72 @@
-'use client'
-import React from 'react'
+"use client";
+import React from "react";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useUpdate } from "@/services/useUpdate";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 interface BrandType {
   id: number;
   name: string;
 }
 export default function EditBrandPage() {
+  const params = useParams();
+  const router = useRouter();
+  const brandId = Number(params?.id);
 
-    const params = useParams();
-      const router = useRouter();
-      const brandId = Number(params?.id);
-    
-      const [brand, setBrand] = useState<BrandType | null>(null);
-      const [name, setName] = useState("");
-    
-      const { updateData, loading: updating, error: updateError } = useUpdate<BrandType>();
+  const [brand, setBrand] = useState<BrandType | null>(null);
+  const [name, setName] = useState("");
 
-    useEffect(() => {
-        const fetchBrand = async () => {
-          try {
-            const res = await fetch('/api/brands');
-            const data: BrandType[] = await res.json();
-            const matchingBrand = data.find(b => b.id === brandId);
-            if (matchingBrand) {
-              setBrand(matchingBrand);
-              setName(matchingBrand.name);
-            }
-          } catch (err) {
-            console.error(err);
-          }
-        };
-    
-        fetchBrand();
-      }, [brandId]);
+  const {
+    updateData,
+    loading: updating,
+    error: updateError,
+  } = useUpdate<BrandType>();
 
-    const handleSubmit = async (e: React.FormEvent) => {
+  useEffect(() => {
+    const fetchBrand = async () => {
+      try {
+        const res = await fetch("/api/brands");
+        const data: BrandType[] = await res.json();
+        const matchingBrand = data.find((b) => b.id === brandId);
+        if (matchingBrand) {
+          setBrand(matchingBrand);
+          setName(matchingBrand.name);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchBrand();
+  }, [brandId]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!brand) return;
 
-    const updateBrand: any = { ...brand, name};
+    const updateBrand: any = { ...brand, name };
     const result = await updateData(`brands/${brand.id}`, updateBrand, "PUT");
 
-      if (result) {
-      alert("Brand updated successfully!");
-      router.push("/admin/brands"); 
+    if (result) {
+      toast.success("Brand updated successfully!");
+      router.push("/admin/brands");
     }
   };
-      if (!brand) return <div className="p-6 text-white">Loading brand...</div>;
+  if (!brand) return <div className="p-6 text-white">Loading brand...</div>;
   return (
     <div className="flex items-center justify-center mx-auto ">
-        <div className="flex-col flex items-center justify-center mt-3 gap-6 w-2/5 rounded p-5 shadow-xl border-2 border-[#aec958]">
-      <h1 className="text-2xl text-white font-bold text-center mb-2 pt-4">Update brands</h1>
+      <div className="flex-col flex items-center justify-center mt-3 gap-6 w-2/5 rounded p-5 shadow-xl border-2 border-[#aec958]">
+        <h1 className="text-2xl text-white font-bold text-center mb-2 pt-4">
+          Update brands
+        </h1>
         <form className="w-full" onSubmit={handleSubmit}>
           <div className="rounded-xl p-2 gap-4 shadow-lg flex justify-center items-center mx-auto ">
-             <div className="flex-col flex gap-4">
-                <label htmlFor="name" className="text-xl text-black">Brand Name</label>
+            <div className="flex-col flex gap-4">
+              <label htmlFor="name" className="text-xl text-black">
+                Brand Name
+              </label>
               <input
                 type="text"
                 id="name"
@@ -79,9 +88,11 @@ export default function EditBrandPage() {
               {updating ? "Updating..." : "Update"}
             </button>
           </div>
-          {updateError && <div className="text-red-500 mt-2">{updateError}</div>}
+          {updateError && (
+            <div className="text-red-500 mt-2">{updateError}</div>
+          )}
         </form>
       </div>
     </div>
-  )
+  );
 }

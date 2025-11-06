@@ -22,9 +22,9 @@ export default function AddPackagePage() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // ✅ Fetch products from API
   useEffect(() => {
-    axios.get("/api/products")
+    axios
+      .get("/api/products")
       .then((res) => {
         setProducts(res.data);
         setFilteredProducts(res.data);
@@ -32,7 +32,6 @@ export default function AddPackagePage() {
       .catch((err) => console.error("Error fetching products:", err));
   }, []);
 
-  // ✅ Filter products dynamically
   useEffect(() => {
     const results = products.filter((p) =>
       p.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -40,25 +39,21 @@ export default function AddPackagePage() {
     setFilteredProducts(results);
   }, [searchQuery, products]);
 
-  // ✅ Add product to selected list
   const handleAddProduct = (product: any) => {
     if (!selectedProducts.find((p) => p.id === product.id)) {
       setSelectedProducts([...selectedProducts, product]);
     }
   };
 
-  // ✅ Remove product from selection
   const handleRemoveProduct = (id: number) => {
     setSelectedProducts(selectedProducts.filter((p) => p.id !== id));
   };
 
-  // ✅ Image preview
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) setImagePreview(URL.createObjectURL(file));
   };
 
-  // ✅ Submit package
   const onSubmit = async (data: any) => {
     try {
       setLoading(true);
@@ -78,10 +73,9 @@ export default function AddPackagePage() {
       });
 
       await axios.post("/api/packages", formData, {
-        headers: { 
+        headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${Cookies.get("token") || ""}`,
-        
         },
       });
 
@@ -89,7 +83,10 @@ export default function AddPackagePage() {
       setSelectedProducts([]);
       router.push("/admin/packages");
     } catch (error: any) {
-      console.error("Error creating package:", error.response?.data || error.message);
+      console.error(
+        "Error creating package:",
+        error.response?.data || error.message
+      );
       alert("Failed to create package");
     } finally {
       setLoading(false);
@@ -100,34 +97,63 @@ export default function AddPackagePage() {
     <div className="max-w-5xl mx-auto py-8">
       <Card className="shadow-md border rounded-2xl">
         <CardHeader>
-          <CardTitle className="text-2xl font-semibold">Add New Package</CardTitle>
+          <CardTitle className="text-2xl font-semibold">
+            Add New Package
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {/* Name & Price */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Input {...register("name", { required: true })} placeholder="Package Name" />
-              <Input {...register("price", { required: true })} type="number" placeholder="Price" />
+              <Input
+                {...register("name", { required: true })}
+                placeholder="Package Name"
+              />
+              <Input
+                {...register("price", { required: true })}
+                type="number"
+                placeholder="Price"
+              />
             </div>
 
             {/* Discount & Stock */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Input {...register("discount")} type="number" placeholder="Discount %" />
+              <Input
+                {...register("discount")}
+                type="number"
+                placeholder="Discount %"
+              />
               <Input {...register("stock")} type="number" placeholder="Stock" />
             </div>
 
             {/* Description */}
-            <Textarea {...register("description")} placeholder="Package Description" rows={3} />
+            <Textarea
+              {...register("description")}
+              placeholder="Package Description"
+              rows={3}
+            />
 
             {/* Image Upload */}
             <div className="flex flex-col md:flex-row items-center gap-4">
               <label className="flex items-center gap-2 cursor-pointer">
                 <Upload className="w-5 h-5 text-gray-600" />
                 <span>Upload Image</span>
-                <input {...register("image")} type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
+                <input
+                  {...register("image")}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageChange}
+                />
               </label>
               {imagePreview && (
-                <Image src={imagePreview} alt="Preview" width={100} height={100} className="rounded-lg object-cover" />
+                <Image
+                  src={imagePreview}
+                  alt="Preview"
+                  width={100}
+                  height={100}
+                  className="rounded-lg object-cover"
+                />
               )}
             </div>
 
@@ -138,7 +164,11 @@ export default function AddPackagePage() {
                 Featured
               </label>
               <label className="flex items-center gap-2">
-                <input type="checkbox" defaultChecked {...register("isActive")} />
+                <input
+                  type="checkbox"
+                  defaultChecked
+                  {...register("isActive")}
+                />
                 Active
               </label>
             </div>
@@ -176,7 +206,9 @@ export default function AddPackagePage() {
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-500 text-sm text-center">No products found</p>
+                  <p className="text-gray-500 text-sm text-center">
+                    No products found
+                  </p>
                 )}
               </div>
 
@@ -203,11 +235,7 @@ export default function AddPackagePage() {
             </div>
 
             {/* Submit Button */}
-            <Button
-              type="submit"
-              className="w-full mt-6"
-              disabled={loading}
-            >
+            <Button type="submit" className="w-full mt-6" disabled={loading}>
               {loading ? "Creating Package..." : "Create Package"}
             </Button>
           </form>
