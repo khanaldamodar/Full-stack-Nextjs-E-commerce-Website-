@@ -26,6 +26,8 @@ interface Package {
   products?: { id: number; name: string }[];
 }
 
+
+
 export default function PackagesPage() {
   const [packages, setPackages] = useState<Package[]>([]);
   const [loading, setLoading] = useState(false);

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
@@ -10,17 +10,19 @@ import { Card } from "@/components/ui/card"
 interface ProductFiltersProps {
   filters: {
     categories: string[]
+    brands: string[]
     priceRange: [number, number]
     minRating: number
   }
+
   onFilterChange: (filters: {
     categories: string[]
+    brands: string[]
     priceRange: [number, number]
     minRating: number
   }) => void
 }
 
-const CATEGORIES = ["Electronics", "Accessories", "Office"]
 const RATINGS = [
   { value: 0, label: "All Ratings" },
   { value: 4, label: "4★ & up" },
@@ -29,6 +31,46 @@ const RATINGS = [
 
 export function ProductFilters({ filters, onFilterChange }: ProductFiltersProps) {
   const [localFilters, setLocalFilters] = useState(filters)
+  const [categories, setCategories] = useState<string[]>([])
+  const [brands, setBrands] = useState<string[]>([])
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch("/api/categories") // adjust your API route if different
+        const data = await res.json()
+        setCategories(data.map((c: any) => c.name)) // assumes category has a 'name' field
+      } catch (error) {
+        console.error("Failed to load categories:", error)
+      }
+    }
+    fetchCategories()
+  }, [])
+
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch("/api/brands") // adjust your API route if different
+        const data = await res.json()
+        setBrands(data.map((c: any) => c.name)) // assumes category has a 'name' field
+      } catch (error) {
+        console.error("Failed to load Brands:", error)
+      }
+    }
+    fetchCategories()
+  }, [])
+
+  
+  const handleBrandChange = (brand: string, checked: boolean) => {
+    const newCategories = checked
+      ? [...localFilters.brands, brand]
+      : localFilters.brands.filter((c) => c !== brand)
+
+    const updated = { ...localFilters, brands: newCategories }
+    setLocalFilters(updated)
+    onFilterChange(updated)
+  }
 
   const handleCategoryChange = (category: string, checked: boolean) => {
     const newCategories = checked
@@ -58,6 +100,7 @@ export function ProductFilters({ filters, onFilterChange }: ProductFiltersProps)
   const handleReset = () => {
     const resetFilters = {
       categories: [],
+      brands:[],
       priceRange: [0, 200] as [number, number],
       minRating: 0,
     }
@@ -84,7 +127,7 @@ export function ProductFilters({ filters, onFilterChange }: ProductFiltersProps)
       <div className="space-y-3">
         <h3 className="font-medium text-foreground">Category</h3>
         <div className="space-y-2">
-          {CATEGORIES.map((category) => (
+          {categories.map((category) => (
             <div key={category} className="flex items-center space-x-2">
               <Checkbox
                 id={category}
@@ -93,6 +136,25 @@ export function ProductFilters({ filters, onFilterChange }: ProductFiltersProps)
               />
               <Label htmlFor={category} className="cursor-pointer text-sm font-normal text-foreground">
                 {category}
+              </Label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Brands Filter */}
+      <div className="space-y-3">
+        <h3 className="font-medium text-foreground">Brands</h3>
+        <div className="space-y-2">
+          {brands.map((brand) => (
+            <div key={brand} className="flex items-center space-x-2">
+              <Checkbox
+                id={brand}
+                checked={localFilters.brands.includes(brand)}
+                onCheckedChange={(checked) => handleBrandChange(brand, checked as boolean)}
+              />
+              <Label htmlFor={brand} className="cursor-pointer text-sm font-normal text-foreground">
+                {brand}
               </Label>
             </div>
           ))}

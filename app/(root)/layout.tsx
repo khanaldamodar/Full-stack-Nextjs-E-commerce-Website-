@@ -1,54 +1,31 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Poppins } from "next/font/google";
+// app/layout.tsx
+import { Poppins } from "next/font/google";
 import "../globals.css";
 import Navbar from "@/components/global/Navbar";
-import "keen-slider/keen-slider.min.css";
 import Footer from "@/components/global/Footer";
 import { CartProvider } from "@/context/CartContext";
-
-
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
+import { getSettings } from "@/lib/settings";
 
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900']
+  weight: ["100","200","300","400","500","600","700","800","900"],
 });
 
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-  title: "Set Nepal - One Stop All Solution",
-  description: "Get All the Insturement you need!",
-  icons: {
-    icon: '/logo.jpeg'
-  }
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+   const settings = await getSettings(); // fast, cached
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased bg-[#AEC958]`}
-      >
+     <head>
+        <title>{settings?.companyName || "Set Nepal"}</title>
+        <link rel="icon" href={settings?.favicon || "/logo.jpeg"} />
+      </head>
+      <body className={`${poppins.variable} antialiased bg-[#AEC958]`}>
         <CartProvider>
-        <Navbar />
+          <Navbar settings={settings} />
           {children}
         </CartProvider>
-        <Footer />
+        <Footer settings={settings} />
       </body>
     </html>
   );
