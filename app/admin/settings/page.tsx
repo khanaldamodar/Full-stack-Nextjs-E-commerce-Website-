@@ -10,7 +10,6 @@ import { HiOutlineOfficeBuilding } from "react-icons/hi";
 import { IoLogoFacebook } from "react-icons/io";
 import { IoLocation } from "react-icons/io5";
 import { RiInstagramFill, RiLinkedinFill } from "react-icons/ri";
-import { TbFavicon } from "react-icons/tb";
 import { FcAbout } from "react-icons/fc";
 import { FaTwitter, FaYoutube, FaTiktok, FaGithub, FaGlobe } from "react-icons/fa";
 import { useUpdate } from "@/services/useUpdate";
@@ -43,6 +42,12 @@ export default function SettingsPage() {
   const [github, setGithub] = useState("");
   const [website, setWebsite] = useState("");
 
+  // Logo & Favicon
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [faviconFile, setFaviconFile] = useState<File | null>(null);
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
+  const [faviconPreview, setFaviconPreview] = useState<string | null>(null);
+
   const { updateData, loading: updating, error: updateError } = useUpdate<any>();
 
   useEffect(() => {
@@ -53,7 +58,6 @@ export default function SettingsPage() {
         const data = await res.json();
         setSettings(data);
 
-        // Populate fields
         setCompanyName(data.companyName || "");
         setSlogan(data.slogan || "");
         setAboutShort(data.aboutShort || "");
@@ -73,6 +77,8 @@ export default function SettingsPage() {
         setTiktok(data.tiktok || "");
         setGithub(data.github || "");
         setWebsite(data.website || "");
+        setLogoPreview(data.logo || null);
+        setFaviconPreview(data.favicon || null);
       } catch (err) {
         console.error(err);
       }
@@ -81,36 +87,41 @@ export default function SettingsPage() {
     fetchSettings();
   }, []);
 
+  // Handle Save Changes (JSON + files)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!settings) return;
 
-    const updatedSettings = {
-      companyName,
-      slogan,
-      aboutShort,
-      about,
-      phone1,
-      phone2,
-      email1,
-      email2,
-      address,
-      city,
-      postalCode,
-      facebook,
-      twitter,
-      instagram,
-      linkedin,
-      youtube,
-      tiktok,
-      github,
-      website,
-    };
+    const formData = new FormData();
+    formData.append("companyName", companyName);
+    formData.append("slogan", slogan);
+    formData.append("aboutShort", aboutShort);
+    formData.append("about", about);
+    formData.append("phone1", phone1);
+    formData.append("phone2", phone2);
+    formData.append("email1", email1);
+    formData.append("email2", email2);
+    formData.append("address", address);
+    formData.append("city", city);
+    formData.append("postalCode", postalCode);
+    formData.append("facebook", facebook);
+    formData.append("twitter", twitter);
+    formData.append("instagram", instagram);
+    formData.append("linkedin", linkedin);
+    formData.append("youtube", youtube);
+    formData.append("tiktok", tiktok);
+    formData.append("github", github);
+    formData.append("website", website);
 
-    const result = await updateData("settings", updatedSettings, "PUT");
+    if (logoFile) formData.append("logo", logoFile);
+    if (faviconFile) formData.append("favicon", faviconFile);
+
+    const result = await updateData("settings", formData, "PUT", true);
 
     if (result) {
       alert("Settings updated successfully!");
+      if (result.logo) setLogoPreview(result.logo);
+      if (result.favicon) setFaviconPreview(result.favicon);
     }
   };
 
@@ -120,165 +131,69 @@ export default function SettingsPage() {
     <div className="flex min-h-screen bg-gray-100 justify-center p-4">
       <main className="flex-1 max-w-6xl">
         <div className="bg-white shadow-md rounded-xl p-6 md:p-8">
-          {/* Company Info */}
-          <h2 className="text-lg font-semibold text-gray-700 underline mb-4">
-            Company Information
-          </h2>
           <form className="grid grid-cols-1 md:grid-cols-2 gap-6" onSubmit={handleSubmit}>
-            <InputField
-              label="Company Name"
-              icon={<HiOutlineOfficeBuilding className="text-white text-lg" />}
-              placeholder="Enter company name"
-              value={companyName}
-              onChange={setCompanyName}
-            />
+            {/* Company info */}
+            <InputField label="Company Name" icon={<HiOutlineOfficeBuilding className="text-white text-lg" />} placeholder="Enter company name" value={companyName} onChange={setCompanyName} />
+            <InputField label="Slogan" icon={<MdShortText className="text-white text-lg" />} placeholder="Enter company slogan" value={slogan} onChange={setSlogan} />
+            <TextareaField label="About Short" icon={<FcAbout className="text-white text-lg" />} placeholder="Short description..." value={aboutShort} onChange={setAboutShort} />
+            <TextareaField label="About" icon={<FcAbout className="text-white text-lg" />} placeholder="Full company description..." value={about} onChange={setAbout} />
 
-            <InputField
-              label="Slogan"
-              icon={<MdShortText className="text-white text-lg" />}
-              placeholder="Enter company slogan"
-              value={slogan}
-              onChange={setSlogan}
-            />
-
-            <TextareaField
-              label="About Short"
-              icon={<FcAbout className="text-white text-lg" />}
-              placeholder="Short description..."
-              value={aboutShort}
-              onChange={setAboutShort}
-            />
-
-            <TextareaField
-              label="About"
-              icon={<FcAbout className="text-white text-lg" />}
-              placeholder="Full company description..."
-              value={about}
-              onChange={setAbout}
-            />
-
-            {/* Contact Info */}
-            <InputField
-              label="Phone 1"
-              icon={<MdOutlinePhone className="text-white text-lg" />}
-              placeholder="Primary phone"
-              value={phone1}
-              onChange={setPhone1}
-            />
-            <InputField
-              label="Phone 2"
-              icon={<MdOutlinePhone className="text-white text-lg" />}
-              placeholder="Secondary phone"
-              value={phone2}
-              onChange={setPhone2}
-            />
-            <InputField
-              label="Email 1"
-              type="email"
-              icon={<MdOutlineLocalPostOffice className="text-white text-lg" />}
-              placeholder="Primary email"
-              value={email1}
-              onChange={setEmail1}
-            />
-            <InputField
-              label="Email 2"
-              type="email"
-              icon={<MdOutlineLocalPostOffice className="text-white text-lg" />}
-              placeholder="Secondary email"
-              value={email2}
-              onChange={setEmail2}
-            />
-            <InputField
-              label="Address"
-              icon={<IoLocation className="text-white text-lg" />}
-              placeholder="Company address"
-              value={address}
-              onChange={setAddress}
-            />
-            <InputField
-              label="City"
-              icon={<IoLocation className="text-white text-lg" />}
-              placeholder="City"
-              value={city}
-              onChange={setCity}
-            />
-            <InputField
-              label="Postal Code"
-              icon={<IoLocation className="text-white text-lg" />}
-              placeholder="Postal code"
-              value={postalCode}
-              onChange={setPostalCode}
-            />
+            {/* Contact info */}
+            <InputField label="Phone 1" icon={<MdOutlinePhone className="text-white text-lg" />} placeholder="Primary phone" value={phone1} onChange={setPhone1} />
+            <InputField label="Phone 2" icon={<MdOutlinePhone className="text-white text-lg" />} placeholder="Secondary phone" value={phone2} onChange={setPhone2} />
+            <InputField label="Email 1" icon={<MdOutlineLocalPostOffice className="text-white text-lg" />} type="email" placeholder="Primary email" value={email1} onChange={setEmail1} />
+            <InputField label="Email 2" icon={<MdOutlineLocalPostOffice className="text-white text-lg" />} type="email" placeholder="Secondary email" value={email2} onChange={setEmail2} />
+            <InputField label="Address" icon={<IoLocation className="text-white text-lg" />} placeholder="Company address" value={address} onChange={setAddress} />
+            <InputField label="City" icon={<IoLocation className="text-white text-lg" />} placeholder="City" value={city} onChange={setCity} />
+            <InputField label="Postal Code" icon={<IoLocation className="text-white text-lg" />} placeholder="Postal code" value={postalCode} onChange={setPostalCode} />
 
             {/* Social Media */}
-            <h2 className="text-lg font-semibold text-gray-700 underline mb-6 md:col-span-2 mt-6">
-              Social Media Links
-            </h2>
+            <h2 className="text-lg font-semibold text-gray-700 underline mb-6 md:col-span-2 mt-6">Social Media Links</h2>
+            <InputField label="Facebook" icon={<IoLogoFacebook className="text-white text-lg" />} placeholder="Facebook URL" value={facebook} onChange={setFacebook} />
+            <InputField label="Twitter" icon={<FaTwitter className="text-white text-lg" />} placeholder="Twitter URL" value={twitter} onChange={setTwitter} />
+            <InputField label="Instagram" icon={<RiInstagramFill className="text-white text-lg" />} placeholder="Instagram URL" value={instagram} onChange={setInstagram} />
+            <InputField label="LinkedIn" icon={<RiLinkedinFill className="text-white text-lg" />} placeholder="LinkedIn URL" value={linkedin} onChange={setLinkedin} />
+            <InputField label="YouTube" icon={<FaYoutube className="text-white text-lg" />} placeholder="YouTube URL" value={youtube} onChange={setYoutube} />
+            <InputField label="TikTok" icon={<FaTiktok className="text-white text-lg" />} placeholder="TikTok URL" value={tiktok} onChange={setTiktok} />
+            <InputField label="GitHub" icon={<FaGithub className="text-white text-lg" />} placeholder="GitHub URL" value={github} onChange={setGithub} />
+            <InputField label="Website" icon={<FaGlobe className="text-white text-lg" />} placeholder="Website URL" value={website} onChange={setWebsite} />
 
-            <InputField
-              label="Facebook"
-              icon={<IoLogoFacebook className="text-white text-lg" />}
-              placeholder="Facebook URL"
-              value={facebook}
-              onChange={setFacebook}
-            />
-            <InputField
-              label="Twitter"
-              icon={<FaTwitter className="text-white text-lg" />}
-              placeholder="Twitter URL"
-              value={twitter}
-              onChange={setTwitter}
-            />
-            <InputField
-              label="Instagram"
-              icon={<RiInstagramFill className="text-white text-lg" />}
-              placeholder="Instagram URL"
-              value={instagram}
-              onChange={setInstagram}
-            />
-            <InputField
-              label="LinkedIn"
-              icon={<RiLinkedinFill className="text-white text-lg" />}
-              placeholder="LinkedIn URL"
-              value={linkedin}
-              onChange={setLinkedin}
-            />
-            <InputField
-              label="YouTube"
-              icon={<FaYoutube className="text-white text-lg" />}
-              placeholder="YouTube URL"
-              value={youtube}
-              onChange={setYoutube}
-            />
-            <InputField
-              label="TikTok"
-              icon={<FaTiktok className="text-white text-lg" />}
-              placeholder="TikTok URL"
-              value={tiktok}
-              onChange={setTiktok}
-            />
-            <InputField
-              label="GitHub"
-              icon={<FaGithub className="text-white text-lg" />}
-              placeholder="GitHub URL"
-              value={github}
-              onChange={setGithub}
-            />
-            <InputField
-              label="Website"
-              icon={<FaGlobe className="text-white text-lg" />}
-              placeholder="Website URL"
-              value={website}
-              onChange={setWebsite}
-            />
+            {/* Logo & Favicon */}
+            <h2 className="text-lg font-semibold text-gray-700 underline mb-4 md:col-span-2 mt-6">Logo & Favicon</h2>
+            <div className="flex flex-col gap-2">
+              <label className="font-medium">Logo</label>
+              <input type="file" accept="image/*" onChange={e => {
+                const file = e.target.files?.[0] || null;
+                setLogoFile(file);
+                setLogoPreview(file ? URL.createObjectURL(file) : null);
+              }} />
+              {logoPreview && (
+  <img
+    src={logoPreview}
+    alt="Logo preview"
+    className="h-20 w-20 md:h-24 md:w-24 object-cover rounded-lg shadow-md mt-2 border border-gray-300"
+  />
+)}
+            </div>
+            <div className="flex flex-col gap-2">
+              <label className="font-medium">Favicon</label>
+              <input type="file" accept="image/*" onChange={e => {
+                const file = e.target.files?.[0] || null;
+                setFaviconFile(file);
+                setFaviconPreview(file ? URL.createObjectURL(file) : null);
+              }} />
+              {faviconPreview && (
+  <img
+    src={faviconPreview}
+    alt="Favicon preview"
+    className="h-12 w-12 md:h-16 md:w-16 object-cover rounded-full shadow-md mt-2 border border-gray-300"
+  />
+)}
+            </div>
 
-            {/* Submit */}
+            {/* Save Changes */}
             <div className="md:col-span-2 flex justify-center mt-8">
-              <button
-                type="submit"
-                disabled={updating}
-                className="bg-[#aec958] hover:bg-[#9bb648] text-white px-6 py-2.5 rounded-md font-medium text-sm transition"
-              >
+              <button type="submit" disabled={updating} className="bg-[#aec958] hover:bg-[#9bb648] text-white px-6 py-2.5 rounded-md font-medium text-sm transition">
                 {updating ? "Updating..." : "Save Changes"}
               </button>
             </div>
@@ -291,41 +206,24 @@ export default function SettingsPage() {
   );
 }
 
-// Reusable input with icon
+// Reusable Input & Textarea
 const InputField = ({ label, type = "text", icon, placeholder, value, onChange }: any) => (
   <div className="flex flex-col gap-1.5">
     <Label label={label} icon={icon} />
-    <input
-      type={type}
-      placeholder={placeholder}
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      className="border border-gray-300 rounded-md p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-lime-500 transition"
-    />
+    <input type={type} placeholder={placeholder} value={value} onChange={(e) => onChange(e.target.value)} className="border border-gray-300 rounded-md p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-lime-500 transition" />
   </div>
 );
 
-// Reusable textarea with icon
 const TextareaField = ({ label, icon, placeholder, value, onChange }: any) => (
-  <div className="flex flex-col gap-1.5 md:col-span-1">
+  <div className="flex flex-col gap-1.5">
     <Label label={label} icon={icon} />
-    <textarea
-      placeholder={placeholder}
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      className="border border-gray-300 rounded-md p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-lime-500 transition resize-y h-20"
-    />
+    <textarea placeholder={placeholder} value={value} onChange={(e) => onChange(e.target.value)} className="border border-gray-300 rounded-md p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-lime-500 transition resize-y h-20" />
   </div>
 );
 
 const Label = ({ label, icon }: any) => (
   <label className="text-gray-700 text-sm font-medium flex items-center gap-2.5">
-    <span
-      className="w-8 h-8 flex items-center justify-center rounded-full"
-      style={{ backgroundColor: "#aec958" }}
-    >
-      {icon}
-    </span>
+    {icon && <span className="w-8 h-8 flex items-center justify-center rounded-full bg-lime-500">{icon}</span>}
     {label}
   </label>
 );
