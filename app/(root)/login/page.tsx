@@ -108,7 +108,7 @@ export default function Page() {
           {/* Login Button */}
           <button
             onClick={handleLogin}
-            className="mt-6 w-full rounded bg-gradient-to-r from-green-500 to-blue-500 p-2 text-white font-semibold transition hover:opacity-90"
+            className="mt-6 w-full rounded bg-linear-to-r from-green-500 to-blue-500 p-2 text-white font-semibold transition hover:opacity-90"
           >
             Log In
           </button>

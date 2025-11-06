@@ -2,7 +2,12 @@ import { useState } from "react";
 import Cookies from "js-cookie";
 
 interface UseUpdateResult<T> {
-  updateData: (endpoint: string, body?: any, method?: string) => Promise<T | null>;
+  updateData: (
+    endpoint: string,
+    body?: any,
+    method?: string,
+    isFileUpload?: boolean
+  ) => Promise<T | null>;
   loading: boolean;
   error: string | null;
   success: boolean;
@@ -16,7 +21,8 @@ export function useUpdate<T = any>(): UseUpdateResult<T> {
   const updateData = async (
     endpoint: string,
     body?: any,
-    method: string = "PUT"
+    method: string = "PUT",
+    isFileUpload: boolean = false
   ): Promise<T | null> => {
     setLoading(true);
     setError(null);
@@ -25,17 +31,23 @@ export function useUpdate<T = any>(): UseUpdateResult<T> {
     try {
       const token = Cookies.get("token");
 
+      const headers: Record<string, string> = {};
+      if (!isFileUpload) {
+        headers["Content-Type"] = "application/json";
+      }
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+
       const response = await fetch(`/api/${endpoint}`, {
         method,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token ? `Bearer ${token}` : "",
-        },
-        body: body ? JSON.stringify(body) : undefined,
+        headers,
+        body: isFileUpload ? body : body ? JSON.stringify(body) : undefined,
       });
 
       if (!response.ok) {
-        throw new Error(`Request failed: ${response.status}`);
+        const text = await response.text();
+        throw new Error(`Request failed (${response.status}): ${text}`);
       }
 
       const data: T = await response.json();
@@ -51,4 +63,3 @@ export function useUpdate<T = any>(): UseUpdateResult<T> {
 
   return { updateData, loading, error, success };
 }
-
