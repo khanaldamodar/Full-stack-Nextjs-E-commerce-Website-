@@ -35,7 +35,7 @@ export default function ViewGalleryPage() {
   return (
     <div className="p-6 w-full bg-green-100 rounded shadow-lg">
       <h1 className="text-2xl font-bold mb-4">Gallery Details</h1>
-      <p><strong>ID:</strong> {gallery.id}</p>
+      
       <p><strong>Title:</strong> {gallery.title}</p>
       <p><strong>Description:</strong> {gallery.description}</p>
 

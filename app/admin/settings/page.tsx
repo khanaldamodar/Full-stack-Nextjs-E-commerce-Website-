@@ -116,7 +116,7 @@ export default function SettingsPage() {
     if (logoFile) formData.append("logo", logoFile);
     if (faviconFile) formData.append("favicon", faviconFile);
 
-    const result = await updateData("settings", formData, "PUT", true);
+    const result = await updateData("settings", formData, "PUT");
 
     if (result) {
       alert("Settings updated successfully!");

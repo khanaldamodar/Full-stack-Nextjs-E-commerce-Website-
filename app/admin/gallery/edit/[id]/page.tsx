@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, ChangeEvent } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { MdTitle, MdOutlineDescription, MdAdd, MdClose } from "react-icons/md";
+import { MdTitle, MdOutlineDescription, MdClose } from "react-icons/md";
 import { TbPhotoPlus } from "react-icons/tb";
 import { useUpdate } from "@/services/useUpdate";
 
@@ -69,7 +69,21 @@ const EditGalleryPage: React.FC = () => {
     setPreviews((prev) => [...prev, ...newPreviews]);
   };
 
-  
+  // Handle image removal
+  const handleRemoveImage = (index: number) => {
+    const removed = previews[index];
+
+    // If the image is from the original gallery, track it to remove from DB
+    if (originalImages.find(img => img.url === removed.url)) {
+      setRemovedImages(prev => [...prev, removed.url]);
+    }
+
+    // Remove from previews
+    setPreviews(prev => prev.filter((_, i) => i !== index));
+
+    // Remove from newly added images if applicable
+    setImages(prev => prev.filter(img => URL.createObjectURL(img) !== removed.url));
+  };
 
   // Handle form submit
   const handleSubmit = async (e: React.FormEvent) => {
@@ -135,8 +149,13 @@ const EditGalleryPage: React.FC = () => {
                       alt={img.name}
                       className="w-24 h-24 object-cover border border-gray-300 rounded-md"
                     />
-                    
-                    
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveImage(index)}
+                      className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600"
+                    >
+                      <MdClose size={16} />
+                    </button>
                   </div>
                 ))}
               </div>
@@ -173,7 +192,6 @@ const EditGalleryPage: React.FC = () => {
     </div>
   );
 };
-
 
 interface InputFieldProps {
   label: string;
