@@ -6,17 +6,29 @@ export function usePost<T>(url: string) {
   const [error, setError] = useState<Error | null>(null);
   const [data, setData] = useState<T | null>(null);
 
-  const postData = async (body: any, token?: string) => {
+  /**
+   * @param body - The data to post. Can be JSON or FormData.
+   * @param token - Optional auth token.
+   * @param isFormData - If true, send as multipart/form-data (for files).
+   */
+  const postData = async (body: any, token?: string, isFormData: boolean = false) => {
     setLoading(true);
     setError(null);
     try {
+      const headers: HeadersInit = {};
+
+      if (!isFormData) {
+        headers["Content-Type"] = "application/json";
+      }
+
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+
       const res = await fetch(url, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(token && { Authorization: `Bearer ${token}` }),
-        },
-        body: JSON.stringify(body),
+        headers,
+        body: isFormData ? body : JSON.stringify(body),
       });
 
       const json = await res.json();

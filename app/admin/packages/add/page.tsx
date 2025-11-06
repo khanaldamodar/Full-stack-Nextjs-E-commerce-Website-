@@ -1,239 +1,218 @@
 "use client";
 
-import { useState } from "react";
-import Cookies from "js-cookie";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { usePost } from "@/services/usePost";
+import axios from "axios";
+import { Search, Trash2, Upload } from "lucide-react";
+import Image from "next/image";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Cookies from "js-cookie";
 
-interface PackageType {
-  name: string;
-  description: string;
-  price: number;
-  discount: number;
-  stock: number;
-  isActive: boolean;
-  isFeatured: boolean;
-}
-
-export default function Page() {
+export default function AddPackagePage() {
   const router = useRouter();
-  const { postData, loading, error } = usePost<PackageType>("http://localhost:3000/api/packages");
+  const { register, handleSubmit, setValue, reset } = useForm();
+  const [products, setProducts] = useState<any[]>([]);
+  const [selectedProducts, setSelectedProducts] = useState<any[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const [packageData, setPackageData] = useState({
-    name: "",
-    description: "",
-    price: "",       // 👈 make these empty strings
-    discount: "",
-    stock: "",
-    isActive: true,
-    isFeatured: false,
-  });
+  // ✅ Fetch products from API
+  useEffect(() => {
+    axios.get("/api/products")
+      .then((res) => {
+        setProducts(res.data);
+        setFilteredProducts(res.data);
+      })
+      .catch((err) => console.error("Error fetching products:", err));
+  }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type } = e.target;
+  // ✅ Filter products dynamically
+  useEffect(() => {
+    const results = products.filter((p) =>
+      p.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredProducts(results);
+  }, [searchQuery, products]);
 
-    const parsedValue =
-      type === "radio"
-        ? value === "true"
-        : value;
-
-    setPackageData((prev) => ({ ...prev, [name]: parsedValue }));
+  // ✅ Add product to selected list
+  const handleAddProduct = (product: any) => {
+    if (!selectedProducts.find((p) => p.id === product.id)) {
+      setSelectedProducts([...selectedProducts, product]);
+    }
   };
 
-  const handleAddBrand = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const token = Cookies.get("token");
+  // ✅ Remove product from selection
+  const handleRemoveProduct = (id: number) => {
+    setSelectedProducts(selectedProducts.filter((p) => p.id !== id));
+  };
 
-    // Convert string numbers back to numbers before sending
-    const formattedData: PackageType = {
-      ...packageData,
-      price: Number(packageData.price),
-      discount: Number(packageData.discount),
-      stock: Number(packageData.stock),
-    };
+  // ✅ Image preview
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) setImagePreview(URL.createObjectURL(file));
+  };
 
+  // ✅ Submit package
+  const onSubmit = async (data: any) => {
     try {
-      const data = await postData(formattedData, token);
-      alert("Package added successfully!");
+      setLoading(true);
+      const formData = new FormData();
 
-      setPackageData({
-        name: "",
-        description: "",
-        price: "",
-        discount: "",
-        stock: "",
-        isActive: true,
-        isFeatured: false,
+      formData.append("name", data.name);
+      formData.append("description", data.description || "");
+      formData.append("price", data.price);
+      formData.append("discount", data.discount || "0");
+      formData.append("stock", data.stock || "0");
+      formData.append("isFeatured", data.isFeatured ? "true" : "false");
+      formData.append("isActive", data.isActive ? "true" : "false");
+      if (data.image?.[0]) formData.append("image", data.image[0]);
+
+      selectedProducts.forEach((product) => {
+        formData.append("productIds[]", product.id);
       });
 
-      // Optional: router.push("/packages");
-    } catch (err) {
-      console.error(err);
-      alert(error?.message || "Something went wrong. Please try again.");
+      await axios.post("/api/packages", formData, {
+        headers: { 
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${Cookies.get("token") || ""}`,
+        
+        },
+      });
+
+      reset();
+      setSelectedProducts([]);
+      router.push("/admin/packages");
+    } catch (error: any) {
+      console.error("Error creating package:", error.response?.data || error.message);
+      alert("Failed to create package");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center mt-3 gap-6 bg-linear-to-t from-green-700 to-green-400 w-full rounded p-5">
-      <h1 className="text-2xl text-white font-bold text-center mb-2 pt-2">Add Packages</h1>
+    <div className="max-w-5xl mx-auto py-8">
+      <Card className="shadow-md border rounded-2xl">
+        <CardHeader>
+          <CardTitle className="text-2xl font-semibold">Add New Package</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {/* Name & Price */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Input {...register("name", { required: true })} placeholder="Package Name" />
+              <Input {...register("price", { required: true })} type="number" placeholder="Price" />
+            </div>
 
-      <form className="w-full" onSubmit={handleAddBrand}>
-        <div className="rounded-xl p-4 gap-4 shadow-lg grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full">
+            {/* Discount & Stock */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Input {...register("discount")} type="number" placeholder="Discount %" />
+              <Input {...register("stock")} type="number" placeholder="Stock" />
+            </div>
 
-          {/* Package Name */}
-          <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="name" className="text-xl text-white">Package Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={packageData.name}
-              onChange={handleChange}
-              placeholder="Package Name"
-              className="p-3 bg-green-900 text-white placeholder-zinc-400 rounded-2xl outline-none focus:ring-2 focus:ring-green-700 w-full"
-              required
-            />
-          </div>
+            {/* Description */}
+            <Textarea {...register("description")} placeholder="Package Description" rows={3} />
 
-          {/* Description */}
-          <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="description" className="text-xl text-white">Description</label>
-            <input
-              type="text"
-              id="description"
-              name="description"
-              value={packageData.description}
-              onChange={handleChange}
-              placeholder="Package Description"
-              className="p-3 bg-zinc-900 text-white placeholder-zinc-400 rounded-2xl outline-none focus:ring-2 focus:ring-zinc-900 w-full"
-              required
-            />
-          </div>
+            {/* Image Upload */}
+            <div className="flex flex-col md:flex-row items-center gap-4">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <Upload className="w-5 h-5 text-gray-600" />
+                <span>Upload Image</span>
+                <input {...register("image")} type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
+              </label>
+              {imagePreview && (
+                <Image src={imagePreview} alt="Preview" width={100} height={100} className="rounded-lg object-cover" />
+              )}
+            </div>
 
-          {/* Price */}
-          <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="price" className="text-xl text-white">Price</label>
-            <input
-              type="number"
-              id="price"
-              name="price"
-              value={packageData.price}
-              onChange={handleChange}
-              placeholder="Price"
-              min="0"
-              className="p-3 bg-zinc-900 text-white placeholder-zinc-400 rounded-2xl outline-none focus:ring-2 focus:ring-zinc-900 w-full"
-              required
-            />
-          </div>
-
-          {/* Discount */}
-          <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="discount" className="text-xl text-white">Discount</label>
-            <input
-              type="number"
-              id="discount"
-              name="discount"
-              value={packageData.discount}
-              onChange={handleChange}
-              placeholder="Discount"
-              min="0"
-              className="p-3 bg-zinc-900 text-white placeholder-zinc-400 rounded-2xl outline-none focus:ring-2 focus:ring-zinc-900 w-full"
-            />
-          </div>
-
-          {/* Stock */}
-          <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="stock" className="text-xl text-white">Stock</label>
-            <input
-              type="number"
-              id="stock"
-              name="stock"
-              value={packageData.stock}
-              onChange={handleChange}
-              placeholder="Stock"
-              min="0"
-              className="p-3 bg-zinc-900 text-white placeholder-zinc-400 rounded-2xl outline-none focus:ring-2 focus:ring-zinc-900 w-full"
-            />
-          </div>
-
-           <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="imageUrl" className="text-xl text-white">Image</label>
-            <input
-              type="file"
-              id="imageUrl"
-              name="imageUrl"
-              className="p-3 bg-zinc-900 text-white rounded-2xl outline-none focus:ring-2 focus:ring-zinc-900 w-full"
-            />
-          </div> 
-
-          
-
-          {/* Featured */}
-          <div className="flex flex-col gap-2 w-full">
-            <label className="text-xl text-white">Featured</label>
-            <div className="flex gap-4 items-center">
+            {/* Toggles */}
+            <div className="flex flex-wrap gap-6">
               <label className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="isFeatured"
-                  value="true"
-                  checked={packageData.isFeatured === true}
-                  onChange={handleChange}
-                  className="w-4 h-4 accent-zinc-900"
-                /> Yes
+                <input type="checkbox" {...register("isFeatured")} />
+                Featured
               </label>
               <label className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="isFeatured"
-                  value="false"
-                  checked={packageData.isFeatured === false}
-                  onChange={handleChange}
-                  className="w-4 h-4 accent-zinc-900"
-                /> No
+                <input type="checkbox" defaultChecked {...register("isActive")} />
+                Active
               </label>
             </div>
-          </div>
 
-          {/* Active */}
-          <div className="flex flex-col gap-2 w-full">
-            <label className="text-xl text-white">Active</label>
-            <div className="flex gap-4 items-center">
-              <label className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="isActive"
-                  value="true"
-                  checked={packageData.isActive === true}
-                  onChange={handleChange}
-                  className="w-4 h-4 accent-zinc-900"
-                /> Yes
-              </label>
-              <label className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="isActive"
-                  value="false"
-                  checked={packageData.isActive === false}
-                  onChange={handleChange}
-                  className="w-4 h-4 accent-zinc-900"
-                /> No
-              </label>
+            {/* Product Selection */}
+            <div>
+              <h3 className="text-lg font-semibold mb-2">Select Products</h3>
+              <div className="relative mb-3">
+                <Search className="absolute left-3 top-2.5 text-gray-400 w-5 h-5" />
+                <Input
+                  placeholder="Search product..."
+                  className="pl-10"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+
+              {/* Product List */}
+              <div className="max-h-48 overflow-y-auto border rounded-md p-2">
+                {filteredProducts.length > 0 ? (
+                  filteredProducts.map((product) => (
+                    <div
+                      key={product.id}
+                      className="flex items-center justify-between py-2 border-b last:border-none"
+                    >
+                      <span>{product.name}</span>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleAddProduct(product)}
+                      >
+                        Add
+                      </Button>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-500 text-sm text-center">No products found</p>
+                )}
+              </div>
+
+              {/* Selected Products */}
+              {selectedProducts.length > 0 && (
+                <div className="mt-4">
+                  <h4 className="font-medium mb-2">Selected Products</h4>
+                  <div className="space-y-2">
+                    {selectedProducts.map((product) => (
+                      <div
+                        key={product.id}
+                        className="flex items-center justify-between bg-gray-50 border rounded-md p-2"
+                      >
+                        <span>{product.name}</span>
+                        <Trash2
+                          className="w-5 h-5 text-red-500 cursor-pointer"
+                          onClick={() => handleRemoveProduct(product.id)}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
 
-          {/* Submit */}
-          <div className="col-span-full flex justify-center mt-4">
-            <button
+            {/* Submit Button */}
+            <Button
               type="submit"
+              className="w-full mt-6"
               disabled={loading}
-              className="bg-white hover:bg-green-300 text-black cursor-pointer font-bold py-3 rounded-2xl transition-all duration-200 w-full max-w-md"
             >
-              {loading ? "Submitting..." : "Add Package"}
-            </button>
-          </div>
-        </div>
-      </form>
+              {loading ? "Creating Package..." : "Create Package"}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 }
