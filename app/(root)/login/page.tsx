@@ -28,6 +28,7 @@ export default function Page() {
       });
 
       const data = await response.json();
+      console.log("Login Response Data:", data);
 
       if (data.token) {
         
