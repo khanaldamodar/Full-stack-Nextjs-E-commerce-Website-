@@ -8,6 +8,7 @@ interface GalleryType {
   id: number;
   title: string;
   description: string;
+  images: { url: string; name?: string }[]; // gallery images
 }
 
 const GalleryPage = () => {
@@ -16,7 +17,6 @@ const GalleryPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  
   useEffect(() => {
     const fetchGallery = async () => {
       try {
@@ -54,7 +54,7 @@ const GalleryPage = () => {
         {gallery.length > 0 ? (
           <CRUDTable
             endpoint="gallery"
-            columns={["title", "description"]}
+            columns={["title", "description", "images"]}
             data={gallery}
             setData={setGallery}
           />

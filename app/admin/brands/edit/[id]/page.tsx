@@ -42,7 +42,7 @@ export default function EditBrandPage() {
     if (!brand) return;
 
     const updateBrand: any = { ...brand, name};
-    const result = await updateData(`brands`, updateBrand, "PATCH");
+    const result = await updateData(`brands`, updateBrand, "PUT");
       if (result) {
       alert("Brand updated successfully!");
       router.push("/admin/brands"); 
