@@ -9,14 +9,20 @@ import { useCart } from "@/hooks/use-cart"
 import { useState } from "react"
 import { useCartContext } from "@/context/CartContext"
 
+
+interface CategoryType{
+  id: number;
+  name?:string;
+}
 interface Product {
   id: number
   name: string
   price: number
-  category: string
+  category: CategoryType[]
   rating: number
-  image: string
+  imageUrl: string
 }
+
 
 interface ProductGridProps {
   products: Product[]
@@ -34,8 +40,8 @@ export function ProductGrid({ products }: ProductGridProps) {
         id: product.id,
         name: product.name,
         price: product.price,
-        image: product.image,
-        category: product.category,
+        image: product.imageUrl,
+        category: product.category?.[0]?.name ?? "",
       },
       1,
     )
@@ -59,7 +65,7 @@ export function ProductGrid({ products }: ProductGridProps) {
             {/* Product Image */}
             <div className="relative h-48 w-full overflow-hidden bg-muted">
               <img
-                src={product.image || "/placeholder.svg"}
+                src={product.imageUrl || "/placeholder.svg"}
                 alt={product.name}
                 className="h-full w-full object-cover transition-transform hover:scale-105"
               />
@@ -70,7 +76,7 @@ export function ProductGrid({ products }: ProductGridProps) {
               <div className="mb-2 flex items-start justify-between">
                 <div className="flex-1">
                   <h3 className="font-semibold text-foreground line-clamp-2">{product.name}</h3>
-                  <p className="text-xs text-muted-foreground">{product.category}</p>
+                  <p className="text-xs text-muted-foreground">{product.category?.[0]?.name}</p>
                 </div>
               </div>
 

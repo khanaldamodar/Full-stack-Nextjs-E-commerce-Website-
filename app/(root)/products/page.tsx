@@ -3,7 +3,7 @@
 import { ProductFilters } from "@/components/Productpage-components/product-filters"
 import { ProductGrid } from "@/components/Productpage-components/product-grid"
 import { ProductPagination } from "@/components/Productpage-components/product-pagination"
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 
 
 // Sample product data
@@ -73,27 +73,53 @@ const SAMPLE_PRODUCTS = [
 const ITEMS_PER_PAGE = 6
 
 export default function ProductsPage() {
+  const [products, setProducts] = useState([]);
+
   const [currentPage, setCurrentPage] = useState(1)
   const [filters, setFilters] = useState<{
     categories: string[]
+    brands:string[],
     priceRange: [number, number]
     minRating: number
   }>({
-    categories: [],
-    priceRange: [0, 200],
-    minRating: 0,
+    categories: [],       // no category filter
+    brands:[],
+    priceRange: [0, 1000], // increase max to include your API prices
+    minRating: 0,          // no rating filter
   })
+
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const res = await fetch("/api/products")
+      const data = await res.json()
+      console.log(data)
+      const flattened = data.map(p => ({
+        ...p,
+        categoryName: p.category?.name || "Unknown",
+        brandName: p.brand?.name || "Unknown",
+        rating: p.rating || 0
+      }))
+      setProducts(flattened)
+
+    }
+    fetchProducts();
+  }, [])
+
 
   // Filter products based on selected filters
   const filteredProducts = useMemo(() => {
-    return SAMPLE_PRODUCTS.filter((product) => {
-      const categoryMatch = filters.categories.length === 0 || filters.categories.includes(product.category)
+    return products.filter((product) => {
+      const categoryMatch = filters.categories.length === 0 || filters.categories.includes(product.categoryName)
+      const brandMatch = filters.brands.length === 0 || filters.brands.includes(product.brandName)
       const priceMatch = product.price >= filters.priceRange[0] && product.price <= filters.priceRange[1]
       const ratingMatch = product.rating >= filters.minRating
 
-      return categoryMatch && priceMatch && ratingMatch
+      return categoryMatch && priceMatch && ratingMatch && brandMatch
     })
-  }, [filters])
+  }, [filters, products])
+
+
 
   // Paginate filtered products
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE)

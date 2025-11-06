@@ -138,8 +138,8 @@ model Settings {
   id           Int      @id @default(autoincrement())
   companyName  String
   slogan       String?                     // optional short slogan
-  aboutShort   String?                     // short description
-  about        String?                     // detailed about section
+  aboutShort   String?  @db.Text                     // short description
+  about        String?  @db.Text                   // detailed about section
 
   // Contact Info
   phone1       String?                     // first phone

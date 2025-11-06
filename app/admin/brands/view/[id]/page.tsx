@@ -31,7 +31,7 @@ export default function ViewBrandPage() {
   if (!brand) return <div className="p-5 text-red-500">Brand not found!</div>;
 
   return (
-    <div className="p-6 w-full bg-green-100 rounded shadow-lg">
+    <div className="p-6 w-full bg-green-100 rounded shadow-lg font-poppins">
       <h1 className="text-2xl font-bold mb-4">Brand Details</h1>
       <p><strong>ID:</strong> {brand.id}</p>
       <p><strong>Name:</strong> {brand.name}</p>

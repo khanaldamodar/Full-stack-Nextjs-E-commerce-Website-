@@ -17,10 +17,14 @@ interface Product {
   id: number
   name: string
   price: number
-  image: string
+  imageUrl: string
   description?: string
   category?: string
   rating?: number
+  stock?: number
+  sku?: string
+
+
 }
 
 interface ProductSliderProps {
@@ -60,7 +64,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({ products }) => {
       id: product.id,
       name: product.name,
       price: product.price,
-      image: product.image,
+      image: product.imageUrl,
       category: product.category || "Products",
     })
 
@@ -93,7 +97,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({ products }) => {
               >
                 <div className="relative group overflow-hidden">
                   <Image
-                    src={product.image || "/placeholder.svg"}
+                    src={product.imageUrl || "/placeholder.svg"}
                     alt={product.name}
                     width={400}
                     height={300}

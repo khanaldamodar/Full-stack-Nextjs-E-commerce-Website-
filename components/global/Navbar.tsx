@@ -2,16 +2,28 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ShoppingCart, User, Menu, X, Phone, Mail } from "lucide-react";
+import { ShoppingCart, Menu, X } from "lucide-react";
 import Image from "next/image";
 import { useCartContext } from "@/context/CartContext";
 import { FaFacebookF, FaInstagram, FaTwitter, FaTiktok } from "react-icons/fa";
 
-export default function Navbar() {
+interface SettingsType {
+  companyName?: string;
+  logo?: string;
+  facebook?: string;
+  instagram?: string;
+  twitter?: string;
+  tiktok?: string;
+}
+
+interface NavbarProps {
+  settings: SettingsType;
+}
+
+export default function Navbar({ settings }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { itemCount } = useCartContext();
 
-  // ✅ Menu items
   const menuItems = [
     { name: "Home", href: "/" },
     { name: "Products", href: "/products" },
@@ -22,24 +34,20 @@ export default function Navbar() {
 
   return (
     <header className="w-full font-poppins fixed top-0 left-0 z-50">
-      {/* 🔹 Top Info Bar */}
-     
-
-      {/* 🔹 Main Navbar */}
       <div className="bg-secondary shadow-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:py-4">
           
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
             <Image
-              src="/logo.jpeg"
-              alt="Shop Logo"
+              src={settings.logo || "/logo.jpeg"}
+              alt={settings.companyName || "Set Nepal"}
               width={32}
               height={32}
               className="h-8 w-8 rounded-full"
             />
             <span className="text-xl font-bold tracking-tight text-white">
-              <span className="text-primary">Set</span> Nepal
+              {settings.companyName || "Set Nepal"}
             </span>
           </Link>
 
@@ -56,22 +64,31 @@ export default function Navbar() {
             ))}
           </nav>
 
+          {/* Social Icons */}
           <div className="flex items-center gap-4 text-white">
-            <a href="https://www.facebook.com/share/15Q8nV7hq9N/" target="_blank" className="hover:text-primary transition">
-              <FaFacebookF size={14} />
-            </a>
-            <a href="#" target="_blank" className="hover:text-primary transition">
-              <FaInstagram size={14} />
-            </a>
-            <a href="#" target="_blank" className="hover:text-primary transition">
-              <FaTwitter size={14} />
-            </a>
-            <a href="https://www.tiktok.com/@set.nepal" target="_blank" className="hover:text-primary transition">
-              <FaTiktok size={14} />
-            </a>
+            {settings.facebook && (
+              <a href={settings.facebook} target="_blank" className="hover:text-primary transition">
+                <FaFacebookF size={14} />
+              </a>
+            )}
+            {settings.instagram && (
+              <a href={settings.instagram} target="_blank" className="hover:text-primary transition">
+                <FaInstagram size={14} />
+              </a>
+            )}
+            {settings.twitter && (
+              <a href={settings.twitter} target="_blank" className="hover:text-primary transition">
+                <FaTwitter size={14} />
+              </a>
+            )}
+            {settings.tiktok && (
+              <a href={settings.tiktok} target="_blank" className="hover:text-primary transition">
+                <FaTiktok size={14} />
+              </a>
+            )}
           </div>
 
-          {/* Icons & Mobile Menu Button */}
+          {/* Cart & Mobile Menu */}
           <div className="flex items-center gap-4">
             <Link href="/cart" className="relative">
               <ShoppingCart className="h-5 w-5 text-white hover:text-primary" />
@@ -80,27 +97,18 @@ export default function Navbar() {
               </span>
             </Link>
 
-            {/* <Link href="/account">
-              <User className="h-5 w-5 text-white hover:text-primary" />
-            </Link> */}
-
-            {/* Hamburger Button */}
             <button
               className="block md:hidden text-white"
               aria-label="Toggle Menu"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
+              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* 🔹 Mobile Nav */}
+      {/* Mobile Nav */}
       {isMenuOpen && (
         <div className="border-t bg-primary md:hidden animate-slide-down">
           <nav className="flex flex-col space-y-1 p-3">
