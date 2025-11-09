@@ -39,7 +39,7 @@ export const useSettingsStore = create<SettingsStore>((set) => ({
   setSettings: (settings) => set({ settings }),
   fetchSettings: async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/settings");
+      const res = await fetch("/api/settings");
       const data = await res.json();
       set({ settings: data });
     } catch (err) {
