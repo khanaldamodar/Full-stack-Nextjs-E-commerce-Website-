@@ -1,4 +1,5 @@
 // app/layout.tsx
+export const dynamic = "force-dynamic";
 import { Poppins } from "next/font/google";
 import "../globals.css";
 import Navbar from "@/components/global/Navbar";
