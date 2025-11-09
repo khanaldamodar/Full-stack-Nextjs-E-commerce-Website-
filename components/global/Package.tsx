@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { PackageType } from "@/components/Homepage-components/Packages";
 
-const Package = ({ title, desc, image, price }: PackageType) => {
+const Package = ({ title, desc, imageUrl, price }: PackageType) => {
   return (
     <motion.div
       whileHover={{ scale: 1.05 }}
@@ -19,7 +19,7 @@ const Package = ({ title, desc, image, price }: PackageType) => {
       {/* Image Section */}
       <div className="relative w-full h-48 rounded-xl overflow-hidden">
         <Image
-          src={image}
+          src={imageUrl}
           alt={title}
           fill
           className="object-cover hover:scale-110 transition-transform duration-500"
@@ -28,7 +28,9 @@ const Package = ({ title, desc, image, price }: PackageType) => {
 
       {/* Product Details */}
       <div className="flex flex-col gap-3 mt-4">
-        <h3 className="text-lg md:text-xl font-semibold text-gray-800">{title}</h3>
+        <h3 className="text-lg md:text-xl font-semibold text-gray-800">
+          {title}
+        </h3>
         <p className="text-gray-500 text-sm md:text-base px-3">
           {desc.length > 60 ? desc.slice(0, 60) + "..." : desc}
         </p>

@@ -18,7 +18,7 @@ interface Package {
   originalPrice: number;
   category: string;
   rating: number;
-  image: string;
+  imageUrl: string;
   productCount: number;
 }
 
@@ -62,7 +62,7 @@ export function FeaturedPackages() {
         id: pkg.id,
         name: pkg.name,
         price: pkg.price,
-        image: pkg.image,
+        image: pkg.imageUrl,
         category: pkg.category,
       },
       1
@@ -127,7 +127,7 @@ export function FeaturedPackages() {
                   <Card className="overflow-hidden transition-all hover:shadow-lg cursor-pointer h-full flex flex-col">
                     <div className="relative h-40 w-full overflow-hidden bg-muted">
                       <img
-                        src={pkg.image || "/placeholder.svg"}
+                        src={pkg.imageUrl || "/placeholder.svg"}
                         alt={pkg.name}
                         className="h-full w-full object-cover transition-transform hover:scale-105"
                       />

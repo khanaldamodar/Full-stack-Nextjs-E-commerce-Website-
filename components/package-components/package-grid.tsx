@@ -14,7 +14,7 @@ interface Package {
   price: number;
   originalPrice: number;
   category: string;
-  image: string;
+  imageUrl: string;
   stock: number;
 }
 
@@ -47,7 +47,7 @@ export function PackageGrid() {
         id: pkg.id,
         name: pkg.name,
         price: pkg.price,
-        image: pkg.image,
+        image: pkg.imageUrl,
         category: pkg.category,
       },
       1
@@ -92,7 +92,7 @@ export function PackageGrid() {
               {/* Package Image */}
               <div className="relative h-48 w-full overflow-hidden bg-muted">
                 <img
-                  src={pkg.image || "/placeholder.svg"}
+                  src={pkg.imageUrl || "/placeholder.svg"}
                   alt={pkg.name}
                   className="h-full w-full object-cover transition-transform hover:scale-105"
                 />

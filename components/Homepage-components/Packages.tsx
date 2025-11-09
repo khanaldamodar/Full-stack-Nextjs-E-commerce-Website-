@@ -5,7 +5,7 @@ import Package from '../global/Package';
 export interface PackageType {
     title: string;
     desc: string;
-    image: string;
+    imageUrl: string;
     price: number
 }
 
@@ -13,25 +13,25 @@ const PackageList = [
     {
         title: "School Labrotory Instruments",
         desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa quasi reprehenderit labore mollitia optio dolorum eius incidunt! Delectus qui nisi dolorem! Officiis harum consequuntur quo impedit officia facere aperiam distinctio?",
-        image: "/logo.jpeg",
+        imageUrl: "/logo.jpeg",
         price: 500
     },
     {
         title: "School Labrotory Instruments",
         desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa quasi reprehenderit labore mollitia optio dolorum eius incidunt! Delectus qui nisi dolorem! Officiis harum consequuntur quo impedit officia facere aperiam distinctio?",
-        image: "/logo.jpeg",
+        imageUrl: "/logo.jpeg",
         price: 500
     },
     {
         title: "School Labrotory Instruments",
         desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa quasi reprehenderit labore mollitia optio dolorum eius incidunt! Delectus qui nisi dolorem! Officiis harum consequuntur quo impedit officia facere aperiam distinctio?",
-        image: "/logo.jpeg",
+        imageUrl: "/logo.jpeg",
         price: 500
     },
     {
         title: "School Labrotory Instruments",
         desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa quasi reprehenderit labore mollitia optio dolorum eius incidunt! Delectus qui nisi dolorem! Officiis harum consequuntur quo impedit officia facere aperiam distinctio?",
-        image: "/logo.jpeg",
+        imageUrl: "/logo.jpeg",
         price: 500
     },
 ]
@@ -47,7 +47,7 @@ const Packages = () => {
                     <Package
                         key={index}
                         title={item.title}
-                        image={item.image}
+                        imageUrl={item.imageUrl}
                         desc={item.desc}
                         price={item.price}
                     />
