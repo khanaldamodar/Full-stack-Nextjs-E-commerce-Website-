@@ -42,6 +42,35 @@ export function GalleryModal({ gallery, selectedImages, onSelectImage, onClearSe
     setCurrentImageIndex((prev) => (prev === 0 ? gallery.images.length - 1 : prev - 1))
   }
 
+  const [image, setImage]=useState("");
+
+  const downloadSelectedImages = async () => {
+  if (selectedImages.length === 0) return;
+
+  for (const img of selectedImages) {
+    try {
+      const response = await fetch(img);
+      if (!response.ok) {
+        console.error("Failed to fetch image:", img);
+        continue;
+      }
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = img.split("/").pop() || "image.jpg";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Error downloading image:", img, err);
+    }
+  }
+};
+
   return (
     <>
       {/* Backdrop */}
@@ -68,10 +97,16 @@ export function GalleryModal({ gallery, selectedImages, onSelectImage, onClearSe
                     <X className="h-4 w-4" />
                     Clear
                   </Button>
-                  <Button variant="outline" size="sm" className="gap-2 bg-transparent">
-                    <Download className="h-4 w-4" />
-                    Download
-                  </Button>
+                  <Button
+  variant="outline"
+  size="sm"
+  className="gap-2 bg-transparent"
+  onClick={downloadSelectedImages} 
+>
+  <Download className="h-4 w-4" />
+  Download
+</Button>
+
                   
                 </>
               )}

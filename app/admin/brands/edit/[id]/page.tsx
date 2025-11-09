@@ -41,11 +41,20 @@ export default function EditBrandPage() {
     e.preventDefault();
     if (!brand) return;
 
+<<<<<<< HEAD
     const updateBrand: any = { ...brand, name };
     const result = await updateData(`brands/${brandId}`, updateBrand, "PUT");
     if (result) {
       alert("✅ Brand updated successfully!");
       router.push("/admin/brands");
+=======
+    const updateBrand: any = { ...brand, name};
+    const result = await updateData(`brands/${brand.id}`, updateBrand, "PUT");
+
+      if (result) {
+      alert("Brand updated successfully!");
+      router.push("/admin/brands"); 
+>>>>>>> a1bddabe7fbb186840b6c564660497588a1d6436
     }
   };
 

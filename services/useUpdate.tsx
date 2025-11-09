@@ -2,12 +2,7 @@ import { useState } from "react";
 import Cookies from "js-cookie";
 
 interface UseUpdateResult<T> {
-  updateData: (
-    endpoint: string,
-    body?: any,
-    method?: string,
-    isFileUpload?: boolean
-  ) => Promise<T | null>;
+  updateData: (endpoint: string, body?: any, method?: string) => Promise<T | null>;
   loading: boolean;
   error: string | null;
   success: boolean;
@@ -18,12 +13,7 @@ export function useUpdate<T = any>(): UseUpdateResult<T> {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  const updateData = async (
-    endpoint: string,
-    body?: any,
-    method: string = "PUT",
-    isFileUpload: boolean = false
-  ): Promise<T | null> => {
+  const updateData = async (endpoint: string, body?: any, method: string = "PUT"): Promise<T | null> => {
     setLoading(true);
     setError(null);
     setSuccess(false);
@@ -32,9 +22,13 @@ export function useUpdate<T = any>(): UseUpdateResult<T> {
       const token = Cookies.get("token");
 
       const headers: Record<string, string> = {};
-      if (!isFileUpload) {
+      const isFormData = body instanceof FormData;
+
+      // Only set Content-Type if NOT FormData (browser handles FormData headers)
+      if (!isFormData) {
         headers["Content-Type"] = "application/json";
       }
+
       if (token) {
         headers["Authorization"] = `Bearer ${token}`;
       }
@@ -42,7 +36,7 @@ export function useUpdate<T = any>(): UseUpdateResult<T> {
       const response = await fetch(`/api/${endpoint}`, {
         method,
         headers,
-        body: isFileUpload ? body : body ? JSON.stringify(body) : undefined,
+        body: isFormData ? body : body ? JSON.stringify(body) : undefined,
       });
 
       if (!response.ok) {
