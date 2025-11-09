@@ -8,6 +8,29 @@ import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { useCartContext } from "@/context/CartContext";
 
+// TypeScript interfaces
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+}
+
+interface Package {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  discount?: number;
+  stock?: number;
+  imageUrl?: string;
+  category?: string;
+  createdBy?: { name: string };
+  benefits?: string[];
+  specifications?: Record<string, string>;
+  products?: Product[];
+}
+
 const SAMPLE_DATA = [
   {
     id: 1,
@@ -23,38 +46,6 @@ const SAMPLE_DATA = [
       Warranty: "1 year",
       Shipping: "Free worldwide",
     },
-    products: [
-      {
-        id: 1,
-        name: "Wireless Headphones",
-        price: 129.99,
-        description: "High-quality audio for calls and music",
-      },
-      {
-        id: 3,
-        name: "Laptop Stand",
-        price: 49.99,
-        description: "Ergonomic stand for better posture",
-      },
-      {
-        id: 5,
-        name: "Mouse Pad",
-        price: 24.99,
-        description: "Smooth surface for precise mouse control",
-      },
-      {
-        id: 7,
-        name: "Desk Lamp",
-        price: 39.99,
-        description: "LED lamp with adjustable brightness",
-      },
-      {
-        id: 9,
-        name: "Phone Stand",
-        price: 14.99,
-        description: "Convenient phone holder for desk",
-      },
-    ],
   },
   {
     id: 2,
@@ -70,38 +61,134 @@ const SAMPLE_DATA = [
       Warranty: "2 years",
       Shipping: "Free worldwide",
     },
-    products: [
-      {
-        id: 1,
-        name: "Wireless Headphones",
-        price: 129.99,
-        description: "Premium audio quality",
-      },
-      {
-        id: 4,
-        name: "Mechanical Keyboard",
-        price: 159.99,
-        description: "Professional-grade keyboard",
-      },
-      {
-        id: 6,
-        name: "Monitor Arm",
-        price: 79.99,
-        description: "Adjustable monitor mount",
-      },
-      {
-        id: 8,
-        name: "Wireless Mouse",
-        price: 34.99,
-        description: "Precision mouse",
-      },
-      {
-        id: 11,
-        name: "Webcam",
-        price: 89.99,
-        description: "4K webcam for video calls",
-      },
+  },
+
+  {
+    id: 3,
+    benefits: [
+      "Save 25% compared to buying individually",
+      "Professional-grade equipment",
+      "Perfect for remote work and streaming",
+      "Extended warranty coverage",
     ],
+    specifications: {
+      "Total Items": "7 products",
+      Compatibility: "Universal",
+      Warranty: "2 years",
+      Shipping: "Free worldwide",
+    },
+  },
+
+  {
+    id: 4,
+    benefits: [
+      "Save 25% compared to buying individually",
+      "Professional-grade equipment",
+      "Perfect for remote work and streaming",
+      "Extended warranty coverage",
+    ],
+    specifications: {
+      "Total Items": "7 products",
+      Compatibility: "Universal",
+      Warranty: "2 years",
+      Shipping: "Free worldwide",
+    },
+  },
+
+  {
+    id: 5,
+    benefits: [
+      "Save 25% compared to buying individually",
+      "Professional-grade equipment",
+      "Perfect for remote work and streaming",
+      "Extended warranty coverage",
+    ],
+    specifications: {
+      "Total Items": "7 products",
+      Compatibility: "Universal",
+      Warranty: "2 years",
+      Shipping: "Free worldwide",
+    },
+  },
+
+  {
+    id: 6,
+    benefits: [
+      "Save 25% compared to buying individually",
+      "Professional-grade equipment",
+      "Perfect for remote work and streaming",
+      "Extended warranty coverage",
+    ],
+    specifications: {
+      "Total Items": "7 products",
+      Compatibility: "Universal",
+      Warranty: "2 years",
+      Shipping: "Free worldwide",
+    },
+  },
+
+  {
+    id: 7,
+    benefits: [
+      "Save 25% compared to buying individually",
+      "Professional-grade equipment",
+      "Perfect for remote work and streaming",
+      "Extended warranty coverage",
+    ],
+    specifications: {
+      "Total Items": "7 products",
+      Compatibility: "Universal",
+      Warranty: "2 years",
+      Shipping: "Free worldwide",
+    },
+  },
+
+  {
+    id: 8,
+    benefits: [
+      "Save 25% compared to buying individually",
+      "Professional-grade equipment",
+      "Perfect for remote work and streaming",
+      "Extended warranty coverage",
+    ],
+    specifications: {
+      "Total Items": "7 products",
+      Compatibility: "Universal",
+      Warranty: "2 years",
+      Shipping: "Free worldwide",
+    },
+  },
+
+  {
+    id: 9,
+    benefits: [
+      "Save 25% compared to buying individually",
+      "Professional-grade equipment",
+      "Perfect for remote work and streaming",
+      "Extended warranty coverage",
+    ],
+    specifications: {
+      "Total Items": "7 products",
+      Compatibility: "Universal",
+      Warranty: "2 years",
+      Shipping: "Free worldwide",
+    },
+  },
+
+  {
+    id: 10,
+    benefits: [
+      "Save 25% compared to buying individually",
+      "Professional-grade equipment",
+      "Perfect for remote work and streaming",
+      "Extended warranty coverage",
+    ],
+    specifications: {
+      "Total Items": "7 products",
+      Compatibility: "Universal",
+      Warranty: "2 years",
+      Shipping: "Free worldwide",
+    },
   },
 ];
 
@@ -109,7 +196,7 @@ export default function PackageDetailPage() {
   const { id } = useParams();
   const { addToCart } = useCartContext();
 
-  const [pkg, setPkg] = useState<any>(null);
+  const [pkg, setPkg] = useState<Package | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
@@ -131,6 +218,7 @@ export default function PackageDetailPage() {
     if (id) fetchPackage();
   }, [id]);
 
+  const sampleData = SAMPLE_DATA.find((p) => p.id === Number(id));
   const handleAddToCart = () => {
     if (!pkg) return;
     addToCart(
@@ -167,8 +255,6 @@ export default function PackageDetailPage() {
         <p className="text-muted-foreground">Package not found</p>
       </main>
     );
-
-  const sampleData = SAMPLE_DATA.find((p) => p.id === Number(id));
 
   const originalPrice = pkg.price + (pkg.discount || 0);
   const discount = pkg.discount
@@ -220,7 +306,7 @@ export default function PackageDetailPage() {
                 <span className="text-3xl font-bold text-foreground">
                   Rs. {pkg.price.toFixed(2)}
                 </span>
-                {pkg.discount > 0 && (
+                {pkg.discount && pkg.discount > 0 && (
                   <>
                     <span className="text-lg text-muted-foreground line-through">
                       Rs. {originalPrice.toFixed(2)}
@@ -234,7 +320,7 @@ export default function PackageDetailPage() {
             </Card>
 
             <p className="text-sm text-muted-foreground mb-2">
-              Stock: {pkg.stock || "N/A"} items
+              Stock: {pkg.stock ?? "N/A"} items
             </p>
             {pkg.createdBy && (
               <p className="text-sm text-muted-foreground mb-4">
@@ -262,6 +348,7 @@ export default function PackageDetailPage() {
               <Button
                 size="lg"
                 onClick={handleAddToCart}
+                disabled={pkg.stock === 0}
                 className={
                   isAdded ? "bg-green-600 hover:bg-green-700" : "bg-secondary"
                 }
@@ -272,7 +359,41 @@ export default function PackageDetailPage() {
           </div>
         </div>
 
-        {/* Benefits */}
+        {pkg.benefits && (
+          <Card className="p-4 mt-12 mb-6">
+            <h3 className="font-semibold text-foreground mb-3">
+              Package Benefits
+            </h3>
+            <ul className="space-y-2">
+              {pkg.benefits.map((benefit, idx) => (
+                <li
+                  key={idx}
+                  className="flex gap-2 text-sm text-muted-foreground"
+                >
+                  <span className="text-green-600 font-bold">✓</span>
+                  {benefit}
+                </li>
+              ))}
+            </ul>
+          </Card>
+        )}
+
+        {pkg.specifications && (
+          <Card className="p-4 mb-12">
+            <h3 className="font-semibold text-foreground mb-3">
+              Specifications
+            </h3>
+            <div className="grid grid-cols-2 gap-4">
+              {Object.entries(pkg.specifications).map(([key, value]) => (
+                <div key={key}>
+                  <p className="text-xs text-muted-foreground">{key}</p>
+                  <p className="font-semibold text-foreground">{value}</p>
+                </div>
+              ))}
+            </div>
+          </Card>
+        )}
+
         {sampleData?.benefits && (
           <Card className="p-4 mt-12 mb-6">
             <h3 className="font-semibold text-foreground mb-3">
@@ -292,7 +413,6 @@ export default function PackageDetailPage() {
           </Card>
         )}
 
-        {/* Specifications */}
         {sampleData?.specifications && (
           <Card className="p-4 mb-12">
             <h3 className="font-semibold text-foreground mb-3">
@@ -309,45 +429,32 @@ export default function PackageDetailPage() {
           </Card>
         )}
 
-        {/* Included Products */}
-        {sampleData?.products && (
+        {pkg.products && (
           <div className="mt-12">
             <h2 className="text-2xl font-bold text-foreground mb-6">
-              Included Products ({sampleData.products.length})
+              Included Products ({pkg.products.length})
             </h2>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {sampleData.products.map((product) => (
-                <Card
-                  key={product.id}
-                  className="p-4 hover:shadow-lg transition-shadow rounded-xl border border-gray-200 flex flex-col justify-between"
-                >
-                  <div className="mb-4">
-                    <h4 className="text-lg font-semibold text-foreground mb-1">
-                      {product.name}
-                    </h4>
-                    <p className="text-sm text-muted-foreground">
-                      {product.description}
-                    </p>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {pkg.products.map((product) => (
+                <Card key={product.id} className="p-4">
+                  <div className="flex items-start justify-between mb-2">
+                    <div>
+                      <h4 className="font-semibold text-foreground">
+                        {product.name}
+                      </h4>
+                      <p className="text-sm text-muted-foreground">
+                        {product.description}
+                      </p>
+                    </div>
                   </div>
-                  <div className="mt-auto flex items-center justify-between">
-                    <span className="text-lg font-bold text-foreground">
-                      Rs. {product.price.toFixed(2)}
-                    </span>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => addToCart(product, 1)}
-                    >
-                      Add
-                    </Button>
-                  </div>
+                  <p className="text-lg font-bold text-foreground">
+                    Rs. {product.price.toFixed(2)}
+                  </p>
                 </Card>
               ))}
             </div>
           </div>
         )}
-
-        <div className="mt-12"></div>
       </div>
     </main>
   );

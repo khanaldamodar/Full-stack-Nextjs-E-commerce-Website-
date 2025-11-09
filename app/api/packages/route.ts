@@ -70,7 +70,10 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(packages);
   } catch (err) {
     console.error(err);
-    return NextResponse.json({ message: "Failed to fetch packages" }, { status: 500 });
+    return NextResponse.json(
+      { message: "Failed to fetch packages" },
+      { status: 500 }
+    );
   }
 }
 
@@ -91,7 +94,10 @@ export async function POST(req: NextRequest) {
     const productIds = formData.getAll("productIds[]").map((id) => Number(id));
 
     if (!name || !price) {
-      return NextResponse.json({ message: "Name and price are required" }, { status: 400 });
+      return NextResponse.json(
+        { message: "Name and price are required" },
+        { status: 400 }
+      );
     }
 
     // 🔹 Upload image to Cloudinary
@@ -147,7 +153,10 @@ export async function POST(req: NextRequest) {
 }
 
 // ✅ Helper function to upload file to Cloudinary
-async function uploadFileToCloudinary(file: File, folder: string): Promise<string> {
+async function uploadFileToCloudinary(
+  file: File,
+  folder: string
+): Promise<string> {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       { folder, resource_type: "auto" },
