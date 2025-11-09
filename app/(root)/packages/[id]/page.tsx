@@ -272,6 +272,7 @@ export default function PackageDetailPage() {
           </div>
         </div>
 
+        {/* Benefits */}
         {sampleData?.benefits && (
           <Card className="p-4 mt-12 mb-6">
             <h3 className="font-semibold text-foreground mb-3">
@@ -291,6 +292,7 @@ export default function PackageDetailPage() {
           </Card>
         )}
 
+        {/* Specifications */}
         {sampleData?.specifications && (
           <Card className="p-4 mb-12">
             <h3 className="font-semibold text-foreground mb-3">
@@ -307,27 +309,38 @@ export default function PackageDetailPage() {
           </Card>
         )}
 
+        {/* Included Products */}
         {sampleData?.products && (
           <div className="mt-12">
             <h2 className="text-2xl font-bold text-foreground mb-6">
               Included Products ({sampleData.products.length})
             </h2>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {sampleData.products.map((product) => (
-                <Card key={product.id} className="p-4">
-                  <div className="flex items-start justify-between mb-2">
-                    <div>
-                      <h4 className="font-semibold text-foreground">
-                        {product.name}
-                      </h4>
-                      <p className="text-sm text-muted-foreground">
-                        {product.description}
-                      </p>
-                    </div>
+                <Card
+                  key={product.id}
+                  className="p-4 hover:shadow-lg transition-shadow rounded-xl border border-gray-200 flex flex-col justify-between"
+                >
+                  <div className="mb-4">
+                    <h4 className="text-lg font-semibold text-foreground mb-1">
+                      {product.name}
+                    </h4>
+                    <p className="text-sm text-muted-foreground">
+                      {product.description}
+                    </p>
                   </div>
-                  <p className="text-lg font-bold text-foreground">
-                    Rs. {product.price.toFixed(2)}
-                  </p>
+                  <div className="mt-auto flex items-center justify-between">
+                    <span className="text-lg font-bold text-foreground">
+                      Rs. {product.price.toFixed(2)}
+                    </span>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => addToCart(product, 1)}
+                    >
+                      Add
+                    </Button>
+                  </div>
                 </Card>
               ))}
             </div>

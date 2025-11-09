@@ -16,7 +16,7 @@ export default function Page() {
   const [category, setCategory] = useState<CategoryType>({ name: "" });
 
   const { postData, loading, error } = usePost<CategoryType>(
-    "http://localhost:3000/api/categories"
+    "/api/categories"
   );
 
   const handleAddCategory = async (e: React.FormEvent) => {

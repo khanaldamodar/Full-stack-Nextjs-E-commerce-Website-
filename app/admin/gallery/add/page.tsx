@@ -48,7 +48,7 @@ const GalleryPage: React.FC = () => {
 
     try {
       const token = Cookies.get("token"); // if using auth
-      const res = await fetch("http://localhost:3000/api/gallery", {
+      const res = await fetch("/api/gallery", {
         method: "POST",
         headers: token ? { Authorization: `Bearer ${token}` } : {},
         body: formData,
@@ -58,7 +58,7 @@ const GalleryPage: React.FC = () => {
 
       toast.success("Gallery added successfully!");
       // redirect to gallery list
-      router.push("http://localhost:3000/admin/gallery");
+      router.push("/admin/gallery");
     } catch (err) {
       console.error(err);
       toast.error("Something went wrong. Please try again.");

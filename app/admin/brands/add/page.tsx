@@ -16,7 +16,7 @@ export default function AddBrandPage() {
   const [brand, setBrand] = useState<BrandType>({ name: "" });
 
   const { postData, loading, error } = usePost<BrandType>(
-    "http://localhost:3000/api/brands"
+    "/api/brands"
   );
 
   const handleAddBrand = async (e: React.FormEvent) => {
