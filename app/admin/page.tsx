@@ -47,7 +47,8 @@ const Page = () => {
   ];
 
   return (
-    <div className="min-h-screen sm:p-5">
+    <div className=" sm:p-5">
+      <h2 className="text-2xl font-bold p-4">Dashboard</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
         {stats.map((item, index) => (
           <Card key={index} label={item.label} value={item.value} />
