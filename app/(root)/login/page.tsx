@@ -3,6 +3,8 @@ import Image from "next/image";
 import { useState } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface LoginDetailsType {
   email: string;
@@ -21,29 +23,32 @@ export default function Page() {
     try {
       const response = await fetch("http://localhost:3000/api/auth/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(logindetails),
       });
 
       const data = await response.json();
-      console.log("Login Response Data:", data);
 
       if (data.token) {
-        
         Cookies.set("token", data.token, { expires: 7 });
         Cookies.set("email", logindetails.email, { expires: 7 });
 
-        alert("Login Successful!");
-        router.push("/admin");
+        toast.success("Login Successful!");
+        setTimeout(() => {
+          router.push("/admin");
+        }, 1500);
       } else {
-        alert("Invalid Email or Password!");
+        toast.error("Invalid Email or Password!");
       }
     } catch (error) {
-      console.error("Login Error:", error);
-      alert("Something went wrong. Please try again later.");
+      toast.error("Something went wrong. Please try again later.");
     }
+  };
+
+  // Handle form submission
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Prevent page reload
+    handleLogin();
   };
 
   return (
@@ -64,7 +69,11 @@ export default function Page() {
           Admin <span className="ml-2 text-blue-600">Log-In</span>
         </h3>
 
-        <div className="mx-auto flex w-2/4 flex-col justify-center items-start pt-5">
+        {/* Form */}
+        <form
+          onSubmit={handleSubmit}
+          className="mx-auto flex w-2/4 flex-col justify-center items-start pt-5"
+        >
           {/* Email Field */}
           <div className="w-full">
             <label
@@ -82,6 +91,7 @@ export default function Page() {
               id="Email"
               placeholder="Email"
               className="w-full p-2 border border-green-500 rounded outline-none focus:ring-2 focus:ring-green-400"
+              required
             />
           </div>
 
@@ -102,18 +112,32 @@ export default function Page() {
               id="password"
               placeholder="Password"
               className="w-full p-2 border border-green-500 rounded outline-none focus:ring-2 focus:ring-green-400"
+              required
             />
           </div>
 
           {/* Login Button */}
           <button
-            onClick={handleLogin}
+            type="submit"
             className="mt-6 w-full rounded bg-linear-to-r from-green-500 to-blue-500 p-2 text-white font-semibold transition hover:opacity-90"
           >
             Log In
           </button>
-        </div>
+        </form>
       </div>
+
+      {/* Toast Container */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }

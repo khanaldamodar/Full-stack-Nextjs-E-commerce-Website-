@@ -1,4 +1,4 @@
-import {Metadata} from "next";
+import { Metadata } from "next";
 import Sidebar from "@/components/admin-components/Sidebar";
 
 import React from "react";

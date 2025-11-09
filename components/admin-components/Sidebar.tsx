@@ -16,7 +16,6 @@ import { IoMdSettings } from "react-icons/io";
 import { TbTruckDelivery } from "react-icons/tb";
 import { GrGallery } from "react-icons/gr";
 
-
 export default function Sidebar() {
   const [activeView, setActiveView] = useState("dashboard");
   const [email, setEmail] = useState<string>("");
@@ -36,15 +35,60 @@ export default function Sidebar() {
   };
 
   const menuItems: MenuItem[] = [
-    { id: "dashboard", label: "Dashboard", icon: <MdSpaceDashboard />, path: "/admin" },
-    { id: "brands", label: "Brands", icon: <MdOutlineBrandingWatermark />, path: "/admin/brands" },
-    { id: "category", label: "Categories", icon: <BiSolidCategoryAlt />, path: "/admin/categories" },
-    { id: "products", label: "Products", icon: <MdOutlineProductionQuantityLimits />, path: "/admin/products" },
-    { id: "orders", label: "Orders", icon: <TbTruckDelivery />, path: "/admin/orders" },
-    { id: "package", label: "Packages", icon: <PiPackageFill />, path: "/admin/packages" },
-    { id: "payments", label: "Payments", icon: <MdOutlinePayments />, path: "/admin/payments" },
-    { id: "gallery", label: "gallery", icon: <GrGallery />, path: "/admin/gallery" },
-    { id: "settings", label: "Settings", icon: <IoMdSettings />, path: "/admin/settings" },
+    {
+      id: "dashboard",
+      label: "Dashboard",
+      icon: <MdSpaceDashboard />,
+      path: "/admin",
+    },
+    {
+      id: "brands",
+      label: "Brands",
+      icon: <MdOutlineBrandingWatermark />,
+      path: "/admin/brands",
+    },
+    {
+      id: "category",
+      label: "Categories",
+      icon: <BiSolidCategoryAlt />,
+      path: "/admin/categories",
+    },
+    {
+      id: "products",
+      label: "Products",
+      icon: <MdOutlineProductionQuantityLimits />,
+      path: "/admin/products",
+    },
+    {
+      id: "orders",
+      label: "Orders",
+      icon: <TbTruckDelivery />,
+      path: "/admin/orders",
+    },
+    {
+      id: "package",
+      label: "Packages",
+      icon: <PiPackageFill />,
+      path: "/admin/packages",
+    },
+    {
+      id: "payments",
+      label: "Payments",
+      icon: <MdOutlinePayments />,
+      path: "/admin/payments",
+    },
+    {
+      id: "gallery",
+      label: "gallery",
+      icon: <GrGallery />,
+      path: "/admin/gallery",
+    },
+    {
+      id: "settings",
+      label: "Settings",
+      icon: <IoMdSettings />,
+      path: "/admin/settings",
+    },
   ];
 
   const handleClick = (item: MenuItem) => {
@@ -54,6 +98,7 @@ export default function Sidebar() {
 
   const handleLogout = () => {
     Cookies.remove("email");
+    Cookies.remove("token");
     router.push("/login");
   };
 
