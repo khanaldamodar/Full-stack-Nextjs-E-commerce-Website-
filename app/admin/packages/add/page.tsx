@@ -11,6 +11,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Cookies from "js-cookie";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 export default function AddPackagePage() {
   const router = useRouter();
@@ -87,7 +89,7 @@ export default function AddPackagePage() {
         "Error creating package:",
         error.response?.data || error.message
       );
-      alert("Failed to create package");
+      toast.success("Failed to create package");
     } finally {
       setLoading(false);
     }

@@ -5,6 +5,8 @@ import { useParams, useRouter } from "next/navigation";
 import { MdTitle, MdOutlineDescription, MdClose } from "react-icons/md";
 import { TbPhotoPlus } from "react-icons/tb";
 import { useUpdate } from "@/services/useUpdate";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 interface GalleryType {
   id: number;
@@ -23,10 +25,16 @@ const EditGalleryPage: React.FC = () => {
   const [description, setDescription] = useState("");
   const [images, setImages] = useState<File[]>([]); // Newly added images
   const [previews, setPreviews] = useState<{ name: string; url: string }[]>([]);
-  const [originalImages, setOriginalImages] = useState<{ name: string; url: string }[]>([]);
+  const [originalImages, setOriginalImages] = useState<
+    { name: string; url: string }[]
+  >([]);
   const [removedImages, setRemovedImages] = useState<string[]>([]);
 
-  const { updateData, loading: updating, error: updateError } = useUpdate<GalleryType>();
+  const {
+    updateData,
+    loading: updating,
+    error: updateError,
+  } = useUpdate<GalleryType>();
 
   // Fetch gallery data
   useEffect(() => {
@@ -40,11 +48,12 @@ const EditGalleryPage: React.FC = () => {
           setTitle(found.title);
           setDescription(found.description);
 
-          const formatted = found.images?.map((img) =>
-            typeof img === "string"
-              ? { name: img.split("/").pop() || "image", url: img }
-              : { name: img.url.split("/").pop() || "image", url: img.url }
-          ) || [];
+          const formatted =
+            found.images?.map((img) =>
+              typeof img === "string"
+                ? { name: img.split("/").pop() || "image", url: img }
+                : { name: img.url.split("/").pop() || "image", url: img.url }
+            ) || [];
 
           setPreviews(formatted);
           setOriginalImages(formatted); // Track originals
@@ -74,15 +83,17 @@ const EditGalleryPage: React.FC = () => {
     const removed = previews[index];
 
     // If the image is from the original gallery, track it to remove from DB
-    if (originalImages.find(img => img.url === removed.url)) {
-      setRemovedImages(prev => [...prev, removed.url]);
+    if (originalImages.find((img) => img.url === removed.url)) {
+      setRemovedImages((prev) => [...prev, removed.url]);
     }
 
     // Remove from previews
-    setPreviews(prev => prev.filter((_, i) => i !== index));
+    setPreviews((prev) => prev.filter((_, i) => i !== index));
 
     // Remove from newly added images if applicable
-    setImages(prev => prev.filter(img => URL.createObjectURL(img) !== removed.url));
+    setImages((prev) =>
+      prev.filter((img) => URL.createObjectURL(img) !== removed.url)
+    );
   };
 
   // Handle form submit
@@ -100,7 +111,7 @@ const EditGalleryPage: React.FC = () => {
     const result = await updateData(`gallery/${gallery.id}`, formData, "PUT");
 
     if (result) {
-      alert("Gallery updated successfully!");
+      toast.success("Gallery updated successfully!");
       router.push("/admin/gallery");
     }
   };
@@ -184,7 +195,9 @@ const EditGalleryPage: React.FC = () => {
               </button>
             </div>
             {updateError && (
-              <p className="text-red-500 text-center mt-2">{String(updateError)}</p>
+              <p className="text-red-500 text-center mt-2">
+                {String(updateError)}
+              </p>
             )}
           </form>
         </div>

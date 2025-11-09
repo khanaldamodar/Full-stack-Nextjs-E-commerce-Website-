@@ -1,8 +1,10 @@
-'use client'
+"use client";
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useUpdate } from "@/services/useUpdate";
 import { motion } from "framer-motion";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 interface BrandType {
   id: number;
@@ -17,14 +19,18 @@ export default function EditBrandPage() {
   const [brand, setBrand] = useState<BrandType | null>(null);
   const [name, setName] = useState("");
 
-  const { updateData, loading: updating, error: updateError } = useUpdate<BrandType>();
+  const {
+    updateData,
+    loading: updating,
+    error: updateError,
+  } = useUpdate<BrandType>();
 
   useEffect(() => {
     const fetchBrand = async () => {
       try {
-        const res = await fetch('/api/brands');
+        const res = await fetch("/api/brands");
         const data: BrandType[] = await res.json();
-        const matchingBrand = data.find(b => b.id === brandId);
+        const matchingBrand = data.find((b) => b.id === brandId);
         if (matchingBrand) {
           setBrand(matchingBrand);
           setName(matchingBrand.name);
@@ -44,12 +50,17 @@ export default function EditBrandPage() {
     const updateBrand: any = { ...brand, name };
     const result = await updateData(`brands/${brandId}`, updateBrand, "PUT");
     if (result) {
-      alert("✅ Brand updated successfully!");
+      toast.success("Brand added successfully");
       router.push("/admin/brands");
     }
   };
 
-  if (!brand) return <div className="p-6 text-black text-center text-xl font-poppins">Loading brand...</div>;
+  if (!brand)
+    return (
+      <div className="p-6 text-black text-center text-xl font-poppins">
+        Loading brand...
+      </div>
+    );
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br px-4">

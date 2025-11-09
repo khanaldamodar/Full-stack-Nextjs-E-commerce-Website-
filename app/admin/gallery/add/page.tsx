@@ -5,6 +5,9 @@ import { MdTitle, MdOutlineDescription, MdAdd } from "react-icons/md";
 import { TbPhotoPlus } from "react-icons/tb";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
 
 const GalleryPage: React.FC = () => {
   const [title, setTitle] = useState<string>("");
@@ -32,7 +35,7 @@ const GalleryPage: React.FC = () => {
     e.preventDefault();
 
     if (!title || !description || images.length === 0) {
-      alert("Please fill all fields and upload at least one image.");
+      toast.error("Please fill all fields and upload at least one image.");
       return;
     }
 
@@ -53,12 +56,12 @@ const GalleryPage: React.FC = () => {
 
       if (!res.ok) throw new Error("Failed to add gallery");
 
-      alert("Gallery added successfully!");
+      toast.success("Gallery added successfully!");
       // redirect to gallery list
       router.push("http://localhost:3000/admin/gallery");
     } catch (err) {
       console.error(err);
-      alert("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
