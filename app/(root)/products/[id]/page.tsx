@@ -87,8 +87,8 @@ export default function ProductPage() {
     if (id) fetchProduct();
   }, [id]);
 
-  if (loading) return <p>Loading product...</p>;
-  if (!product) return <p>Product not found</p>;
+  if (loading) return <p className="m-50 text-3xl">Loading product...</p>;
+  if (!product) return <p className="m-50 text-3xl">Product not found</p>;
 
   const discount = product.originalPrice
     ? Math.round(

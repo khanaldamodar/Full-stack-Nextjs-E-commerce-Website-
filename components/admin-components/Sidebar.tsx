@@ -114,7 +114,7 @@ export default function Sidebar() {
             key={item.id}
             onClick={() => handleClick(item)}
             className={`w-full flex items-center justify-start gap-3 text-white font-medium
-              rounded-md transition-all duration-200 py-3 px-4
+              rounded-md transition-all duration-200 py-3 px-4 cursor-pointer
               ${
                 activeView === item.id
                   ? "bg-[#4998d1]"
@@ -152,14 +152,14 @@ export default function Sidebar() {
         </div>
 
         {/* Logout Button */}
-        {showLogout && (
-          <button
-            onClick={handleLogout}
-            className="mt-2 w-full bg-red-500 text-white font-medium py-2 rounded-md hover:bg-red-600 transition-all duration-200"
-          >
-            Log Out
-          </button>
-        )}
+        {/* {showLogout && (*/}
+        <button
+          onClick={handleLogout}
+          className="mt-2 w-full bg-red-500 text-white font-medium py-2 rounded-md hover:bg-red-600 transition-all duration-200"
+        >
+          Log Out
+        </button>
+        {/* })}*/}
       </div>
     </aside>
   );
