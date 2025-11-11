@@ -10,11 +10,13 @@ import {
   MdOutlineBrandingWatermark,
   MdOutlinePayments,
 } from "react-icons/md";
+import { FaUser } from "react-icons/fa";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { PiPackageFill } from "react-icons/pi";
 import { IoMdSettings } from "react-icons/io";
 import { TbTruckDelivery } from "react-icons/tb";
 import { GrGallery } from "react-icons/gr";
+import { User } from "lucide-react";
 
 export default function Sidebar() {
   const [activeView, setActiveView] = useState("dashboard");
@@ -84,6 +86,18 @@ export default function Sidebar() {
       path: "/admin/gallery",
     },
     {
+      id: "certificate",
+      label: "Certificates",
+      icon: <FaUser />,
+      path: "/admin/certificates",
+    },
+    {
+      id: "contacts",
+      label: "Contacts",
+      icon: <FaUser />,
+      path: "/admin/contacts",
+    },
+    {
       id: "settings",
       label: "Settings",
       icon: <IoMdSettings />,
@@ -104,7 +118,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className="w-20 lg:w-60 p-4 flex flex-col justify-start items-center min-h-screen"
+      className="w-20 lg:w-60 p-4 flex flex-col justify-start items-center min-h-screen font-poppins"
       style={{ backgroundColor: "#aec958" }}
     >
       {/* Menu Items */}
@@ -114,7 +128,7 @@ export default function Sidebar() {
             key={item.id}
             onClick={() => handleClick(item)}
             className={`w-full flex items-center justify-start gap-3 text-white font-medium
-              rounded-md transition-all duration-200 py-3 px-4
+              rounded-md transition-all duration-200 py-3 px-4 cursor-pointer
               ${
                 activeView === item.id
                   ? "bg-[#4998d1]"

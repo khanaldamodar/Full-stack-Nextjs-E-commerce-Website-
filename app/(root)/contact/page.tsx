@@ -7,7 +7,7 @@ import { useSettingsStore } from "@/store/settingStore";
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
+    phone: "",
     message: "",
   });
 
@@ -25,11 +25,33 @@ export default function ContactPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
-    setFormData({ name: "", email: "", message: "" });
+    try {
+      const res = await fetch("/api/contacts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      })
+      if (res.ok) {
+        const data = await res.json();
+        setFormData({ name: "", phone: "", message: "" });
+
+      } else {
+        const errorData = await res.json();
+        console.log(errorData)
+      }
+    } catch (ex) {
+      console.error("Error submitting form:", ex);
+
+    }finally{
+      setSubmitted(false)
+    }
   };
+
 
 
 
@@ -58,7 +80,7 @@ export default function ContactPage() {
             </div>
             <div className="flex items-center gap-3">
               <Mail className="text-secondary w-6 h-6" />
-              <p className="text-gray-700">{settings?.email1|| "info@setnepal.com"}</p>
+              <p className="text-gray-700">{settings?.email1 || "info@setnepal.com"}</p>
             </div>
             <div className="flex items-center gap-3">
               <Phone className="text-secondary w-6 h-6" />
@@ -82,22 +104,21 @@ export default function ContactPage() {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              required
               className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 focus:outline-none focus:ring-2 focus:ring-[#d86d38]"
               placeholder="Enter your name"
             />
           </div>
 
           <div>
-            <label className="text-gray-700 font-medium">Email Address</label>
+            <label className="text-gray-700 font-medium">Phone Number</label>
             <input
-              type="email"
-              name="email"
-              value={formData.email}
+              type="phone"
+              name="phone"
+              value={formData.phone}
               onChange={handleChange}
               required
               className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 focus:outline-none focus:ring-2 focus:ring-[#d86d38]"
-              placeholder="you@example.com"
+              placeholder="EG:- 9812345678"
             />
           </div>
 
@@ -107,7 +128,6 @@ export default function ContactPage() {
               name="message"
               value={formData.message}
               onChange={handleChange}
-              required
               rows={5}
               className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 focus:outline-none focus:ring-2 focus:ring-[#d86d38] resize-none"
               placeholder="Write your message..."
@@ -123,7 +143,7 @@ export default function ContactPage() {
             type="submit"
             className="bg-secondary text-white font-semibold py-3 rounded-lg transition-all duration-300"
           >
-            {submitted ? "Message Sent ✅" : "Send Message"}
+            {submitted ? "Message Sent " : "Send Message"}
           </motion.button>
         </motion.form>
       </motion.div>

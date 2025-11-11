@@ -186,6 +186,18 @@ model GalleryImage {
   galleryId Int
 }
 
+model Contacts {
+  id    Int       @id @default(autoincrement())
+  name  String
+  phone String
+  message String?  @db.Text
+}
+
+model Certificates {
+  id    Int       @id @default(autoincrement())
+  title  String?
+  image  String?
+}
 
 
 
