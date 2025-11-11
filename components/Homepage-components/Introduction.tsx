@@ -8,7 +8,7 @@ const Introduction = async () => {
         <div className='flex flex-col items-center gap-2'>
         <Heading title='Set Nepal'/>
         <span className='font-semibold text-sm'>
-          {settings.slogan}
+          {settings.slogan || ""}
         </span>
         </div>
         <p className='text-center'>{settings?.aboutShort}</p>

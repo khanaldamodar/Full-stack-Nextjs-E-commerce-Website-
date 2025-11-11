@@ -54,11 +54,11 @@ export default function ContactPage() {
           <div className="space-y-4 mt-6">
             <div className="flex items-center gap-3">
               <MapPin className="text-secondary w-6 h-6" />
-              <p className="text-gray-700">{settings?.address}</p>
+              <p className="text-gray-700">{settings?.address || "Kathmandu Nepal"}</p>
             </div>
             <div className="flex items-center gap-3">
               <Mail className="text-secondary w-6 h-6" />
-              <p className="text-gray-700">{settings?.email1}</p>
+              <p className="text-gray-700">{settings?.email1|| "info@setnepal.com"}</p>
             </div>
             <div className="flex items-center gap-3">
               <Phone className="text-secondary w-6 h-6" />
