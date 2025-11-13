@@ -141,7 +141,7 @@ export default function SettingsPage() {
     return <div className="p-6 text-black">Loading settings...</div>;
 
   return (
-    <div className="flex min-h-screen bg-gray-100 justify-center p-4">
+    <div className="flex min-h-screen bg-gray-100 justify-center p-4 font-poppins">
       <main className="flex-1 max-w-6xl">
         <div className="bg-white shadow-md rounded-xl p-6 md:p-8">
           <form

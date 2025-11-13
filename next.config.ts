@@ -9,15 +9,15 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "res.cloudinary.com", // ✅ Cloudinary
+        hostname: "res.cloudinary.com", 
       },
       {
         protocol: "https",
-        hostname: "example.com", // ✅ Replace or remove this
+        hostname: "example.com", 
       },
       {
         protocol: "https",
-        hostname: "via.placeholder.com", // optional for dummy images
+        hostname: "via.placeholder.com", 
       },
     ],
   },

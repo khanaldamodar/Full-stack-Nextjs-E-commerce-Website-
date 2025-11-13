@@ -36,7 +36,7 @@ const Footer: React.FC<FooterProps> = ({ settings }) => {
           <div className="flex items-center gap-3">
             {settings.logo ? (
               <Image
-                src={settings.logo}
+                src={settings.logo || "/logo.jpeg"}
                 width={80}
                 height={50}
                 alt="Logo"

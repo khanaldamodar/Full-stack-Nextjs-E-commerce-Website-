@@ -157,7 +157,7 @@ export function DataTable<T extends { id: string | number }>({
                           variant="ghost"
                           size="icon"
                           onClick={() => onDelete(item)}
-                          className="hover:text-red-600"
+                          className="hover:text-red-600 text-red-800"
                         >
                           <Trash2 size={18} />
                         </Button>
