@@ -34,6 +34,8 @@ import cloudinary from "@/lib/cloudinary";
  *                 type: string
  *               price:
  *                 type: number
+ *               categoryId:
+ *                 type: number
  *               discount:
  *                 type: number
  *               stock:
@@ -65,6 +67,7 @@ export async function GET(req: NextRequest) {
       include: {
         products: true,
         createdBy: true,
+        category: true,
       },
     });
     return NextResponse.json(packages);
@@ -92,6 +95,8 @@ export async function POST(req: NextRequest) {
     const isActive = formData.get("isActive") !== "false";
     const imageFile = formData.get("image") as File | null;
     const productIds = formData.getAll("productIds[]").map((id) => Number(id));
+    const categoryIdRaw = formData.get("categoryId");
+    const categoryId = categoryIdRaw ? Number(categoryIdRaw) : null;
 
     if (!name || !price) {
       return NextResponse.json(
@@ -136,6 +141,7 @@ export async function POST(req: NextRequest) {
         imageUrl,
         isFeatured,
         isActive,
+        categoryId: categoryId,
         createdById: user.userId,
         products: connectProducts,
       },

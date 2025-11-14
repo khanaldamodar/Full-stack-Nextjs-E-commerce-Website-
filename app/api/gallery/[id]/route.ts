@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import prisma from "@/lib/prisma"
 import cloudinary from "@/lib/cloudinary"
+import { requireAuth } from "@/lib/auth";
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -80,6 +81,7 @@ export async function GET(req: Request, context: { params: Promise<{ id: string 
  */
 export async function PUT(req: Request, context: { params: Promise<{ id: string }> }) {
   try {
+
     const {id} = await context.params
     const idNum = Number(id)
     const gallery = await prisma.gallery.findUnique({ where: { id: idNum } })
@@ -137,17 +139,24 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
  *       200:
  *         description: Gallery deleted successfully
  */
-export async function DELETE(req: Request,context: { params: Promise<{ id: string }> }) {
+export async function DELETE(
+  req: Request,
+  context: { params: Promise<{ id: string }> }
+) {
   try {
-    const id = await context.params
+    const { id } = await context.params  
     const idNum = Number(id)
-    const gallery = await prisma.gallery.findUnique({ where: { id: idNum }, include: { images: true } })
+
+    const gallery = await prisma.gallery.findUnique({
+      where: { id: idNum },
+      include: { images: true },
+    })
 
     if (!gallery) {
       return NextResponse.json({ error: "Gallery not found" }, { status: 404 })
     }
 
-    // Optionally delete images from Cloudinary (optional but recommended)
+    // Delete cloudinary images
     for (const img of gallery.images) {
       try {
         const publicId = getCloudinaryPublicId(img.url)
@@ -157,7 +166,6 @@ export async function DELETE(req: Request,context: { params: Promise<{ id: strin
       }
     }
 
-    // Delete gallery and its images
     await prisma.gallery.delete({ where: { id: idNum } })
 
     return NextResponse.json({ message: "Gallery deleted successfully" }, { status: 200 })
@@ -166,6 +174,7 @@ export async function DELETE(req: Request,context: { params: Promise<{ id: strin
     return NextResponse.json({ error: "Failed to delete gallery" }, { status: 500 })
   }
 }
+
 
 // Helper to upload files
 async function uploadFileToCloudinary(file: File, folder: string): Promise<string> {
