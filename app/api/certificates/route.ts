@@ -25,28 +25,39 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const formData = await req.formData(); // works in Next.js Edge / App Router
+    const formData = await req.formData();
     const title = formData.get("title") as string;
     const image = formData.get("image") as File;
 
     if (!title || !image) {
-      return NextResponse.json({ Message: "Title and image required" }, { status: 400 });
+      return NextResponse.json(
+        { message: "Title and image are required" },
+        { status: 400 }
+      );
     }
 
-    // For testing: just log values
-    console.log("Title:", title, "Image:", image);
+    // Upload to Cloudinary
+    const imageUrl = await uploadFileToCloudinary(image, "certificates");
 
+    // Save to DB
     const cert = await prisma.certificates.create({
       data: {
         title,
-        image: image.name, // later replace with uploaded URL
+        image: imageUrl,
       },
     });
 
-    return NextResponse.json({ Message: "Created Successfully", certificate: cert }, { status: 201 });
+    return NextResponse.json(
+      { message: "Created Successfully", certificate: cert },
+      { status: 201 }
+    );
+
   } catch (err) {
     console.error("Certificate upload error:", err);
-    return NextResponse.json({ Message: "Failed to upload certificate" }, { status: 500 });
+    return NextResponse.json(
+      { message: "Failed to upload certificate" },
+      { status: 500 }
+    );
   }
 }
 

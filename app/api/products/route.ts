@@ -478,7 +478,7 @@ async function handleFormDataUpload(req: NextRequest, user: any) {
 }
 
 // Helper function for Cloudinary uploads
-async function uploadFileToCloudinary(file: File, folder: string): Promise<string> {
+export async function uploadFileToCloudinary(file: File, folder: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {

@@ -36,6 +36,7 @@ model Category {
   id       Int       @id @default(autoincrement())
   name     String?
   products Product[]
+  packages Package[]
 }
 
 model Brand {
@@ -84,6 +85,9 @@ model Package {
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  categoryId Int?
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
   createdById Int?
   createdBy   User? @relation(fields: [createdById], references: [id])
