@@ -23,6 +23,11 @@ interface Product {
   isActive: boolean;
 }
 
+interface Category {
+  id: number;
+  name: string;
+}
+
 interface CreatedBy {
   id: number;
   name: string;
@@ -44,12 +49,14 @@ interface PackageData {
   updatedAt: string;
   createdBy: CreatedBy;
   products: Product[];
+  categoryId?: number; // from API
 }
 
 export default function ViewPackagePage() {
   const { id } = useParams();
   const router = useRouter();
   const [pkg, setPkg] = useState<PackageData | null>(null);
+  const [category, setCategory] = useState<Category | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -61,7 +68,14 @@ export default function ViewPackagePage() {
     try {
       setLoading(true);
       const res = await axios.get(`/api/packages/${id}`);
-      setPkg(res.data.package || res.data);
+      const data = res.data.package || res.data;
+      setPkg(data);
+
+      // Fetch category if categoryId exists
+      if (data.categoryId) {
+        const catRes = await axios.get(`/api/categories/${data.categoryId}`);
+        setCategory(catRes.data);
+      }
     } catch (error) {
       console.error("Failed to fetch package:", error);
       toast.error("Failed to load package");
@@ -71,7 +85,11 @@ export default function ViewPackagePage() {
   };
 
   if (loading)
-    return <p className="text-gray-500 p-6 text-center">Loading package details...</p>;
+    return (
+      <p className="text-gray-500 p-6 text-center">
+        Loading package details...
+      </p>
+    );
 
   if (!pkg)
     return (
@@ -102,10 +120,19 @@ export default function ViewPackagePage() {
         </CardHeader>
         <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
-            <p><strong>Description:</strong> {pkg.description || "No description"}</p>
-            <p><strong>Price:</strong> Rs. {pkg.price}</p>
-            <p><strong>Discount:</strong> {pkg.discount}%</p>
-            <p><strong>Stock:</strong> {pkg.stock}</p>
+            <p>
+              <strong>Description:</strong>{" "}
+              {pkg.description || "No description"}
+            </p>
+            <p>
+              <strong>Price:</strong> Rs. {pkg.price}
+            </p>
+            <p>
+              <strong>Discount:</strong> {pkg.discount}%
+            </p>
+            <p>
+              <strong>Stock:</strong> {pkg.stock}
+            </p>
             <div className="flex gap-2">
               <Badge variant={pkg.isFeatured ? "default" : "outline"}>
                 {pkg.isFeatured ? "Featured" : "Not Featured"}
@@ -145,8 +172,12 @@ export default function ViewPackagePage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
-            <p><strong>Name:</strong> {pkg.createdBy.name}</p>
-            <p><strong>Email:</strong> {pkg.createdBy.email}</p>
+            <p>
+              <strong>Name:</strong> {pkg.createdBy.name}
+            </p>
+            <p>
+              <strong>Email:</strong> {pkg.createdBy.email}
+            </p>
             <Badge>{pkg.createdBy.role}</Badge>
           </div>
         </CardContent>
@@ -194,7 +225,27 @@ export default function ViewPackagePage() {
               </table>
             </div>
           ) : (
-            <p className="text-gray-500 italic">No products linked to this package</p>
+            <p className="text-gray-500 italic">
+              No products linked to this package
+            </p>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Category */}
+      <Card className="shadow-sm rounded-2xl border">
+        <CardHeader>
+          <CardTitle className="text-xl flex items-center gap-2">
+            <Tag className="w-5 h-5" /> Category
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {category ? (
+            <Badge variant="outline">{category.name}</Badge>
+          ) : (
+            <p className="text-gray-500 italic">
+              No category linked to this package
+            </p>
           )}
         </CardContent>
       </Card>

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { Search, Trash2, Upload } from "lucide-react";
+import { Upload } from "lucide-react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -24,19 +24,17 @@ export default function AddPackagePage() {
   } = useForm();
   const [products, setProducts] = useState<any[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<any[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
 
   const [categories, setCategories] = useState<any[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<any[]>([]);
-  const [filteredCategories, setFilteredCategories] = useState<any[]>([]);
 
   const [searchProductQuery, setSearchProductQuery] = useState("");
-  const [searchCategoryQuery, setSearchCategoryQuery] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // Fetch all products
+  // Fetch products
   useEffect(() => {
     axios
       .get("/api/products")
@@ -47,7 +45,7 @@ export default function AddPackagePage() {
       .catch((err) => console.error("Error fetching products:", err));
   }, []);
 
-  // Filter products by search
+  // Filter products
   useEffect(() => {
     const results = products.filter((p) =>
       p.name.toLowerCase().includes(searchProductQuery.toLowerCase())
@@ -55,50 +53,24 @@ export default function AddPackagePage() {
     setFilteredProducts(results);
   }, [searchProductQuery, products]);
 
-  // Add product to selected list
   const handleAddProduct = (product: any) => {
     if (!selectedProducts.find((p) => p.id === product.id)) {
       setSelectedProducts([...selectedProducts, product]);
     }
   };
 
-  // Remove product
   const handleRemoveProduct = (id: number) => {
     setSelectedProducts(selectedProducts.filter((p) => p.id !== id));
   };
 
-  // Fetch all categories
+  // Fetch categories
   useEffect(() => {
     axios
       .get("/api/categories")
-      .then((res) => {
-        setCategories(res.data);
-        setFilteredCategories(res.data);
-      })
+      .then((res) => setCategories(res.data))
       .catch((err) => console.error("Error fetching categories:", err));
   }, []);
 
-  // Filter categories by search
-  useEffect(() => {
-    const results = categories.filter((c) =>
-      c.name.toLowerCase().includes(searchCategoryQuery.toLowerCase())
-    );
-    setFilteredCategories(results);
-  }, [searchCategoryQuery, categories]);
-
-  // Add category to selected list
-  const handleAddCategories = (category: any) => {
-    if (!selectedCategories.find((c) => c.id === category.id)) {
-      setSelectedCategories([...selectedCategories, category]);
-    }
-  };
-
-  // Remove category
-  const handleRemoveCategories = (id: number) => {
-    setSelectedCategories(selectedCategories.filter((c) => c.id !== id));
-  };
-
-  // Handle image file
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -107,17 +79,19 @@ export default function AddPackagePage() {
     }
   };
 
-  // Handle form submission errors
   const onError = (errors: any) => {
     if (errors.price) toast.error(errors.price.message);
     if (errors.discount) toast.error(errors.discount.message);
     if (errors.stock) toast.error(errors.stock.message);
   };
 
-  // Submit form
   const onSubmit = async (data: any) => {
-    if (selectedProducts.length === 0) {
-      return toast.error("Please select at least one product");
+    if (selectedProducts.length < 2) {
+      return toast.error("Please select at least 2 products");
+    }
+
+    if (!selectedCategories[0]) {
+      return toast.error("Please select a category");
     }
 
     if (data.price < 0) return toast.error("Price cannot be negative");
@@ -136,17 +110,13 @@ export default function AddPackagePage() {
       formData.append("isFeatured", data.isFeatured ? "true" : "false");
       formData.append("isActive", data.isActive ? "true" : "false");
 
-      if (selectedImage) {
-        formData.append("image", selectedImage);
-      }
+      if (selectedImage) formData.append("image", selectedImage);
 
       selectedProducts.forEach((product) => {
         formData.append("productIds[]", product.id);
       });
 
-      selectedCategories.forEach((category) => {
-        formData.append("categoryIds[]", category.id);
-      });
+      formData.append("categoryId", selectedCategories[0].id.toString());
 
       await axios.post("/api/packages", formData, {
         headers: {
@@ -270,19 +240,41 @@ export default function AddPackagePage() {
               </label>
             </div>
 
+            {/* Category Dropdown */}
+            <div className="mt-6">
+              <label className="block mb-2 font-medium">Category</label>
+              <select
+                name="categoryId"
+                value={selectedCategories[0]?.id || ""}
+                onChange={(e) => {
+                  const selected = categories.find(
+                    (cat) => cat.id === Number(e.target.value)
+                  );
+                  setSelectedCategories(selected ? [selected] : []);
+                }}
+                className="w-full border rounded-lg px-3 py-2"
+                required
+              >
+                <option value="">-- Select Category --</option>
+                {categories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             {/* Product Selection */}
             <div>
               <h3 className="text-lg font-semibold mb-2">Select Products</h3>
               <div className="relative mb-3">
-                <Search className="absolute left-3 top-2.5 text-gray-400 w-5 h-5" />
                 <Input
                   placeholder="Search product..."
-                  className="pl-10"
+                  className="pl-3"
                   value={searchProductQuery}
                   onChange={(e) => setSearchProductQuery(e.target.value)}
                 />
               </div>
-
               <div className="max-h-48 overflow-y-auto border rounded-md p-2">
                 {filteredProducts.length > 0 ? (
                   filteredProducts.map((product) => (
@@ -318,10 +310,13 @@ export default function AddPackagePage() {
                         className="flex items-center justify-between bg-gray-50 border rounded-md p-2"
                       >
                         <span>{product.name}</span>
-                        <Trash2
-                          className="w-5 h-5 text-red-500 cursor-pointer"
+                        <Button
+                          variant="ghost"
+                          size="sm"
                           onClick={() => handleRemoveProduct(product.id)}
-                        />
+                        >
+                          Remove
+                        </Button>
                       </div>
                     ))}
                   </div>
@@ -329,66 +324,6 @@ export default function AddPackagePage() {
               )}
             </div>
 
-            {/* Category Selection */}
-            <div className="mt-6">
-              <h3 className="text-lg font-semibold mb-2">Select Categories</h3>
-              <div className="relative mb-3">
-                <Search className="absolute left-3 top-2.5 text-gray-400 w-5 h-5" />
-                <Input
-                  placeholder="Search category..."
-                  className="pl-10"
-                  value={searchCategoryQuery}
-                  onChange={(e) => setSearchCategoryQuery(e.target.value)}
-                />
-              </div>
-
-              <div className="max-h-48 overflow-y-auto border rounded-md p-2">
-                {filteredCategories.length > 0 ? (
-                  filteredCategories.map((category) => (
-                    <div
-                      key={category.id}
-                      className="flex items-center justify-between py-2 border-b last:border-none"
-                    >
-                      <span>{category.name}</span>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleAddCategories(category)}
-                      >
-                        Add
-                      </Button>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-gray-500 text-sm text-center">
-                    No categories found
-                  </p>
-                )}
-              </div>
-
-              {selectedCategories.length > 0 && (
-                <div className="mt-4">
-                  <h4 className="font-medium mb-2">Selected Categories</h4>
-                  <div className="space-y-2">
-                    {selectedCategories.map((category) => (
-                      <div
-                        key={category.id}
-                        className="flex items-center justify-between bg-gray-50 border rounded-md p-2"
-                      >
-                        <span>{category.name}</span>
-                        <Trash2
-                          className="w-5 h-5 text-red-500 cursor-pointer"
-                          onClick={() => handleRemoveCategories(category.id)}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Submit Button */}
             <Button type="submit" className="w-full mt-6" disabled={loading}>
               {loading ? "Creating Package..." : "Create Package"}
             </Button>

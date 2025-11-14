@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import axios from "axios";
-import { useParams } from "next/navigation";
 import { Search, Trash2, Upload } from "lucide-react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
@@ -13,20 +12,23 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Cookies from "js-cookie";
 import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function EditPackagePage() {
   const router = useRouter();
   const params = useParams();
   const packageId = params.id;
 
-  const { register, handleSubmit, reset, setValue } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   const [products, setProducts] = useState<any[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<any[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
 
   // Fetch all products
@@ -38,6 +40,14 @@ export default function EditPackagePage() {
         setFilteredProducts(res.data);
       })
       .catch((err) => console.error("Error fetching products:", err));
+  }, []);
+
+  // Fetch categories
+  useEffect(() => {
+    axios
+      .get("/api/categories")
+      .then((res) => setCategories(res.data))
+      .catch((err) => console.error("Error fetching categories:", err));
   }, []);
 
   // Fetch package details
@@ -55,6 +65,7 @@ export default function EditPackagePage() {
         setValue("isActive", pkg.isActive);
         setSelectedProducts(pkg.products || []);
         if (pkg.imageUrl) setImagePreview(pkg.imageUrl);
+        setSelectedCategory(pkg.categoryId || null);
       })
       .catch((err) => console.error("Error fetching package:", err));
   }, [packageId, setValue]);
@@ -86,6 +97,11 @@ export default function EditPackagePage() {
   };
 
   const onSubmit = async (data: any) => {
+    if (selectedProducts.length < 2) {
+      toast.error("Please select at least 2 products");
+      return;
+    }
+
     try {
       setLoading(true);
       const formData = new FormData();
@@ -98,33 +114,31 @@ export default function EditPackagePage() {
       formData.append("isFeatured", data.isFeatured ? "true" : "false");
       formData.append("isActive", data.isActive ? "true" : "false");
 
-      // Append image if changed
+      if (selectedCategory) {
+        formData.append("categoryId", selectedCategory.toString());
+      }
+
       if (selectedImage) {
         formData.append("image", selectedImage);
       }
 
-      // Send product IDs as JSON string
-      formData.append(
-        "productIds",
-        JSON.stringify(selectedProducts.map((p) => p.id))
-      );
+      selectedProducts.forEach((p) => {
+        formData.append("productIds[]", p.id.toString());
+      });
 
       const token = Cookies.get("token") || "";
 
       await axios.put(`/api/packages/${packageId}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
       });
 
       toast.success("Package updated successfully");
       router.push("/admin/packages");
     } catch (error: any) {
-      console.error(
-        "Error updating package:",
-        error.response?.data,
-        error.response?.status
-      );
+      console.error("Error updating package:", error.response?.data);
       toast.error("Failed to update package");
     } finally {
       setLoading(false);
@@ -148,6 +162,7 @@ export default function EditPackagePage() {
                   placeholder="Package Name"
                 />
               </label>
+
               <label className="flex flex-col">
                 <span className="mb-1 font-medium">Price</span>
                 <Input
@@ -168,6 +183,7 @@ export default function EditPackagePage() {
                   placeholder="Discount %"
                 />
               </label>
+
               <label className="flex flex-col">
                 <span className="mb-1 font-medium">Stock</span>
                 <Input
@@ -200,6 +216,7 @@ export default function EditPackagePage() {
                   onChange={handleImageChange}
                 />
               </label>
+
               {imagePreview && (
                 <Image
                   src={imagePreview}
@@ -216,14 +233,35 @@ export default function EditPackagePage() {
               <label className="flex items-center gap-2">
                 <input type="checkbox" {...register("isFeatured")} /> Featured
               </label>
+
               <label className="flex items-center gap-2">
                 <input type="checkbox" {...register("isActive")} /> Active
               </label>
             </div>
 
+            {/* Category Dropdown */}
+            <div className="mt-6">
+              <label className="block mb-2 font-medium">Category</label>
+              <select
+                name="categoryId"
+                value={selectedCategory || ""}
+                onChange={(e) => setSelectedCategory(Number(e.target.value))}
+                className="w-full border rounded-lg px-3 py-2"
+                required
+              >
+                <option value=""></option>
+                {categories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             {/* Product Selection */}
             <div>
               <h3 className="text-lg font-semibold mb-2">Select Products</h3>
+
               <div className="relative mb-3">
                 <Search className="absolute left-3 top-2.5 text-gray-400 w-5 h-5" />
                 <Input
@@ -280,7 +318,6 @@ export default function EditPackagePage() {
               )}
             </div>
 
-            {/* Submit Button */}
             <Button type="submit" className="w-full mt-6" disabled={loading}>
               {loading ? "Updating Package..." : "Update Package"}
             </Button>

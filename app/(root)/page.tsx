@@ -115,7 +115,7 @@ export default async function Home() {
     <>
       <Introduction />
       <FeatureProductsSection />
-      <FeaturedPackages />
+      {/* <FeaturedPackages /> */}
 
       <div className=" justify-center flex flex-col items-center text-white font-poppins">
         <Heading title="Our Products" />
