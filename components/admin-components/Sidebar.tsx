@@ -165,15 +165,15 @@ export default function Sidebar() {
           </div>
         </div>
 
-        {/* Logout Button */}
-        {/* {showLogout && (*/}
-        <button
-          onClick={handleLogout}
-          className="mt-2 w-full bg-red-500 text-white font-medium py-2 rounded-md hover:bg-red-600 transition-all duration-200"
-        >
-          Log Out
-        </button>
-        {/* })}*/}
+        {/* Logout Button  */}
+        {/* {showLogout && ( */}
+          <button
+            onClick={handleLogout}
+            className="mt-2 w-full bg-red-500 text-white font-medium py-2 rounded-md hover:bg-red-600 transition-all duration-200"
+          >
+            Log Out
+          </button>
+        {/* )} */}
       </div>
     </aside>
   );

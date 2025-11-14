@@ -97,6 +97,13 @@ export default function EditCategoryPage() {
             <div className="text-red-500 mt-2">{updateError}</div>
           )}
         </form>
+
+        <button
+          onClick={() => router.back()}
+          className="text-[#4998d1] hover:text-[#3b7aa8] font-medium transition-colors"
+        >
+          ← Back to categories
+        </button>
       </div>
     </div>
   );

@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 
-
 const GalleryPage: React.FC = () => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -57,7 +56,6 @@ const GalleryPage: React.FC = () => {
       if (!res.ok) throw new Error("Failed to add gallery");
 
       toast.success("Gallery added successfully!");
-      // redirect to gallery list
       router.push("/admin/gallery");
     } catch (err) {
       console.error(err);
@@ -77,15 +75,20 @@ const GalleryPage: React.FC = () => {
 
           <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Title */}
+              {/* Title with 50-character limit */}
               <InputField
                 label="Title"
                 icon={<MdTitle className="text-white text-lg" />}
-                placeholder="Enter gallery title"
+                placeholder="Enter gallery title (max 50 characters)"
                 value={title}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setTitle(e.target.value)
-                }
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  const value = e.target.value;
+                  if (value.length > 50) {
+                    toast.error("Title cannot exceed 50 characters!");
+                    return;
+                  }
+                  setTitle(value);
+                }}
               />
 
               {/* Upload Images */}
@@ -104,7 +107,7 @@ const GalleryPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Image Previews with remove button */}
+            {/* Image Previews */}
             {previews.length > 0 && (
               <div className="flex flex-wrap gap-4 items-center">
                 {previews.map((img, index) => (
@@ -114,11 +117,12 @@ const GalleryPage: React.FC = () => {
                       alt={img.name}
                       className="w-24 h-24 object-cover border border-gray-300 rounded-md"
                     />
-                    {/* Remove button */}
                     <button
                       type="button"
                       onClick={() => {
-                        setPreviews((prev) => prev.filter((_, i) => i !== index));
+                        setPreviews((prev) =>
+                          prev.filter((_, i) => i !== index)
+                        );
                         setImages((prev) => prev.filter((_, i) => i !== index));
                       }}
                       className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold hover:bg-red-600 transition"
@@ -128,7 +132,7 @@ const GalleryPage: React.FC = () => {
                   </div>
                 ))}
 
-                {/* Add more images button */}
+                {/* Add more images */}
                 <label className="flex items-center justify-center w-10 h-10 rounded-full bg-[#aec958] hover:bg-[#9bb648] text-white cursor-pointer transition">
                   <MdAdd className="text-lg" />
                   <input

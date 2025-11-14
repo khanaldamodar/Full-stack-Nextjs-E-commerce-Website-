@@ -55,7 +55,7 @@ const BrandsPage = () => {
             endpoint="brands"
             columns={["name"]}
             data={brands}
-            setData={setBrands} 
+            setData={setBrands}
           />
         ) : (
           <div className="text-center text-gray-400 mt-10">
@@ -68,4 +68,3 @@ const BrandsPage = () => {
 };
 
 export default BrandsPage;
-

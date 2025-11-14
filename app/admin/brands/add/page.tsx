@@ -15,9 +15,7 @@ export default function AddBrandPage() {
   const router = useRouter();
   const [brand, setBrand] = useState<BrandType>({ name: "" });
 
-  const { postData, loading, error } = usePost<BrandType>(
-    "/api/brands"
-  );
+  const { postData, loading, error } = usePost<BrandType>("/api/brands");
 
   const handleAddBrand = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,6 +66,13 @@ export default function AddBrandPage() {
             </button>
           </div>
         </form>
+
+        <button
+          onClick={() => router.push("/admin/brands")}
+          className="mt-4 w-full text-center text-sm text-[#aec958] font-semibold hover:underline"
+        >
+          ← Back to Brand List
+        </button>
       </div>
     </div>
   );

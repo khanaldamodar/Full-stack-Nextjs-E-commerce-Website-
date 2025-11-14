@@ -1,102 +1,257 @@
 "use client";
 
+import React, { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { Edit, Eye, Trash2, Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { useDelete } from "@/services/useDelete";
+import clsx from "clsx";
 
 interface CRUDTableProps {
-  endpoint: string;                 
-  columns: string[];                
-  data: any[];                      
+  endpoint: string;
+  columns: string[];
+  data: any[];
   setData: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
-export default function CRUDTable({ endpoint, columns, data, setData }: CRUDTableProps) {
+export default function CRUDTable({
+  endpoint,
+  columns,
+  data,
+  setData,
+}: CRUDTableProps) {
   const router = useRouter();
+  const { deleteItem, loading: deleting } = useDelete(
+    data,
+    setData,
+    `/api/${endpoint}`
+  );
 
-  const { deleteItem, loading: deleting } = useDelete(data, setData, `/api/${endpoint}`);
+  const [search, setSearch] = useState("");
+  const [sortKey, setSortKey] = useState<string | null>(null);
+  const [sortAsc, setSortAsc] = useState(true);
+  const [page, setPage] = useState(1);
+  const perPage = 8;
 
-  if (!data || data.length === 0) {
-    return <div className="p-5 text-gray-400 text-center">No data available</div>;
-  }
+  
+  const filtered = useMemo(() => {
+    const lower = search.toLowerCase();
+    return data.filter((item) =>
+      Object.values(item).some((val) =>
+        String(val).toLowerCase().includes(lower)
+      )
+    );
+  }, [data, search]);
+
+  
+  const sorted = useMemo(() => {
+    if (!sortKey) return filtered;
+    return [...filtered].sort((a, b) => {
+      const valA = String(a[sortKey]);
+      const valB = String(b[sortKey]);
+      return sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+    });
+  }, [filtered, sortKey, sortAsc]);
+
+  
+  const paginated = useMemo(() => {
+    const start = (page - 1) * perPage;
+    return sorted.slice(start, start + perPage);
+  }, [sorted, page]);
+
+  const totalPages = Math.ceil(filtered.length / perPage);
 
   return (
-    <div className="w-full p-5 overflow-x-auto flex">
-      <table className="w-full min-w-[600px] max-w-[1600px] border-collapse border">
-        <thead className="bg-green-100">
-          <tr>
-            <th className="border p-2 w-20 text-center">SN</th>
-            {columns.map((col) => (
-              <th
-                key={col}
-                className="border p-2 capitalize text-left whitespace-nowrap"
-              >
-                {col}
-              </th>
-            ))}
-            <th className="border p-2 w-60 text-center">Actions</th>
-          </tr>
-        </thead>
+    <Card className="shadow-md border rounded-2xl overflow-hidden">
+      {/* Header */}
+      <CardHeader className="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <CardTitle className="text-xl font-semibold capitalize">
+          {endpoint} Table
+        </CardTitle>
 
-        <tbody>
-          {data.map((item, index) => (
-            <tr key={item.id} className="hover:bg-green-200">
-              <td className="border p-2 text-center">{index + 1}</td>
+        <div className="relative w-full sm:w-64">
+          <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
+          <Input
+            placeholder="Search..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+      </CardHeader>
 
+      {/* Table */}
+      <CardContent className="overflow-x-auto">
+        <motion.table
+          className="w-full text-left border-collapse"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          <thead className="bg-gray-100 dark:bg-gray-800 text-sm uppercase text-gray-600">
+            <tr>
+              <th className="px-4 py-3 text-center w-16">SN</th>
               {columns.map((col) => (
-                <td key={col} className="border p-2 whitespace-nowrap">
-                  {Array.isArray(item[col]) && endpoint === "gallery" ? (
-                    <div className="flex gap-2">
-                      {item[col]
-                        .slice(0, 3) // only first 3 images
-                        .map((img: any, idx: number) => (
-                          <img
-                            key={idx}
-                            src={img.url || img}
-                            alt={img.name || `image-${idx}`}
-                            className="w-16 h-16 object-cover rounded-md border border-gray-200"
-                          />
-                        ))}
-                      {item[col].length > 3 && (
-                        <span className="text-sm text-gray-500 flex items-center">
-                          +{item[col].length - 3} more
-                        </span>
-                      )}
-                    </div>
-                  ) : Array.isArray(item[col]) ? (
-                    item[col].map((subItem: any) => subItem.name || subItem).join(", ")
-                  ) : (
-                    item[col]
+                <th
+                  key={col}
+                  onClick={() => {
+                    if (sortKey === col) setSortAsc(!sortAsc);
+                    else {
+                      setSortKey(col);
+                      setSortAsc(true);
+                    }
+                  }}
+                  className="px-4 py-3 cursor-pointer select-none hover:text-primary transition-colors"
+                >
+                  {col}
+                  {sortKey === col && (
+                    <span className="ml-1">{sortAsc ? "▲" : "▼"}</span>
                   )}
-                </td>
+                </th>
               ))}
-
-              <td className="border p-2 w-60 flex gap-2 justify-center">
-                <button
-                  className="bg-yellow-400 px-3 py-1 rounded text-sm"  
-                  onClick={() => router.push(`/admin/${endpoint}/edit/${item.id}`)}
-                >
-                  Edit
-                </button>
-
-                <button
-                  className="bg-blue-500 text-white px-3 py-1 rounded text-sm"
-                  onClick={() => router.push(`/admin/${endpoint}/view/${item.id}`)}
-                >
-                  View
-                </button>
-
-                <button
-                  className="bg-red-500 text-white px-3 py-1 rounded text-sm" 
-                  onClick={() => deleteItem(item.id)}
-                  disabled={deleting}
-                >
-                  Delete
-                </button>
-              </td>
+              <th className="px-4 py-3 text-center w-52">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+
+          <tbody>
+            {paginated.length > 0 ? (
+              paginated.map((item, index) => (
+                <motion.tr
+                  key={item.id}
+                  className={clsx(
+                    "border-b last:border-0 hover:bg-gray-50 dark:hover:bg-gray-900 transition"
+                  )}
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.03 }}
+                >
+                  <td className="px-4 py-3 text-center text-sm">
+                    {(page - 1) * perPage + index + 1}
+                  </td>
+
+                  {columns.map((col) => {
+                    const isDescription =
+                      col.toLowerCase().includes("description") ||
+                      col.toLowerCase().includes("details") ||
+                      col.toLowerCase().includes("content");
+
+                    return (
+                      <td
+                        key={col}
+                        className={clsx(
+                          "px-4 py-3 text-sm align-top",
+                          isDescription
+                            ? "min-w-[300px] max-w-[500px] whitespace-pre-wrap"
+                            : "whitespace-nowrap"
+                        )}
+                      >
+                        
+                        {Array.isArray(item[col]) && endpoint === "gallery" ? (
+                          <div className="flex gap-2">
+                            {item[col]
+                              .slice(0, 1)
+                              .map((img: any, idx: number) => (
+                                <img
+                                  key={idx}
+                                  src={img.url || img}
+                                  alt={img.name || `image-${idx}`}
+                                  className="w-16 h-16 object-cover rounded-md border"
+                                />
+                              ))}
+                            {item[col].length > 1 && (
+                              <span className="text-sm text-gray-500 flex items-center">
+                                +{item[col].length - 1} more
+                              </span>
+                            )}
+                          </div>
+                        ) : Array.isArray(item[col]) ? (
+                          item[col]
+                            .map((subItem: any) => subItem.name || subItem)
+                            .join(", ")
+                        ) : (
+                          <div className="line-clamp-4">{item[col]}</div> 
+                        )}
+                      </td>
+                    );
+                  })}
+
+                  {/* Actions */}
+                  <td className="px-4 py-3 text-center flex justify-center gap-2">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() =>
+                        router.push(`/admin/${endpoint}/view/${item.id}`)
+                      }
+                      className="hover:text-blue-600"
+                    >
+                      <Eye size={18} />
+                    </Button>
+
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() =>
+                        router.push(`/admin/${endpoint}/edit/${item.id}`)
+                      }
+                      className="hover:text-green-600"
+                    >
+                      <Edit size={18} />
+                    </Button>
+
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => deleteItem(item.id)}
+                      disabled={deleting}
+                      className="hover:text-red-600 text-red-800"
+                    >
+                      <Trash2 size={18} />
+                    </Button>
+                  </td>
+                </motion.tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={columns.length + 2}
+                  className="text-center py-6 text-gray-500"
+                >
+                  No records found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </motion.table>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-end items-center gap-2 mt-4">
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={page === 1}
+              onClick={() => setPage(page - 1)}
+            >
+              Prev
+            </Button>
+            <span className="text-sm text-gray-500">
+              Page {page} of {totalPages}
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={page === totalPages}
+              onClick={() => setPage(page + 1)}
+            >
+              Next
+            </Button>
+          </div>
+        )}
+      </CardContent>
+    </Card>
   );
 }
