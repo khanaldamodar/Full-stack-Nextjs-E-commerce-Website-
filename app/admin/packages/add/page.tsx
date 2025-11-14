@@ -25,7 +25,13 @@ export default function AddPackagePage() {
   const [products, setProducts] = useState<any[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<any[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
+
+  const [categories, setCategories] = useState<any[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<any[]>([]);
+  const [filteredCategories, setFilteredCategories] = useState<any[]>([]);
+
+  const [searchProductQuery, setSearchProductQuery] = useState("");
+  const [searchCategoryQuery, setSearchCategoryQuery] = useState("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
@@ -44,10 +50,10 @@ export default function AddPackagePage() {
   // Filter products by search
   useEffect(() => {
     const results = products.filter((p) =>
-      p.name.toLowerCase().includes(searchQuery.toLowerCase())
+      p.name.toLowerCase().includes(searchProductQuery.toLowerCase())
     );
     setFilteredProducts(results);
-  }, [searchQuery, products]);
+  }, [searchProductQuery, products]);
 
   // Add product to selected list
   const handleAddProduct = (product: any) => {
@@ -59,6 +65,37 @@ export default function AddPackagePage() {
   // Remove product
   const handleRemoveProduct = (id: number) => {
     setSelectedProducts(selectedProducts.filter((p) => p.id !== id));
+  };
+
+  // Fetch all categories
+  useEffect(() => {
+    axios
+      .get("/api/categories")
+      .then((res) => {
+        setCategories(res.data);
+        setFilteredCategories(res.data);
+      })
+      .catch((err) => console.error("Error fetching categories:", err));
+  }, []);
+
+  // Filter categories by search
+  useEffect(() => {
+    const results = categories.filter((c) =>
+      c.name.toLowerCase().includes(searchCategoryQuery.toLowerCase())
+    );
+    setFilteredCategories(results);
+  }, [searchCategoryQuery, categories]);
+
+  // Add category to selected list
+  const handleAddCategories = (category: any) => {
+    if (!selectedCategories.find((c) => c.id === category.id)) {
+      setSelectedCategories([...selectedCategories, category]);
+    }
+  };
+
+  // Remove category
+  const handleRemoveCategories = (id: number) => {
+    setSelectedCategories(selectedCategories.filter((c) => c.id !== id));
   };
 
   // Handle image file
@@ -79,12 +116,10 @@ export default function AddPackagePage() {
 
   // Submit form
   const onSubmit = async (data: any) => {
-    // Check selected products
     if (selectedProducts.length === 0) {
       return toast.error("Please select at least one product");
     }
 
-    // Extra safeguard
     if (data.price < 0) return toast.error("Price cannot be negative");
     if (data.discount < 0) return toast.error("Discount cannot be negative");
     if (data.stock < 0) return toast.error("Stock cannot be negative");
@@ -109,6 +144,10 @@ export default function AddPackagePage() {
         formData.append("productIds[]", product.id);
       });
 
+      selectedCategories.forEach((category) => {
+        formData.append("categoryIds[]", category.id);
+      });
+
       await axios.post("/api/packages", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -119,6 +158,7 @@ export default function AddPackagePage() {
       toast.success("Package created successfully");
       reset();
       setSelectedProducts([]);
+      setSelectedCategories([]);
       setSelectedImage(null);
       setImagePreview(null);
       router.push("/admin/packages");
@@ -238,12 +278,11 @@ export default function AddPackagePage() {
                 <Input
                   placeholder="Search product..."
                   className="pl-10"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  value={searchProductQuery}
+                  onChange={(e) => setSearchProductQuery(e.target.value)}
                 />
               </div>
 
-              {/* Product List */}
               <div className="max-h-48 overflow-y-auto border rounded-md p-2">
                 {filteredProducts.length > 0 ? (
                   filteredProducts.map((product) => (
@@ -269,7 +308,6 @@ export default function AddPackagePage() {
                 )}
               </div>
 
-              {/* Selected Products */}
               {selectedProducts.length > 0 && (
                 <div className="mt-4">
                   <h4 className="font-medium mb-2">Selected Products</h4>
@@ -283,6 +321,65 @@ export default function AddPackagePage() {
                         <Trash2
                           className="w-5 h-5 text-red-500 cursor-pointer"
                           onClick={() => handleRemoveProduct(product.id)}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Category Selection */}
+            <div className="mt-6">
+              <h3 className="text-lg font-semibold mb-2">Select Categories</h3>
+              <div className="relative mb-3">
+                <Search className="absolute left-3 top-2.5 text-gray-400 w-5 h-5" />
+                <Input
+                  placeholder="Search category..."
+                  className="pl-10"
+                  value={searchCategoryQuery}
+                  onChange={(e) => setSearchCategoryQuery(e.target.value)}
+                />
+              </div>
+
+              <div className="max-h-48 overflow-y-auto border rounded-md p-2">
+                {filteredCategories.length > 0 ? (
+                  filteredCategories.map((category) => (
+                    <div
+                      key={category.id}
+                      className="flex items-center justify-between py-2 border-b last:border-none"
+                    >
+                      <span>{category.name}</span>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleAddCategories(category)}
+                      >
+                        Add
+                      </Button>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-500 text-sm text-center">
+                    No categories found
+                  </p>
+                )}
+              </div>
+
+              {selectedCategories.length > 0 && (
+                <div className="mt-4">
+                  <h4 className="font-medium mb-2">Selected Categories</h4>
+                  <div className="space-y-2">
+                    {selectedCategories.map((category) => (
+                      <div
+                        key={category.id}
+                        className="flex items-center justify-between bg-gray-50 border rounded-md p-2"
+                      >
+                        <span>{category.name}</span>
+                        <Trash2
+                          className="w-5 h-5 text-red-500 cursor-pointer"
+                          onClick={() => handleRemoveCategories(category.id)}
                         />
                       </div>
                     ))}
