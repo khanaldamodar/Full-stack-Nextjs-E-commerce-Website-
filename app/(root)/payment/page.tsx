@@ -1,52 +1,20 @@
 "use client";
 
-import type React from "react";
-
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/hooks/use-cart";
-import { useOrders } from "@/hooks/use-orders";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { ChevronRight, Lock } from "lucide-react";
-
-interface CheckoutData {
-  shippingAddress: {
-    fullName: string;
-    email: string;
-    phone: string;
-    province: string;
-    municipality: string;
-    district: string;
-    ward: string;
-  };
-  billingAddress: {
-    fullName: string;
-    email: string;
-    phone: string;
-    province: string;
-    municipality: string;
-    district: string;
-    ward: string;
-  };
-}
 
 export default function PaymentPage() {
   const router = useRouter();
   const { cart, isLoaded, subtotal, tax, total, clearCart } = useCart();
-  const { createOrder } = useOrders();
-  const [checkoutData, setCheckoutData] = useState<CheckoutData | null>(null);
-  const [paymentMethod, setPaymentMethod] = useState("credit-card");
+  const [checkoutData, setCheckoutData] = useState<any>(null);
+  const [paymentMethod, setPaymentMethod] = useState("COD");
   const [isProcessing, setIsProcessing] = useState(false);
-  const [cardData, setCardData] = useState({
-    cardName: "",
-    cardNumber: "",
-    expiryDate: "",
-    cvv: "",
-  });
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const data = sessionStorage.getItem("checkoutData");
@@ -86,64 +54,55 @@ export default function PaymentPage() {
     );
   }
 
-  // const handleCardInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   let { name, value } = e.target;
-
-  //   // Format card number
-  //   if (name === "cardNumber") {
-  //     value = value
-  //       .replace(/\s/g, "")
-  //       .replace(/(\d{4})/g, "$1 ")
-  //       .trim();
-  //   }
-
-  //   // Format expiry date
-  //   if (name === "expiryDate") {
-  //     value = value.replace(/\D/g, "");
-  //     if (value.length >= 2) {
-  //       value = value.slice(0, 2) + "/" + value.slice(2, 4);
-  //     }
-  //   }
-
-  //   // Limit CVV to 3-4 digits
-  //   if (name === "cvv") {
-  //     value = value.replace(/\D/g, "").slice(0, 4);
-  //   }
-
-  //   setCardData((prev) => ({ ...prev, [name]: value }));
-  // };
-
   const handlePlaceOrder = async () => {
     setIsProcessing(true);
+    setError(null);
 
-    // Simulate payment processing
-    setTimeout(() => {
-      // Create order
-      const orderNumber = `ORD-${Date.now()}`;
-      const estimatedDelivery = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000)
-        .toISOString()
-        .split("T")[0];
+    // Combine billing address into a single string
+    const shippingAddress = `${checkoutData.billingAddress.fullName}, ${
+      checkoutData.billingAddress.province
+    }, ${checkoutData.billingAddress.district}, ${
+      checkoutData.billingAddress.municipality
+    }, Ward ${checkoutData.billingAddress.ward}${
+      checkoutData.billingAddress.zipCode
+        ? `, ${checkoutData.billingAddress.zipCode}`
+        : ""
+    }`;
 
-      const order = createOrder({
-        orderNumber,
-        date: new Date().toISOString().split("T")[0],
-        items: cart,
-        subtotal,
-        tax,
-        shipping: 0,
-        total,
-        status: "processing",
-        shippingAddress: checkoutData.shippingAddress,
-        paymentMethod:
-          paymentMethod === "credit-card" ? "Credit Card" : "PayPal",
-        estimatedDelivery,
+    const payload = {
+      items: cart.map((item) => ({
+        productId: item.id,
+        quantity: item.quantity,
+      })),
+      shippingAddress,
+      paymentMethod,
+    };
+
+    try {
+      const token = localStorage.getItem("token"); // or wherever your token is stored
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
       });
 
-      // Clear cart and redirect
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || "Failed to create order");
+      }
+
+      const order = await res.json();
       clearCart();
       sessionStorage.removeItem("checkoutData");
       router.push(`/order-confirmation/${order.id}`);
-    }, 2000);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -164,47 +123,32 @@ export default function PaymentPage() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-3">
-          {/* Payment Form */}
+          {/* Payment Method & Billing */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Payment Method Selection */}
             <Card className="p-6">
               <h2 className="mb-4 text-xl font-bold text-foreground">
                 Payment Method
               </h2>
-
               <div className="space-y-3">
-                <label className="flex items-center gap-3 rounded-lg border border-border p-4 cursor-pointer hover:bg-card/50">
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="e-Sewa"
-                    checked={paymentMethod === "e-sewa"}
-                    onChange={(e) => setPaymentMethod(e.target.value)}
-                    className="h-4 w-4"
-                  />
-                  <div>
-                    <p className="font-medium text-foreground">E-sewa</p>
-                  </div>
-                </label>
-
-                <label className="flex items-center gap-3 rounded-lg border border-border p-4 cursor-pointer hover:bg-card/50">
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="bank"
-                    checked={paymentMethod === "bank"}
-                    onChange={(e) => setPaymentMethod(e.target.value)}
-                    className="h-4 w-4"
-                  />
-                  <div>
-                    <p className="font-medium text-foreground">Bank</p>
-                    <p className="text-sm text-muted-foreground"></p>
-                  </div>
-                </label>
+                {["COD", "Bank", "e-Sewa"].map((method) => (
+                  <label
+                    key={method}
+                    className="flex items-center gap-3 rounded-lg border border-border p-4 cursor-pointer hover:bg-card/50"
+                  >
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value={method}
+                      checked={paymentMethod === method}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
+                      className="h-4 w-4"
+                    />
+                    <p className="font-medium text-foreground">{method}</p>
+                  </label>
+                ))}
               </div>
             </Card>
 
-            {/* Billing Address Summary */}
             <Card className="p-6">
               <h2 className="mb-4 text-xl font-bold text-foreground">
                 Billing Address
@@ -215,9 +159,9 @@ export default function PaymentPage() {
                 <p>
                   {checkoutData.billingAddress.district},{" "}
                   {checkoutData.billingAddress.municipality}{" "}
-                  {checkoutData.billingAddress.zipCode}
+                  {checkoutData.billingAddress.zipCode || ""}
                 </p>
-                <p>{checkoutData.billingAddress.ward}</p>
+                <p>Ward {checkoutData.billingAddress.ward}</p>
               </div>
             </Card>
           </div>
@@ -228,7 +172,6 @@ export default function PaymentPage() {
               <h2 className="mb-4 text-xl font-bold text-foreground">
                 Order Summary
               </h2>
-
               <div className="mb-4 max-h-64 space-y-3 overflow-y-auto border-b border-border pb-4">
                 {cart.map((item) => (
                   <div key={item.id} className="flex justify-between text-sm">
@@ -271,6 +214,8 @@ export default function PaymentPage() {
                 </span>
               </div>
 
+              {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
+
               <Button
                 className="mt-6 w-full bg-secondary"
                 size="lg"
@@ -279,8 +224,7 @@ export default function PaymentPage() {
               >
                 {isProcessing ? (
                   <>
-                    <span className="animate-spin mr-2">⏳</span>
-                    Processing...
+                    <span className="animate-spin mr-2">⏳</span>Processing...
                   </>
                 ) : (
                   <>

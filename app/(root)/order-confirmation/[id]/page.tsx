@@ -17,7 +17,7 @@ export default function OrderConfirmationPage({ params }: { params: { id: string
       const foundOrder = getOrder(id)
       setOrder(foundOrder)
     }
-  }, [isLoaded, params.id, getOrder])
+  }, [isLoaded, id, getOrder])
 
   if (!isLoaded) {
     return (

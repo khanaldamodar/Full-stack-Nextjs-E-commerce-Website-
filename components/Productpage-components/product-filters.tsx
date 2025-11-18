@@ -146,8 +146,8 @@ export function ProductFilters({ filters, onFilterChange }: ProductFiltersProps)
       <div className="space-y-3">
         <h3 className="font-medium text-foreground">Brands</h3>
         <div className="space-y-2">
-          {brands.map((brand) => (
-            <div key={brand} className="flex items-center space-x-2">
+          {brands.map((brand, index) => (
+            <div key={index} className="flex items-center space-x-2">
               <Checkbox
                 id={brand}
                 checked={localFilters.brands.includes(brand)}
