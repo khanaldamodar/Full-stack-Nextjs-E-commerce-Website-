@@ -104,7 +104,8 @@ export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
 
 export const PaymentMethod: {
   COD: 'COD',
-  ONLINE: 'ONLINE'
+  ONLINE: 'ONLINE',
+  ESEWA: 'ESEWA'
 };
 
 export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]

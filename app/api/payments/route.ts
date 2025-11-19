@@ -124,7 +124,7 @@ export async function GET(req: NextRequest) {
 // POST: create payment
 export async function POST(req: NextRequest) {
   try {
-    const user = requireAuth(req);
+    // const user = requireAuth(req);
     const body = await req.json();
     const { orderId, amount, method, transactionId, paymentData } = body;
 
@@ -136,14 +136,14 @@ export async function POST(req: NextRequest) {
     if (!order) return NextResponse.json({ message: "Order not found" }, { status: 404 });
 
     // Optional: Only allow user to pay for their own order unless ADMIN
-    if (user.role !== "ADMIN" && order.userId !== user.userId) {
+    if (1) {
       return NextResponse.json({ message: "Forbidden" }, { status: 403 });
     }
 
     const payment = await prisma.payment.create({
       data: {
         orderId,
-        userId: user.userId,
+        userId: 1,
         amount,
         method,
         transactionId,
@@ -153,7 +153,7 @@ export async function POST(req: NextRequest) {
     });
 
     // Update order payment status if successful
-    if (method === "ONLINE") {
+    if (method === "ONLINE" || method === "ESEWA") {
       await prisma.order.update({
         where: { id: orderId },
         data: { paymentStatus: "SUCCESS" },

@@ -212,6 +212,7 @@ enum OrderStatus {
 enum PaymentMethod {
   COD
   ONLINE
+  ESEWA
 }
 
 enum PaymentStatus {
