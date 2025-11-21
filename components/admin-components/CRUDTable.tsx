@@ -36,7 +36,6 @@ export default function CRUDTable({
   const [page, setPage] = useState(1);
   const perPage = 8;
 
-  
   const filtered = useMemo(() => {
     const lower = search.toLowerCase();
     return data.filter((item) =>
@@ -46,7 +45,6 @@ export default function CRUDTable({
     );
   }, [data, search]);
 
-  
   const sorted = useMemo(() => {
     if (!sortKey) return filtered;
     return [...filtered].sort((a, b) => {
@@ -56,7 +54,6 @@ export default function CRUDTable({
     });
   }, [filtered, sortKey, sortAsc]);
 
-  
   const paginated = useMemo(() => {
     const start = (page - 1) * perPage;
     return sorted.slice(start, start + perPage);
@@ -148,7 +145,6 @@ export default function CRUDTable({
                             : "whitespace-nowrap"
                         )}
                       >
-                        
                         {Array.isArray(item[col]) && endpoint === "gallery" ? (
                           <div className="flex gap-2">
                             {item[col]
@@ -172,7 +168,7 @@ export default function CRUDTable({
                             .map((subItem: any) => subItem.name || subItem)
                             .join(", ")
                         ) : (
-                          <div className="line-clamp-4">{item[col]}</div> 
+                          <div className="line-clamp-4">{item[col]}</div>
                         )}
                       </td>
                     );

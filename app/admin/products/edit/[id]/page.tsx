@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-// import { toast } from "react-hot-toast";
+import Cookies from "js-cookie";
+import { toast } from "sonner";
 
 export default function EditProductPage() {
   const router = useRouter();
@@ -29,16 +30,21 @@ export default function EditProductPage() {
     brandId: "",
     isFeatured: false,
     isActive: true,
-    imageUrl: "",
-    gallery: [] as string[],
   });
 
-  // Fetch existing product
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+
+  const [galleryPreview, setGalleryPreview] = useState<string[]>([]);
+  const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
+
+  // Fetch product
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const res = await axios.get(`/api/products/${id}`);
         const p = res.data.product;
+
         setForm({
           name: p.name,
           description: p.description,
@@ -50,65 +56,61 @@ export default function EditProductPage() {
           brandId: p.brandId || "",
           isFeatured: p.isFeatured,
           isActive: p.isActive,
-          imageUrl: p.imageUrl,
-          gallery: JSON.parse(p.gallery || "[]"),
         });
+
+        setPreviewImage(p.imageUrl);
+        setGalleryPreview(JSON.parse(p.gallery || "[]"));
       } catch (err) {
         console.error(err);
-        // toast.error("Failed to fetch product data");
+        toast.error("Failed to fetch product data");
       } finally {
         setLoading(false);
       }
     };
+
     fetchProduct();
   }, [id]);
 
-  // Handle changes
+  // Handle inputs
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
-  // Handle toggle switches
-  const handleToggle = (name: string, checked: boolean) => {
-    setForm({ ...form, [name]: checked });
-  };
-
-  // Handle gallery uploads (for now using URLs, but you can integrate Cloudinary later)
-  const handleAddGallery = () => {
-    setForm({ ...form, gallery: [...form.gallery, ""] });
-  };
-
-  const handleGalleryChange = (index: number, value: string) => {
-    const updated = [...form.gallery];
-    updated[index] = value;
-    setForm({ ...form, gallery: updated });
-  };
-
-  const handleRemoveGallery = (index: number) => {
-    const updated = form.gallery.filter((_, i) => i !== index);
-    setForm({ ...form, gallery: updated });
-  };
-
-  // Submit
+  // Submit updates
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
 
     try {
-      await axios.put(`/api/products/${id}`, {
-        ...form,
-        price: Number(form.price),
-        stock: Number(form.stock),
-        weight: Number(form.weight),
-        gallery: form.gallery,
+      const formData = new FormData();
+      Object.entries(form).forEach(([key, value]) =>
+        formData.append(key, String(value))
+      );
+
+      // main image
+      if (imageFile) formData.append("image", imageFile);
+
+      // gallery new uploads
+      galleryFiles.forEach((file) => formData.append("gallery[]", file));
+
+      // existing gallery urls
+      galleryPreview.forEach((url) =>
+        formData.append("existingGallery[]", url)
+      );
+
+      await axios.put(`/api/products/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${Cookies.get("token") || ""}`,
+        },
       });
 
-    //   toast.success("Product updated successfully");
+      toast.success("Product updated successfully");
       router.push("/admin/products");
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-    //   toast.error("Failed to update product");
+      toast.error("Failed to update product");
     } finally {
       setSaving(false);
     }
@@ -122,148 +124,103 @@ export default function EditProductPage() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Name */}
-        <div>
-          <label className="block font-medium mb-1">Name</label>
-          <Input name="name" value={form.name} onChange={handleChange} required />
-        </div>
+        <Input name="name" value={form.name} onChange={handleChange} required />
 
         {/* Description */}
-        <div>
-          <label className="block font-medium mb-1">Description</label>
-          <Textarea
-            name="description"
-            value={form.description}
+        <Textarea
+          name="description"
+          value={form.description}
+          onChange={handleChange}
+        />
+
+        {/* Price & Stock */}
+        <div className="grid grid-cols-2 gap-4">
+          <Input
+            name="price"
+            type="number"
+            value={form.price}
             onChange={handleChange}
           />
-        </div>
-
-        {/* Price, Stock, SKU, Weight */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div>
-            <label className="block font-medium mb-1">Price</label>
-            <Input
-              name="price"
-              type="number"
-              value={form.price}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">Stock</label>
-            <Input
-              name="stock"
-              type="number"
-              value={form.stock}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">SKU</label>
-            <Input name="sku" value={form.sku} onChange={handleChange} />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">Weight</label>
-            <Input
-              name="weight"
-              type="number"
-              value={form.weight}
-              onChange={handleChange}
-            />
-          </div>
+          <Input
+            name="stock"
+            type="number"
+            value={form.stock}
+            onChange={handleChange}
+          />
         </div>
 
         {/* Main Image */}
         <div>
-          <label className="block font-medium mb-1">Main Image URL</label>
-          <Input
-            name="imageUrl"
-            value={form.imageUrl}
-            onChange={handleChange}
-            placeholder="https://..."
+          <p className="font-medium">Main Image</p>
+
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (!file) return;
+
+              setImageFile(file);
+              setPreviewImage(URL.createObjectURL(file));
+            }}
           />
-          {form.imageUrl && (
+
+          {previewImage && (
             <Image
-              src={form.imageUrl}
+              src={previewImage}
+              width={100}
+              height={100}
               alt="Product"
-              width={120}
-              height={120}
-              className="rounded-md mt-2"
+              className="rounded mt-2 border"
             />
           )}
         </div>
 
         {/* Gallery */}
         <div>
-          <div className="flex items-center justify-between">
-            <label className="block font-medium mb-1">Gallery Images</label>
-            <Button type="button" onClick={handleAddGallery}>
-              + Add Image
-            </Button>
-          </div>
+          <p className="font-medium">Gallery Images</p>
 
-          <div className="space-y-2 mt-2">
-            {form.gallery.map((url, index) => (
-              <div key={index} className="flex items-center gap-2">
-                <Input
-                  value={url}
-                  onChange={(e) => handleGalleryChange(index, e.target.value)}
-                  placeholder="Image URL"
+          <input
+            type="file"
+            multiple
+            accept="image/*"
+            onChange={(e) => {
+              const files = Array.from(e.target.files || []);
+              setGalleryFiles([...galleryFiles, ...files]);
+
+              const previews = files.map((f) => URL.createObjectURL(f));
+              setGalleryPreview([...galleryPreview, ...previews]);
+            }}
+          />
+
+          <div className="flex gap-2 mt-2 flex-wrap">
+            {galleryPreview.map((url, i) => (
+              <div key={i} className="relative">
+                <Image
+                  src={url}
+                  width={80}
+                  height={80}
+                  alt="Gallery"
+                  className="border rounded"
                 />
-                <Button
-                  variant="destructive"
+
+                <button
                   type="button"
-                  onClick={() => handleRemoveGallery(index)}
+                  onClick={() => {
+                    setGalleryPreview(
+                      galleryPreview.filter((_, idx) => idx !== i)
+                    );
+                  }}
+                  className="absolute -top-2 -right-2 bg-red-600 text-white p-1 rounded-full"
                 >
-                  Remove
-                </Button>
+                  ✕
+                </button>
               </div>
             ))}
           </div>
-
-          <div className="flex gap-2 mt-3 flex-wrap">
-            {form.gallery.map(
-              (url, i) =>
-                url && (
-                  <Image
-                    key={i}
-                    src={url}
-                    alt="Gallery"
-                    width={80}
-                    height={80}
-                    className="rounded-md border"
-                  />
-                )
-            )}
-          </div>
         </div>
 
-        {/* Switches */}
-        <div className="flex items-center justify-between mt-4">
-          <div className="flex items-center gap-2">
-            <Switch
-              checked={form.isFeatured}
-              onCheckedChange={(v) => handleToggle("isFeatured", v)}
-            />
-            <span>Featured Product</span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <Switch
-              checked={form.isActive}
-              onCheckedChange={(v) => handleToggle("isActive", v)}
-            />
-            <span>Active Product</span>
-          </div>
-        </div>
-
-        {/* Submit */}
-        <Button
-          type="submit"
-          disabled={saving}
-          className="w-full mt-4 font-medium"
-        >
+        <Button type="submit" disabled={saving} className="w-full">
           {saving ? "Saving..." : "Save Changes"}
         </Button>
       </form>

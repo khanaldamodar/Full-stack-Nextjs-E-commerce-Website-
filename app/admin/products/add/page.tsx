@@ -33,7 +33,7 @@ export default function AddProductPage() {
   const [gallery, setGallery] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // ✅ Fetch categories and brands from API
+  //Fetch categories and brands from API
   useEffect(() => {
     const fetchData = async () => {
       try {

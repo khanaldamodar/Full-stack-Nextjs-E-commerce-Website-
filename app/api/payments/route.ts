@@ -136,9 +136,9 @@ export async function POST(req: NextRequest) {
     if (!order) return NextResponse.json({ message: "Order not found" }, { status: 404 });
 
     // Optional: Only allow user to pay for their own order unless ADMIN
-    if (1) {
-      return NextResponse.json({ message: "Forbidden" }, { status: 403 });
-    }
+    // if (1) {
+    //   return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+    // }
 
     const payment = await prisma.payment.create({
       data: {

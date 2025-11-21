@@ -111,7 +111,7 @@ export default function PaymentPage() {
         throw new Error(data.message || "Failed to place order");
       }
 
-      const order = await res.json(); // <-- order created in DB
+      const order = await res.json();
       clearCart();
       sessionStorage.removeItem("checkoutData");
 
@@ -119,6 +119,7 @@ export default function PaymentPage() {
       if (paymentMethod === "ESEWA") {
         const transaction_uuid = "TXN-" + Date.now();
 
+        // On your PaymentPage.tsx, inside handlePlaceOrder, when preparing eSewa form:
         const formData: any = {
           amount: total.toString(),
           tax_amount: "0",
@@ -127,9 +128,20 @@ export default function PaymentPage() {
           product_code: "EPAYTEST",
           product_service_charge: "0",
           product_delivery_charge: "0",
-          success_url: `http://localhost:3007/esewa/success?orderId=${order.id}`,
-          failure_url: `http://localhost:3007/esewa/failure?orderId=${order.id}`,
           signed_field_names: "total_amount,transaction_uuid,product_code",
+          signature: generateEsewaSignature({
+            total_amount: total.toString(),
+            transaction_uuid,
+            product_code: "EPAYTEST",
+          }),
+          success_url: `http://localhost:3007/esewa/success?orderId=${
+            order.id
+          }&esewaName=${encodeURIComponent(
+            checkoutData.billingAddress.fullName
+          )}&esewaNumber=${encodeURIComponent(
+            checkoutData.billingAddress.phoneNumber
+          )}`,
+          failure_url: `http://localhost:3007/esewa/failure?orderId=${order.id}`,
         };
 
         formData.signature = generateEsewaSignature(formData);
