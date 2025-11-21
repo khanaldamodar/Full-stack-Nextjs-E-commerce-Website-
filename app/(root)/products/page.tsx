@@ -5,117 +5,6 @@ import { ProductGrid } from "@/components/Productpage-components/product-grid";
 import { ProductPagination } from "@/components/Productpage-components/product-pagination";
 import { useState, useMemo, useEffect } from "react";
 
-// Sample product data
-const SAMPLE_PRODUCTS = [
-  {
-    id: 1,
-    name: "Wireless Headphones",
-    price: 129.99,
-    originalPrice: 300,
-    category: "Electronics",
-    rating: 4.5,
-    image: "/logo.jpeg",
-  },
-  {
-    id: 2,
-    name: "USB-C Cable",
-    price: 19.99,
-    originalPrice: 300,
-    category: "Accessories",
-    rating: 4.8,
-    image: "/logo.jpeg",
-  },
-  {
-    id: 3,
-    name: "Laptop Stand",
-    price: 49.99,
-    category: "Office",
-    rating: 4.3,
-    image: "/logo.jpeg",
-  },
-  {
-    id: 4,
-    name: "Mechanical Keyboard",
-    price: 159.99,
-    originalPrice: 300,
-    category: "Electronics",
-    rating: 4.7,
-    image: "/logo.jpeg",
-  },
-  {
-    id: 5,
-    name: "Mouse Pad",
-    price: 24.99,
-    originalPrice: 300,
-    category: "Accessories",
-    rating: 4.2,
-    image: "/logo.jpeg",
-  },
-  {
-    id: 6,
-    name: "Monitor Arm",
-    price: 79.99,
-    originalPrice: 300,
-    category: "Office",
-    rating: 4.6,
-    image: "/logo.jpeg",
-  },
-  {
-    id: 7,
-    name: "Desk Lamp",
-    price: 39.99,
-    originalPrice: 300,
-    category: "Office",
-    rating: 4.4,
-    image: "/logo.jpeg",
-  },
-  {
-    id: 8,
-    name: "Wireless Mouse",
-    price: 34.99,
-    originalPrice: 300,
-    category: "Electronics",
-    rating: 4.5,
-    image: "/logo.jpeg",
-  },
-  {
-    id: 9,
-    name: "Phone Stand",
-    price: 14.99,
-    originalPrice: 300,
-    category: "Accessories",
-    rating: 4.1,
-    image: "/logo.jpeg",
-  },
-  {
-    id: 10,
-    name: "USB Hub",
-    price: 44.99,
-    originalPrice: 300,
-    category: "Accessories",
-    rating: 4.6,
-    image: "/logo.jpeg",
-  },
-  {
-    id: 11,
-    name: "Webcam",
-    price: 89.99,
-    originalPrice: 300,
-    category: "Electronics",
-    rating: 4.4,
-    image: "/logo.jpeg",
-  },
-  {
-    id: 12,
-    name: "Desk Organizer",
-    price: 29.99,
-    originalPrice: 300,
-    category: "Office",
-    rating: 4.3,
-    image: "/logo.jpeg",
-  },
-];
-
 const ITEMS_PER_PAGE = 6;
 
 export default function ProductsPage() {
@@ -128,54 +17,72 @@ export default function ProductsPage() {
     priceRange: [number, number];
     minRating: number;
   }>({
-    categories: [], // no category filter
+    categories: [],
     brands: [],
-    priceRange: [0, 1000], // increase max to include your API prices
-    minRating: 0, // no rating filter
+    priceRange: [0, Infinity],
+    minRating: 0,
   });
 
   useEffect(() => {
     const fetchProducts = async () => {
       const res = await fetch("/api/products");
       const data = await res.json();
-      console.log(data);
-      const flattened = data.map((p) => ({
-        ...p,
-        categoryName: p.category?.name || "Unknown",
+
+      const flattened = data.map((p: any) => ({
+        id: p.id,
+        name: p.name,
+        price: p.price,
+        rating: Number(p.rating) || 0,
+
+        category: p.category
+          ? [
+              {
+                id: p.category.id || 0,
+                name: p.category.name || p.category || "Unknown",
+              },
+            ]
+          : [],
+
+        imageUrl: p.image || p.imageUrl || "/placeholder.svg",
+
+        categoryName: p.category?.name || p.category || "Unknown",
         brandName: p.brand?.name || "Unknown",
-        rating: p.rating || 0,
       }));
+
       setProducts(flattened);
     };
+
     fetchProducts();
   }, []);
 
-  // Filter products based on selected filters
   const filteredProducts = useMemo(() => {
-    return products.filter((product) => {
+    return products.filter((product: any) => {
       const categoryMatch =
         filters.categories.length === 0 ||
         filters.categories.includes(product.categoryName);
+
       const brandMatch =
         filters.brands.length === 0 ||
         filters.brands.includes(product.brandName);
+
       const priceMatch =
         product.price >= filters.priceRange[0] &&
         product.price <= filters.priceRange[1];
+
       const ratingMatch = product.rating >= filters.minRating;
 
-      return categoryMatch && priceMatch && ratingMatch && brandMatch;
+      return categoryMatch && brandMatch && priceMatch && ratingMatch;
     });
   }, [filters, products]);
 
-  // Paginate filtered products
+  // Pagination
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+
   const paginatedProducts = useMemo(() => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     return filteredProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   }, [filteredProducts, currentPage]);
 
-  // Reset to page 1 when filters change
   const handleFilterChange = (newFilters: typeof filters) => {
     setFilters(newFilters);
     setCurrentPage(1);

@@ -440,4 +440,3 @@ export async function DELETE(
     );
   }
 }
-

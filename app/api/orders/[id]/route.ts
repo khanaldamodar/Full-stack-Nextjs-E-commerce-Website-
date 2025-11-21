@@ -152,7 +152,7 @@ export async function PUT(
       data: {
         status: data.status ?? existingOrder.status,
         paymentStatus: data.paymentStatus ?? existingOrder.paymentStatus,
-        deliveryDate: data.deliveryDate ?? existingOrder.deliveryDate,
+        // deliveryDate: data.deliveryDate ?? existingOrder.deliveryDate,
       },
     });
 

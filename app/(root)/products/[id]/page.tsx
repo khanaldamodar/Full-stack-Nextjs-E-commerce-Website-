@@ -2,11 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { RelatedProducts } from "@/components/Productpage-components/related-products";
-import { ProductReviews } from "@/components/Productpage-components/product-reviews";
-import { ProductImageGallery } from "@/components/Productpage-components/product-image-gallery";
 import { useCart } from "@/hooks/use-cart";
 
 interface Product {
@@ -34,6 +33,7 @@ export default function ProductPage() {
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
   const [isAdded, setIsAdded] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -60,7 +60,6 @@ export default function ProductPage() {
               : null,
             stock: data.product.stock,
             sku: data.product.sku,
-
             images: [
               ...(data.product.imageUrl ? [data.product.imageUrl] : []),
               ...(Array.isArray(data.product.gallery)
@@ -75,7 +74,9 @@ export default function ProductPage() {
             reviewCount: 0,
             inStock: data.product.stock && data.product.stock > 0,
           };
+
           setProduct(p);
+          setSelectedImage(p.images?.[0] || null); // set main image
         }
       } catch (err) {
         console.error(err);
@@ -102,7 +103,7 @@ export default function ProductPage() {
         id: product.id,
         name: product.name,
         price: product.price,
-        image: product.images?.[0] || "",
+        image: selectedImage || "",
         category: product.category?.name || "",
       },
       quantity
@@ -114,6 +115,7 @@ export default function ProductPage() {
   return (
     <main className="min-h-screen font-poppins py-15">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        {/* Breadcrumb */}
         <div className="mb-8 flex items-center gap-2 text-sm text-muted-foreground">
           <a href="/products" className="hover:text-foreground">
             Products
@@ -130,17 +132,44 @@ export default function ProductPage() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-2">
-          {product.images && product.images.length > 0 ? (
-            <ProductImageGallery
-              images={product.images}
-              productName={product.name}
-            />
-          ) : (
-            <div className="flex items-center justify-center h-96 w-full rounded-lg border border-dashed border-gray-300 bg-gray-50 text-gray-500 text-sm">
-              {product.name}
-            </div>
-          )}
+          {/* Product Gallery */}
+          <div className="space-y-4">
+            {selectedImage && (
+              <div className="w-full h-[400px] sm:h-[450px] md:h-[500px] overflow-hidden rounded-xl border bg-gray-100">
+                <Image
+                  src={selectedImage}
+                  alt={product.name}
+                  width={800}
+                  height={800}
+                  className="object-contain w-full h-full"
+                />
+              </div>
+            )}
 
+            <div className="flex gap-3 overflow-x-auto">
+              {product.images?.map((img, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setSelectedImage(img)}
+                  className={`h-20 w-20 border rounded-lg overflow-hidden flex-shrink-0 ${
+                    selectedImage === img
+                      ? "border-blue-500"
+                      : "border-gray-300"
+                  }`}
+                >
+                  <Image
+                    src={img}
+                    alt={`Thumbnail ${idx}`}
+                    width={200}
+                    height={200}
+                    className="object-cover w-full h-full"
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Product Details */}
           <div className="flex flex-col justify-between">
             <div>
               <div className="mb-4 flex items-start justify-between">
@@ -159,6 +188,7 @@ export default function ProductPage() {
                 )}
               </div>
 
+              {/* Rating */}
               <div className="mb-6 flex items-center gap-4">
                 <div className="flex items-center gap-2">
                   <div className="flex text-yellow-400">
@@ -173,6 +203,7 @@ export default function ProductPage() {
                 </span>
               </div>
 
+              {/* Price */}
               <div className="mb-6 flex items-baseline gap-3">
                 <span className="text-4xl font-bold text-foreground">
                   Rs. {product.price.toFixed(2)}
@@ -188,6 +219,7 @@ export default function ProductPage() {
                 {product.longDescription}
               </p>
 
+              {/* Stock */}
               <div className="mb-6">
                 {product.inStock ? (
                   <p className="text-sm font-medium text-green-600">
@@ -201,6 +233,7 @@ export default function ProductPage() {
               </div>
             </div>
 
+            {/* Quantity & Add to Cart */}
             <div className="space-y-4">
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2 rounded-lg border border-border bg-card">
@@ -228,16 +261,14 @@ export default function ProductPage() {
                 </span>
               </div>
 
-              <div className="flex gap-3">
-                <Button
-                  size="lg"
-                  className="flex-1 bg-secondary"
-                  disabled={!product.inStock}
-                  onClick={handleAddToCart}
-                >
-                  {isAdded ? "✓ Added to Cart" : "Add to Cart"}
-                </Button>
-              </div>
+              <Button
+                size="lg"
+                className="flex-1 bg-secondary"
+                disabled={!product.inStock}
+                onClick={handleAddToCart}
+              >
+                {isAdded ? "✓ Added to Cart" : "Add to Cart"}
+              </Button>
 
               <div className="rounded-lg border border-border bg-card p-4 text-sm text-muted-foreground">
                 <p>
@@ -249,6 +280,7 @@ export default function ProductPage() {
           </div>
         </div>
 
+        {/* Specifications */}
         {product.specifications && product.specifications.length > 0 && (
           <div className="mt-12">
             <h2 className="mb-6 text-2xl font-bold text-foreground">
@@ -267,6 +299,7 @@ export default function ProductPage() {
           </div>
         )}
 
+        {/* Related Products */}
         <div className="mt-12">
           <RelatedProducts
             currentProductId={product.id}
