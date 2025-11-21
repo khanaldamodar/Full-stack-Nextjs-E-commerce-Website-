@@ -1,9 +1,9 @@
 "use client";
+import React, { useEffect, useState } from "react";
 import { DataTable } from "@/components/admin-components-deepak/DataTable";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
@@ -76,7 +76,17 @@ const page = () => {
           data={certificates}
           columns={[
             { key: "title", label: "Title" },
-            { key: "image", label: "Image" },
+            {
+              key: "image",
+              label: "Image",
+              render: (row) => (
+                <img
+                  src={row.image}
+                  alt={row.title}
+                  className="w-16 h-16 object-cover rounded-md"
+                />
+              ),
+            },
           ]}
           onDelete={handleDelete}
         />

@@ -45,17 +45,17 @@ export default function AddCertificatePage() {
     formData.append("image", certificate.image);
 
     try {
-      const res = await fetch("/api/certificates",{
+      const res = await fetch("/api/certificates", {
         method: "POST",
         body: formData,
-        
-      })
+      });
       toast.success(" Certificate added successfully!");
       setCertificate({ title: "", image: null });
     } catch (err) {
       console.error(err);
       toast.error(error?.message || "Something went wrong. Please try again.");
     }
+    router.back();
   };
 
   return (
