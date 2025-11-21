@@ -79,7 +79,7 @@ export default function ViewOrderPage() {
       setSaving(true);
       const token = Cookies.get("token");
 
-      await axios.patch(
+      await axios.put(
         `/api/orders/${order.id}`,
         {
           status: order.status,
@@ -152,7 +152,6 @@ export default function ViewOrderPage() {
             <strong>Total:</strong> Rs. {order.total}
           </p>
 
-          
           <div>
             <strong>Status:</strong>
             <select
@@ -168,7 +167,6 @@ export default function ViewOrderPage() {
             </select>
           </div>
 
-          
           <div>
             <strong>Payment Status:</strong>
             <select
